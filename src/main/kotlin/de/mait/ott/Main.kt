@@ -1,7 +1,6 @@
 package de.mait.ott
 
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.paint.Color
@@ -35,7 +34,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
          middleRight to IvyLeeTask(),
          bottomLeft to IvyLeeTask(),
          bottomRight to IvyLeeTask()
-    )
+    ).toMutableMap()
 
     fun mark(event: MouseEvent){
         (event.target as BorderPane).style {
@@ -52,9 +51,18 @@ class IvyLee : View("Ivy-Lee Tracking") {
     }
 
     fun onClick(event: MouseEvent){
-        (event.target as BorderPane).apply {
-            tasks[this]!!.done = !tasks[this]!!.done
-            mark(event)
+
+        if(event.isPrimaryButtonDown)
+            (event.target as BorderPane).apply {
+                tasks[this]!!.done = !tasks[this]!!.done
+                mark(event)
+            }
+
+        if(event.isSecondaryButtonDown){
+            // open custom dialog
+            (event.target as BorderPane).apply {
+                TaskDialog.showDialog(tasks[this]!!)
+            }
         }
     }
 }

@@ -13,11 +13,11 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <BorderPane fx:id="bp_topleft" onMouseClicked="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" />
-      <BorderPane fx:id="bp_middleleft" onMouseClicked="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.rowIndex="1" />
-      <BorderPane fx:id="bp_bottomleft" onMouseClicked="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.rowIndex="2" />
-      <BorderPane fx:id="bp_topright" onMouseClicked="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.columnIndex="1" />
-      <BorderPane fx:id="bp_middleright" onMouseClicked="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <BorderPane fx:id="bp_bottomright" onMouseClicked="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <BorderPane fx:id="bp_topleft" onMousePressed="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" />
+      <BorderPane fx:id="bp_middleleft" onMousePressed="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.rowIndex="1" />
+      <BorderPane fx:id="bp_bottomleft" onMousePressed="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.rowIndex="2" />
+      <BorderPane fx:id="bp_topright" onMousePressed="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.columnIndex="1" />
+      <BorderPane fx:id="bp_middleright" onMousePressed="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <BorderPane fx:id="bp_bottomright" onMousePressed="#onClick" onMouseEntered="#mark" onMouseExited="#unmark" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff761faa; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
    </children>
 </GridPane>
