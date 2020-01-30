@@ -8,4 +8,4 @@ package de.mait.ott
  * @author = manuel.ott
  * @since = 28. Januar 2020
  */
-data class IvyLeeTask(var descr: String = "", var estTime: String = "00:00", var done: Boolean = false, var timeInvestedSec: Int = 0)
+class IvyLeeTask(var name: String = "", var descr: String = "", var estTime: Int = 0, var done: Boolean = false, var timeInvestedMin: Int = 92, var frog: Boolean = false)

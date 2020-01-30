@@ -1,13 +1,9 @@
 package de.mait.ott
 
-import javafx.scene.control.TextInputDialog
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
-import javafx.stage.Stage
 import tornadofx.*
 
 /**
@@ -38,7 +34,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
          middleRight to IvyLeeTask(),
          bottomLeft to IvyLeeTask(),
          bottomRight to IvyLeeTask()
-    )
+    ).toMutableMap()
 
     fun mark(event: MouseEvent){
         (event.target as BorderPane).style {
@@ -54,32 +50,21 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
     }
 
-    fun onMouseButtonDown(event: MouseEvent){
-        println(event)
-        if(event.isPrimaryButtonDown){
+    fun onClick(event: MouseEvent){
+
+        if(event.isPrimaryButtonDown)
             (event.target as BorderPane).apply {
                 tasks[this]!!.done = !tasks[this]!!.done
                 mark(event)
             }
-        }
+
         if(event.isSecondaryButtonDown){
+            // open custom dialog
             (event.target as BorderPane).apply {
-                tasks[this]!!.descr = TextInputDialog().apply {
-                    title = "Task name"
-                    headerText = "Aufgabe angeben"
-                    contentText = "Aufgabe"
-                }.showAndWait().get()
+                TaskDialog.showDialog(tasks[this]!!)
             }
         }
-
     }
 }
 
-class Main: App(IvyLee::class){
-
-    override fun start(stage: Stage) {
-        stage.isFullScreen = true
-        super.start(stage)
-    }
-
-}
+class Main: App(IvyLee::class)
