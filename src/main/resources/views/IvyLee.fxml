@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
@@ -20,41 +18,50 @@
    <children>
       <BorderPane fx:id="bp_topleft" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #000000;">
          <top>
-            <Label text="Titel" textAlignment="CENTER" BorderPane.alignment="TOP_LEFT">
+            <Label fx:id="task_title_top_left" text="Titel" textAlignment="CENTER" BorderPane.alignment="TOP_LEFT">
                <font>
-                  <Font name="Gadugi" size="24.0" />
+                  <Font name="Calibri Light" size="18.0" />
                </font>
                <BorderPane.margin>
-                  <Insets left="10.0" top="10.0" />
+                  <Insets left="10.0" top="5.0" />
                </BorderPane.margin>
             </Label>
          </top>
          <bottom>
-            <BorderPane>
-                <right>
-                    <ToggleButton mnemonicParsing="false" textAlignment="CENTER">
-                        <font>
-                            <Font name="Gadugi" size="15.0" />
-                        </font>
-                        <graphic>
-                            <ProgressIndicator fx:id="pr_top_left" mouseTransparent="true" progress="0.71" />
-                        </graphic>
-                     <BorderPane.margin>
-                        <Insets bottom="5.0" right="5.0" />
-                     </BorderPane.margin></ToggleButton>
-                </right>
-               <left>
-                  <Label alignment="BOTTOM_LEFT" contentDisplay="CENTER" text="120 m" textAlignment="CENTER" BorderPane.alignment="TOP_LEFT">
-                     <BorderPane.margin>
-                        <Insets left="5.0" top="35.0" />
-                     </BorderPane.margin>
+            <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mouseTransparent="true" BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="time_top_left" alignment="TOP_LEFT" text="120 m">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="14.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets bottom="2.0" left="4.0" right="2.0" top="2.0" />
+                     </HBox.margin>
                   </Label>
-               </left>
-            </BorderPane>
-         </bottom></BorderPane>
+                  <ProgressBar fx:id="progress_top_left" accessibleRole="PROGRESS_INDICATOR" maxWidth="1.7976931348623157E308" progress="1.0" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets bottom="2.0" top="2.0" />
+                     </HBox.margin>
+                  </ProgressBar>
+                  <ProgressBar fx:id="progress_addditional_top_left" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
+                     <HBox.margin>
+                        <Insets bottom="2.0" top="2.0" />
+                     </HBox.margin>
+                  </ProgressBar>
+                  <ProgressIndicator fx:id="status_top_left" progress="1.0">
+                     <padding>
+                        <Insets bottom="-18.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets bottom="2.0" right="4.0" top="2.0" />
+                     </HBox.margin>
+                  </ProgressIndicator>
+               </children>
+            </HBox>
+         </bottom>
+         <center>
+            <TextArea fx:id="task_desc_top_left" disable="true" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center></BorderPane>
       <BorderPane fx:id="bp_middleleft" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #000000;" GridPane.rowIndex="1">
          <center>
          </center></BorderPane>

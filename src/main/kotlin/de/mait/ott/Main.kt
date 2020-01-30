@@ -1,6 +1,6 @@
 package de.mait.ott
 
-import javafx.scene.control.ProgressIndicator
+import javafx.scene.control.*
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
@@ -26,35 +26,18 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val COLOR_DONE = Color.valueOf( "#84ee3f")
 
     val topLeft: BorderPane by fxid("bp_topleft")
+    val titleLabelTopLeft: Label by fxid("task_title_top_left")
+    val descAreaTopLeft: TextArea by fxid("task_desc_top_left")
+    val timeTopLeft: Label by fxid("time_top_left")
+    val statusTopLeft: ProgressIndicator by fxid("status_top_left")
+    val progressTopLeft: ProgressBar by fxid("progress_top_left")
+    val progressAdditionalTopLeft: ProgressBar by fxid("progress_addditional_top_left")
+
     val topRight: BorderPane by fxid("bp_topright")
     val middleLeft: BorderPane by fxid("bp_middleleft")
     val middleRight: BorderPane by fxid("bp_middleright")
     val bottomLeft: BorderPane by fxid("bp_bottomright")
     val bottomRight: BorderPane by fxid("bp_bottomleft")
-
-    val progressTopLeft: ProgressIndicator by fxid("pr_top_left")
-
-    init {
-        root.add(Polygon().apply {
-            runAsync {
-                while(topLeft.width == 0.0 || topLeft.height == 0.0) sleep(5)
-                points.addAll(
-                    topLeft.layoutX + topLeft.width, topLeft.layoutY,
-                    topLeft.width - topLeft.height / 2, topLeft.layoutY,
-                    topLeft.width, topLeft.layoutY + topLeft.height / 2
-//                0.0, 0.0,
-//                200.0,200.0,
-//                0.0, 200.0
-                )
-            }
-            println(layoutX)
-            println(layoutY)
-            layoutX = topLeft.width - topLeft.height / 2.0
-            layoutY = topLeft.layoutY
-            println(layoutX)
-            println(layoutY)
-        })
-    }
 
     val tasks = mapOf(
          topLeft to IvyLeeTask(),
@@ -91,6 +74,19 @@ class IvyLee : View("Ivy-Lee Tracking") {
             // open custom dialog
             (event.target as BorderPane).apply {
                 TaskDialog.showDialog(tasks[this]!!)
+                with(tasks[this]!!){
+                    titleLabelTopLeft.text = name
+                    descAreaTopLeft.text = descr
+                    timeTopLeft.text = "$estTime m"
+
+                    progressTopLeft.progress = timeInvestedMin * 1.0 / estTime
+                    statusTopLeft.progress = timeInvestedMin * 1.0 / estTime
+                    if(timeInvestedMin >= estTime){
+                        progressAdditionalTopLeft.progress = (timeInvestedMin - estTime) * 1.0 / estTime
+                    }else
+//                        progressTopLeft.isIndeterminate = false
+                        progressAdditionalTopLeft.progress = 0.0
+                }
             }
         }
     }
