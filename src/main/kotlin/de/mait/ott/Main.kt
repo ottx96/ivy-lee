@@ -1,10 +1,14 @@
 package de.mait.ott
 
+import javafx.scene.control.ProgressIndicator
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.paint.Color
+import javafx.scene.paint.Paint
+import javafx.scene.shape.Polygon
 import tornadofx.*
+import java.lang.Thread.sleep
 
 /**
  * TODO: Insert Description!
@@ -17,7 +21,8 @@ import tornadofx.*
 class IvyLee : View("Ivy-Lee Tracking") {
     override val root: GridPane by fxml("/views/IvyLee.fxml")
 
-    val COLOR_UNDONE = Color.valueOf( "#ff761faa")
+    val COLOR_NOT_DEFINED = Color.valueOf("#ffe5cc")
+    val COLOR_UNDONE = Color.valueOf( "#ff9933")
     val COLOR_DONE = Color.valueOf( "#84ee3f")
 
     val topLeft: BorderPane by fxid("bp_topleft")
@@ -26,6 +31,30 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val middleRight: BorderPane by fxid("bp_middleright")
     val bottomLeft: BorderPane by fxid("bp_bottomright")
     val bottomRight: BorderPane by fxid("bp_bottomleft")
+
+    val progressTopLeft: ProgressIndicator by fxid("pr_top_left")
+
+    init {
+        root.add(Polygon().apply {
+            runAsync {
+                while(topLeft.width == 0.0 || topLeft.height == 0.0) sleep(5)
+                points.addAll(
+                    topLeft.layoutX + topLeft.width, topLeft.layoutY,
+                    topLeft.width - topLeft.height / 2, topLeft.layoutY,
+                    topLeft.width, topLeft.layoutY + topLeft.height / 2
+//                0.0, 0.0,
+//                200.0,200.0,
+//                0.0, 200.0
+                )
+            }
+            println(layoutX)
+            println(layoutY)
+            layoutX = topLeft.width - topLeft.height / 2.0
+            layoutY = topLeft.layoutY
+            println(layoutX)
+            println(layoutY)
+        })
+    }
 
     val tasks = mapOf(
          topLeft to IvyLeeTask(),

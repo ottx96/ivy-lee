@@ -1,5 +1,7 @@
 import de.mait.ott.IvyLeeTask;
 
+import java.io.File;
+
 /**
  * TODO: Insert Description!
  * Project: ivy-lee
@@ -13,6 +15,11 @@ public class Main {
 
     public static void main(String[] args) {
         IvyLeeTask task = new IvyLeeTask();
+
+        File x = new File("\\\\pluto\\z1\\1\\0852\\323.PDF".replace('\\', '/'));
+        System.out.println(x.getName());
+        System.out.println(x.getParentFile().getAbsolutePath());
+
         System.out.println(task);
     }
 

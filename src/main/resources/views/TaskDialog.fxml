@@ -13,8 +13,15 @@
             <Font name="System Bold" size="27.0" />
          </font>
          <effect>
-            <Glow level="0.68" />
+            <Lighting bumpInput="$null">
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
          </effect>
+         <BorderPane.margin>
+            <Insets left="5.0" />
+         </BorderPane.margin>
       </Label>
    </top>
    <bottom>
