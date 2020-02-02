@@ -43,7 +43,7 @@
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
                   </ProgressBar>
-                  <ProgressBar fx:id="progress_addditional_top_left" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
+                  <ProgressBar fx:id="progress_additional_top_left" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
                      <HBox.margin>
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
@@ -62,7 +62,7 @@
          <center>
             <TextArea fx:id="task_desc_top_left" disable="true" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center></BorderPane>
-      <BorderPane fx:id="bp_middleleft" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #000000;" GridPane.rowIndex="1">
+      <BorderPane fx:id="bp_middleleft" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffdd22; -fx-border-color: #000000;" GridPane.rowIndex="1">
          <top>
             <Label fx:id="task_title_middle_left" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">
                <font>
@@ -89,7 +89,7 @@
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
                   </ProgressBar>
-                  <ProgressBar fx:id="progress_addditional_middle_left" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
+                  <ProgressBar fx:id="progress_additional_middle_left" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
                      <HBox.margin>
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
@@ -135,7 +135,7 @@
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
                   </ProgressBar>
-                  <ProgressBar fx:id="progress_addditional_bottom_left" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
+                  <ProgressBar fx:id="progress_additional_bottom_left" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
                      <HBox.margin>
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
@@ -155,7 +155,7 @@
             <TextArea fx:id="task_desc_bottom_left" disable="true" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
-      <BorderPane fx:id="bp_topright" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #000000;" GridPane.columnIndex="1">
+      <BorderPane fx:id="bp_topright" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ff9933; -fx-border-color: #000000;" GridPane.columnIndex="1">
          <top>
             <Label fx:id="task_title_top_right" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">
                <font>
@@ -182,7 +182,7 @@
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
                   </ProgressBar>
-                  <ProgressBar fx:id="progress_addditional_top_right" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
+                  <ProgressBar fx:id="progress_additional_top_right" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
                      <HBox.margin>
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
@@ -202,7 +202,7 @@
             <TextArea fx:id="task_desc_top_right" disable="true" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
-      <BorderPane fx:id="bp_middleright" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <BorderPane fx:id="bp_middleright" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #84ee3f; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <top>
             <Label fx:id="task_title_middle_right" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">
                <font>
@@ -229,7 +229,7 @@
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
                   </ProgressBar>
-                  <ProgressBar fx:id="progress_addditional_middle_right" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
+                  <ProgressBar fx:id="progress_additional_middle_right" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
                      <HBox.margin>
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
@@ -249,7 +249,7 @@
             <TextArea fx:id="task_desc_middle_right" disable="true" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
-      <BorderPane fx:id="bp_bottomright" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #d9d9d9; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <BorderPane fx:id="bp_bottomright" onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #dbdbdb; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <top>
             <Label fx:id="task_title_bottom_right" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">
                <font>
@@ -276,7 +276,7 @@
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>
                   </ProgressBar>
-                  <ProgressBar fx:id="progress_addditional_bottom_right" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
+                  <ProgressBar fx:id="progress_additional_bottom_right" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
                      <HBox.margin>
                         <Insets bottom="2.0" top="2.0" />
                      </HBox.margin>

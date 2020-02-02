@@ -1,14 +1,20 @@
 package de.mait.ott
 
+import javafx.event.EventHandler
 import javafx.scene.control.*
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
+import javafx.scene.layout.HBox
 import javafx.scene.paint.Color
-import javafx.scene.paint.Paint
-import javafx.scene.shape.Polygon
+import javafx.stage.Stage
+import kotlinx.serialization.*
+import kotlinx.serialization.cbor.Cbor
 import tornadofx.*
-import java.lang.Thread.sleep
+import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 /**
  * TODO: Insert Description!
@@ -21,75 +27,140 @@ import java.lang.Thread.sleep
 class IvyLee : View("Ivy-Lee Tracking") {
     override val root: GridPane by fxml("/views/IvyLee.fxml")
 
-    val COLOR_NOT_DEFINED = Color.valueOf("#ffe5cc")
-    val COLOR_UNDONE = Color.valueOf( "#ff9933")
-    val COLOR_DONE = Color.valueOf( "#84ee3f")
+    companion object{
+        val tasks = mapOf<TaskGridCell, IvyLeeTask>().toSortedMap()
+        fun Map<TaskGridCell, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) =  keys.first { it.borderPane == bp!! }
+        fun Map<TaskGridCell, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) =  tasks[keys.first { it.borderPane == bp!! }]
+    }
 
-    val topLeft: BorderPane by fxid("bp_topleft")
-    val titleLabelTopLeft: Label by fxid("task_title_top_left")
-    val descAreaTopLeft: TextArea by fxid("task_desc_top_left")
-    val timeTopLeft: Label by fxid("time_top_left")
-    val statusTopLeft: ProgressIndicator by fxid("status_top_left")
-    val progressTopLeft: ProgressBar by fxid("progress_top_left")
-    val progressAdditionalTopLeft: ProgressBar by fxid("progress_addditional_top_left")
+    val bpTopLeft: BorderPane by fxid("bp_topleft")
+    val bpTopRight: BorderPane by fxid("bp_topright")
+    val bpMiddleLeft: BorderPane by fxid("bp_middleleft")
+    val bpMiddleRight: BorderPane by fxid("bp_middleright")
+    val bpBottomLeft: BorderPane by fxid("bp_bottomleft")
+    val bpBottomRight: BorderPane by fxid("bp_bottomright")
 
-    val topRight: BorderPane by fxid("bp_topright")
-    val middleLeft: BorderPane by fxid("bp_middleleft")
-    val middleRight: BorderPane by fxid("bp_middleright")
-    val bottomLeft: BorderPane by fxid("bp_bottomright")
-    val bottomRight: BorderPane by fxid("bp_bottomleft")
+    init{
+        println("loading tasks!")
+        val folder = File("./IvyLeeTasks/")
+        var oldTasks: List<IvyLeeTask?>? = null
+        try{
+            val lastFile = folder.listFiles()?.toMutableList()?.sortedBy { -1 * it.lastModified() }?.first()
+            println("loading from file ${lastFile?.absolutePath?:"NONE"}")
+            oldTasks = Cbor.plain.load<List<IvyLeeTask>>(IvyLeeTask.serializer().list, lastFile?.readBytes()?:throw Exception("No data stored"))
+            oldTasks.forEach ( ::println )
+        }catch(e: Exception){}
 
-    val tasks = mapOf(
-         topLeft to IvyLeeTask(),
-         topRight to IvyLeeTask(),
-         middleLeft to IvyLeeTask(),
-         middleRight to IvyLeeTask(),
-         bottomLeft to IvyLeeTask(),
-         bottomRight to IvyLeeTask()
-    ).toMutableMap()
-
+        listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight).zip(oldTasks?:listOf(null, null, null, null, null, null).sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
+            var title: Label? = null
+            var desc: TextArea? = null
+            var time: Label? = null
+            var status: ProgressIndicator? = null
+            var progress: ProgressBar? = null
+            var progressAdditional: ProgressBar? = null
+            bp.first.children.forEach {bpChild ->
+                when(bpChild){
+                    is Label -> title = bpChild
+                    is TextArea -> desc = bpChild
+                    is HBox -> {
+                        bpChild.children.forEach { hbChild ->
+                            when(hbChild){
+                                is ProgressBar -> {
+                                    if(hbChild.id.matches(Regex(""".*additional.*""")))
+                                        progressAdditional = hbChild
+                                    else progress = hbChild
+                                }
+                                is Label -> time = hbChild
+                                is ProgressIndicator -> status = hbChild
+                            }
+                        }
+                    }
+                }
+            }
+            // Klasse instanziieren und in Map einordnen
+            tasks[TaskGridCell(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
+        }
+        tasks.forEach(::updateCell)
+        tasks.forEach(::println)
+    }
+    
     fun mark(event: MouseEvent){
         (event.target as BorderPane).style {
             borderColor += CssBox(Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE)
-            backgroundColor += if(tasks[event.target as BorderPane]!!.done) COLOR_DONE.desaturate() else COLOR_UNDONE.desaturate()
+            //backgroundColor += tasks[event.target as BorderPane]!!.status.color.desaturate()
+            backgroundColor += tasks.getTaskByBorderPane(event.target as BorderPane)!!.status.color.desaturate()
         }
     }
 
     fun unmark(event: MouseEvent){
         (event.target as BorderPane).style {
-            backgroundColor += if(tasks[event.target as BorderPane]!!.done) COLOR_DONE else COLOR_UNDONE
+            backgroundColor += tasks.getTaskByBorderPane(event.target as BorderPane)!!.status.color
             borderColor += CssBox(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK)
         }
     }
 
     fun onClick(event: MouseEvent){
-
         if(event.isPrimaryButtonDown)
             (event.target as BorderPane).apply {
-                tasks[this]!!.done = !tasks[this]!!.done
-                mark(event)
+                val task = tasks.getTaskByBorderPane(this)!!
+                when(task.status){
+                    TaskStatus.EMPTY -> {}
+                    TaskStatus.UNDONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.IN_WORK
+                    TaskStatus.IN_WORK -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.DONE
+                    TaskStatus.DONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.UNDONE
+                }
+                updateCell(tasks.getCellByBorderPane(this), task)
             }
 
         if(event.isSecondaryButtonDown){
             // open custom dialog
             (event.target as BorderPane).apply {
-                TaskDialog.showDialog(tasks[this]!!)
-                with(tasks[this]!!){
-                    titleLabelTopLeft.text = name
-                    descAreaTopLeft.text = descr
-                    timeTopLeft.text = "$estTime m"
-
-                    progressTopLeft.progress = timeInvestedMin * 1.0 / estTime
-                    statusTopLeft.progress = timeInvestedMin * 1.0 / estTime
-                    if(timeInvestedMin >= estTime){
-                        progressAdditionalTopLeft.progress = (timeInvestedMin - estTime) * 1.0 / estTime
-                    }else
-//                        progressTopLeft.isIndeterminate = false
-                        progressAdditionalTopLeft.progress = 0.0
-                }
+                TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
+                updateCell(tasks.getCellByBorderPane(this)!!, tasks.getTaskByBorderPane(this)!!)
             }
+            mark(event)
+        }
+    }
+
+    fun updateCell(cell: TaskGridCell, task: IvyLeeTask) {
+        cell.titleLabel.text = task.name
+        cell.descLabel.text = task.descr
+        cell.timeLabel.text = "${task.estTime} m"
+
+        cell.progressBar.progress = task.timeInvestedMin * 1.0 / task.estTime
+        cell.statusIndicator.progress = task.timeInvestedMin * 1.0 / task.estTime
+        if(task.status == TaskStatus.DONE) cell.statusIndicator.progress = 1.0
+
+        if (task.timeInvestedMin >= task.estTime)
+            cell.progressBarAdditional.progress = (task.timeInvestedMin - task.estTime) * 1.0 / task.estTime
+        else
+            cell.progressBarAdditional.progress = 0.0
+
+        cell.borderPane.style {
+            backgroundColor += task.status.color
+            borderColor += CssBox(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK)
         }
     }
 }
 
-class Main: App(IvyLee::class)
+class Main: App(IvyLee::class){
+
+    @UseExperimental(ImplicitReflectionSerializer::class)
+    override fun start(stage: Stage) {
+        stage.onCloseRequest = EventHandler {
+            val folder = File("./IvyLeeTasks/")
+            folder.mkdirs()
+            val nFile =
+                File(folder.absolutePath + "/tasks.${LocalDateTime.now().format(DateTimeFormatter.ofPattern("""yyyy-MM-dd_hh-mm"""))}.db")
+            if (nFile.exists())
+                nFile.renameTo(File(nFile.absolutePath + ".old"))
+
+            //Speichern auf nFile
+            println("Exit..")
+            IvyLee.tasks.values.forEach(::println)
+            println("Dumping tasks..")
+            nFile.writeBytes(Cbor.plain.dump(IvyLeeTask.serializer().list, IvyLee.tasks.values.toList()))
+        }
+        super.start(stage)
+    }
+}

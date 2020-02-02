@@ -49,6 +49,8 @@ class TaskDialog: View("Task Dialog"){
             descr = taskDesc.text
             estTime = time.value.toInt()
             frog = tb_frog.isSelected
+            status = TaskStatus.UNDONE
+            if(taskName.text.isBlank()) currTask!!.status = TaskStatus.EMPTY
         }
         close()
     }
