@@ -27,6 +27,7 @@
    <bottom>
        <ButtonBar GridPane.rowIndex="1">
            <buttons>
+               <Button fx:id="delete" onAction="#delete" style="-fx-background-color: #e3736b; -fx-border-color: #cc0000;" text="Delete" ButtonBar.buttonData="LEFT" />
                <Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
                <Button fx:id="ok" defaultButton="true" mnemonicParsing="false" onAction="#ok" text="OK">
                    <opaqueInsets>

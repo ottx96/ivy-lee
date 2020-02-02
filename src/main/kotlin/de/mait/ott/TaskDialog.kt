@@ -1,10 +1,15 @@
 package de.mait.ott
 
+import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.layout.BorderPane
+import javafx.scene.paint.Color
 import javafx.stage.Stage
+import tornadofx.CssBox
 import tornadofx.View
+import tornadofx.style
+import java.awt.event.MouseEvent
 
 class TaskDialog: View("Task Dialog"){
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
@@ -17,7 +22,23 @@ class TaskDialog: View("Task Dialog"){
     val tb_frog: ToggleButton by fxid("frog")
     val progress: ProgressIndicator by fxid("progress")
 
+    val delete: Button by fxid("delete")
+    val COLOR_DELETE = Color.valueOf("#e3736b")
+
     init {
+        delete.onMouseEntered = EventHandler{
+            delete.style {
+                backgroundColor += COLOR_DELETE.desaturate()
+                borderColor += CssBox(Color.valueOf("#cc0000"), Color.valueOf("#cc0000"), Color.valueOf("#cc0000"), Color.valueOf("#cc0000"))
+            }
+        }
+        delete.onMouseExited = EventHandler {
+            delete.style {
+                backgroundColor += COLOR_DELETE
+                borderColor += CssBox(Color.valueOf("#cc0000"), Color.valueOf("#cc0000"), Color.valueOf("#cc0000"), Color.valueOf("#cc0000"))
+            }
+        }
+
         lbl_time.textProperty().bind(time.valueProperty().asString("%.0f m"))
 
         with(currTask!!){
@@ -28,6 +49,7 @@ class TaskDialog: View("Task Dialog"){
             progress.progress = if(estTime > 0) timeInvestedMin.toDouble() / estTime.toDouble() else 0.0
         }
     }
+
 
     companion object {
         var currTask: IvyLeeTask? = null
@@ -56,6 +78,11 @@ class TaskDialog: View("Task Dialog"){
     }
 
     fun cancel() {
+        close()
+    }
+
+    fun delete(){
+        currTask = IvyLeeTask()
         close()
     }
 

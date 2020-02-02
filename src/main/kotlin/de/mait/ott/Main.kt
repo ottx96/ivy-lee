@@ -12,6 +12,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.cbor.Cbor
 import tornadofx.*
 import java.io.File
+import java.lang.Thread.sleep
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -110,19 +111,35 @@ class IvyLee : View("Ivy-Lee Tracking") {
                     TaskStatus.DONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.UNDONE
                 }
                 updateCell(tasks.getCellByBorderPane(this), task)
+                if(task.status == TaskStatus.IN_WORK){
+                    Thread{
+                        val threadTask = task
+                        val threadCell = tasks.getCellByBorderPane(this)
+                        while(true){
+                            repeat(60){
+                                if(threadTask.status != TaskStatus.IN_WORK) return@Thread
+                                sleep(1000)
+                            }
+                            threadTask.timeInvestedMin++
+                            updateCell(threadCell, threadTask)
+                        }
+                    }.start()
+                }
             }
 
         if(event.isSecondaryButtonDown){
             // open custom dialog
             (event.target as BorderPane).apply {
-                TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
-                updateCell(tasks.getCellByBorderPane(this)!!, tasks.getTaskByBorderPane(this)!!)
+                tasks[tasks.getCellByBorderPane(this)] = TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
+                updateCell(tasks.getCellByBorderPane(this), tasks.getTaskByBorderPane(this)!!)
             }
             mark(event)
         }
     }
 
     fun updateCell(cell: TaskGridCell, task: IvyLeeTask) {
+        println("updating cell with task: $task")
+
         cell.titleLabel.text = task.name
         cell.descLabel.text = task.descr
         cell.timeLabel.text = "${task.estTime} m"
@@ -157,8 +174,7 @@ class Main: App(IvyLee::class){
 
             //Speichern auf nFile
             println("Exit..")
-            IvyLee.tasks.values.forEach(::println)
-            println("Dumping tasks..")
+            println("dumping tasks..")
             nFile.writeBytes(Cbor.plain.dump(IvyLeeTask.serializer().list, IvyLee.tasks.values.toList()))
         }
         super.start(stage)
