@@ -1,4 +1,4 @@
-package de.mait.ott
+package de.ott.ivy
 
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar

@@ -1,4 +1,4 @@
-package de.mait.ott.gdrive
+package de.ott.ivy.gdrive
 
 import com.google.api.client.auth.oauth2.Credential
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp
@@ -6,7 +6,6 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport
-import com.google.api.client.http.FileContent
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.store.FileDataStoreFactory
@@ -27,12 +26,12 @@ class GDrive(val credentialFile: File) {
     }
 
     @Throws(IOException::class)
-    private fun getCredentials(HTTP_TRANSPORT: NetHttpTransport): Credential? { // Load client secrets.
+    private fun getCredentials(httpTransport: NetHttpTransport): Credential? { // Load client secrets.
 
         val clientSecrets =
             GoogleClientSecrets.load(JacksonFactory.getDefaultInstance(), InputStreamReader(credentialFile.inputStream()))
         // Build flow and trigger user authorization request.
-        val flow = GoogleAuthorizationCodeFlow.Builder( HTTP_TRANSPORT, JacksonFactory.getDefaultInstance(), clientSecrets, listOf(DriveScopes.DRIVE_METADATA_READONLY) ).apply {
+        val flow = GoogleAuthorizationCodeFlow.Builder( httpTransport, JacksonFactory.getDefaultInstance(), clientSecrets, listOf(DriveScopes.DRIVE_METADATA_READONLY) ).apply {
             setDataStoreFactory(FileDataStoreFactory(File("tokens")))
 //            setAccessType("offline")
         }.build()
@@ -43,8 +42,8 @@ class GDrive(val credentialFile: File) {
 
     fun test(){
         // Build a new authorized API client service.
-        val HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport()
-        val service = Drive.Builder(HTTP_TRANSPORT, JacksonFactory.getDefaultInstance(), getCredentials(HTTP_TRANSPORT)).apply {
+        val httpTransport = GoogleNetHttpTransport.newTrustedTransport()
+        val service = Drive.Builder(httpTransport, JacksonFactory.getDefaultInstance(), getCredentials(httpTransport)).apply {
             setApplicationName("")
         }.build()
 

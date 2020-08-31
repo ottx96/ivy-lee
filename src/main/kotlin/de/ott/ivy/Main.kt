@@ -1,4 +1,4 @@
-package de.mait.ott
+package de.ott.ivy
 
 import javafx.event.EventHandler
 import javafx.scene.control.*
@@ -8,23 +8,27 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.paint.Color
 import javafx.stage.Stage
-import kotlinx.serialization.*
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.list
 import kotlinx.serialization.cbor.Cbor
+import kotlinx.serialization.decodeFromByteArray
+import kotlinx.serialization.encodeToByteArray
 import tornadofx.*
 import java.io.File
 import java.lang.Thread.sleep
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 /**
- * TODO: Insert Description!
+ * Main program (UI)
  * Project: ivy-lee
  * Package:
  * Created: 28.01.2020 15:55
  * @author = manuel.ott
  * @since = 28. Januar 2020
  */
+@ExperimentalSerializationApi
 class IvyLee : View("Ivy-Lee Tracking") {
     override val root: GridPane by fxml("/views/IvyLee.fxml")
 
@@ -46,11 +50,15 @@ class IvyLee : View("Ivy-Lee Tracking") {
         val folder = File("./IvyLeeTasks/")
         var oldTasks: List<IvyLeeTask?>? = null
         try{
-            val lastFile = folder.listFiles()?.toMutableList()?.sortedBy { -1 * it.lastModified() }?.first()
+            val lastFile = folder.listFiles()?.toMutableList()?.sortedBy { -1 * it.lastModified() }?.firstOrNull()
             println("loading from file ${lastFile?.absolutePath?:"NONE"}")
-            oldTasks = Cbor.plain.load<List<IvyLeeTask>>(IvyLeeTask.serializer().list, lastFile?.readBytes()?:throw Exception("No data stored"))
+            oldTasks = Cbor.decodeFromByteArray(ListSerializer(IvyLeeTask.serializer()), lastFile?.readBytes()?:throw Throwable("No data stored"))
             oldTasks.forEach ( ::println )
-        }catch(e: Exception){}
+        }catch(e: Exception){
+            e.printStackTrace()
+        }catch (t: Throwable){
+            println("No data stored..")
+        }
 
         listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight).zip(oldTasks?:listOf(null, null, null, null, null, null).sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
             var title: Label? = null
@@ -105,7 +113,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             (event.target as BorderPane).apply {
                 val task = tasks.getTaskByBorderPane(this)!!
                 when(task.status){
-                    TaskStatus.EMPTY -> {}
+                    TaskStatus.EMPTY -> { return }
                     TaskStatus.UNDONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.IN_WORK
                     TaskStatus.IN_WORK -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.DONE
                     TaskStatus.DONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.UNDONE
@@ -113,21 +121,20 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 updateCell(tasks.getCellByBorderPane(this), task)
                 if(task.status == TaskStatus.IN_WORK){
                     Thread{
-                        val threadTask = task
                         val threadCell = tasks.getCellByBorderPane(this)
                         while(true){
                             repeat(60){
-                                if(threadTask.status != TaskStatus.IN_WORK) return@Thread
+                                if(task.status != TaskStatus.IN_WORK) return@Thread
                                 sleep(1000)
                             }
-                            threadTask.timeInvestedMin++
-                            updateCell(threadCell, threadTask)
+                            task.timeInvestedMin++
+                            updateCell(threadCell, task)
                         }
                     }.start()
                 }
             }
 
-        if(event.isSecondaryButtonDown){
+        else if(event.isSecondaryButtonDown){
             // open custom dialog
             (event.target as BorderPane).apply {
                 tasks[tasks.getCellByBorderPane(this)] = TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
@@ -160,9 +167,9 @@ class IvyLee : View("Ivy-Lee Tracking") {
     }
 }
 
+@ExperimentalSerializationApi
 class Main: App(IvyLee::class){
 
-    @UseExperimental(ImplicitReflectionSerializer::class)
     override fun start(stage: Stage) {
         stage.onCloseRequest = EventHandler {
             val folder = File("./IvyLeeTasks/")
@@ -175,7 +182,8 @@ class Main: App(IvyLee::class){
             //Speichern auf nFile
             println("Exit..")
             println("dumping tasks..")
-            nFile.writeBytes(Cbor.plain.dump(IvyLeeTask.serializer().list, IvyLee.tasks.values.toList()))
+//            nFile.writeBytes(Cbor.plain.dump(IvyLeeTask.serializer().list, IvyLee.tasks.values.toList()))
+            nFile.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), IvyLee.tasks.values.toList()))
         }
         super.start(stage)
     }
