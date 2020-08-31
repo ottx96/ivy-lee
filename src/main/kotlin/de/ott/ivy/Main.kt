@@ -1,4 +1,4 @@
-package de.mait.ott
+package de.ott.ivy
 
 import javafx.event.EventHandler
 import javafx.scene.control.*
@@ -15,7 +15,6 @@ import java.io.File
 import java.lang.Thread.sleep
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 /**
  * TODO: Insert Description!

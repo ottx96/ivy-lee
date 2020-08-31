@@ -1,4 +1,4 @@
-package de.mait.ott
+package de.ott.ivy
 
 import javafx.scene.paint.Color
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package de.mait.ott
+package de.ott.ivy
 
 import javafx.event.EventHandler
 import javafx.scene.Scene

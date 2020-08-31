@@ -1,4 +1,4 @@
-import de.mait.ott.IvyLeeTask;
+import de.ott.ivy.IvyLeeTask;
 
 import java.io.File;
 
