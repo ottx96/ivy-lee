@@ -1,8 +1,8 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
-    id 'org.openjfx.javafxplugin' version '0.0.7'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.61'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.0'
     id 'application'
 }
 
@@ -13,8 +13,7 @@ javafx {
     modules = ['javafx.controls', 'javafx.base', 'javafx.fxml', 'javafx.graphics']
 }
 
-group 'de.mait'
-version '1.0-SNAPSHOT'
+group 'de.ott'
 
 sourceCompatibility = 1.8
 
@@ -25,13 +24,14 @@ repositories {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    implementation 'no.tornado:tornadofx:1.7.19'
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.14.0" // JVM dependency
+    implementation 'no.tornado:tornadofx:1.7.20'
+    runtime group: 'org.jetbrains.kotlinx', name: 'kotlinx-serialization-runtime', version: '1.0-M1-1.4.0-rc'
 
-    compile 'com.google.api-client:google-api-client:1.23.0'
-    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
-    compile 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
+    compile 'com.google.api-client:google-api-client:1.30.10'
+    compile group: 'com.google.apis', name: 'google-api-services-drive', version: 'v3-rev197-1.25.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.31.0'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 compileKotlin {
