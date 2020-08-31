@@ -12,6 +12,8 @@ import tornadofx.style
 import java.awt.event.MouseEvent
 
 class TaskDialog: View("Task Dialog"){
+    private val COLOR_BORDER = Color.valueOf("#cc0000")
+
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
 
     val taskDesc: TextArea by fxid("task_description")
@@ -29,13 +31,13 @@ class TaskDialog: View("Task Dialog"){
         delete.onMouseEntered = EventHandler{
             delete.style {
                 backgroundColor += COLOR_DELETE.desaturate()
-                borderColor += CssBox(Color.valueOf("#cc0000"), Color.valueOf("#cc0000"), Color.valueOf("#cc0000"), Color.valueOf("#cc0000"))
+                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
             }
         }
         delete.onMouseExited = EventHandler {
             delete.style {
                 backgroundColor += COLOR_DELETE
-                borderColor += CssBox(Color.valueOf("#cc0000"), Color.valueOf("#cc0000"), Color.valueOf("#cc0000"), Color.valueOf("#cc0000"))
+                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
             }
         }
 

@@ -21,7 +21,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 /**
- * TODO: Insert Description!
+ * Main program (UI)
  * Project: ivy-lee
  * Package:
  * Created: 28.01.2020 15:55
@@ -50,12 +50,15 @@ class IvyLee : View("Ivy-Lee Tracking") {
         val folder = File("./IvyLeeTasks/")
         var oldTasks: List<IvyLeeTask?>? = null
         try{
-            val lastFile = folder.listFiles()?.toMutableList()?.sortedBy { -1 * it.lastModified() }?.first()
+            val lastFile = folder.listFiles()?.toMutableList()?.sortedBy { -1 * it.lastModified() }?.firstOrNull()
             println("loading from file ${lastFile?.absolutePath?:"NONE"}")
-//            oldTasks = Cbor.plain.load<List<IvyLeeTask>>(IvyLeeTask.serializer().list, lastFile?.readBytes()?:throw Exception("No data stored"))
-            oldTasks = Cbor.decodeFromByteArray(ListSerializer(IvyLeeTask.serializer()), lastFile?.readBytes()?:throw Exception("No data stored"))
+            oldTasks = Cbor.decodeFromByteArray(ListSerializer(IvyLeeTask.serializer()), lastFile?.readBytes()?:throw Throwable("No data stored"))
             oldTasks.forEach ( ::println )
-        }catch(e: Exception){}
+        }catch(e: Exception){
+            e.printStackTrace()
+        }catch (t: Throwable){
+            println("No data stored..")
+        }
 
         listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight).zip(oldTasks?:listOf(null, null, null, null, null, null).sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
             var title: Label? = null
@@ -110,7 +113,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             (event.target as BorderPane).apply {
                 val task = tasks.getTaskByBorderPane(this)!!
                 when(task.status){
-                    TaskStatus.EMPTY -> {}
+                    TaskStatus.EMPTY -> { return }
                     TaskStatus.UNDONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.IN_WORK
                     TaskStatus.IN_WORK -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.DONE
                     TaskStatus.DONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.UNDONE
@@ -131,7 +134,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 }
             }
 
-        if(event.isSecondaryButtonDown){
+        else if(event.isSecondaryButtonDown){
             // open custom dialog
             (event.target as BorderPane).apply {
                 tasks[tasks.getCellByBorderPane(this)] = TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)

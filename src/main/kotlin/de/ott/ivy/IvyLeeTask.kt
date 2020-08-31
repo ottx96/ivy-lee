@@ -4,7 +4,8 @@ import javafx.scene.paint.Color
 import kotlinx.serialization.Serializable
 
 /**
- * TODO: Insert Description!
+ * Container (data) classes
+ *
  * Project: ivy-lee
  * Package: de.mait.ott
  * Created: 28.01.2020 16:58
