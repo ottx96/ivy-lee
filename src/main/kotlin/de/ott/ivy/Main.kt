@@ -1,5 +1,7 @@
 package de.ott.ivy
 
+import de.ott.ivy.gdrive.ApplicationDataHandler
+import de.ott.ivy.gdrive.ConnectionProvider
 import javafx.event.EventHandler
 import javafx.scene.control.*
 import javafx.scene.input.MouseEvent
@@ -10,10 +12,7 @@ import javafx.scene.paint.Color
 import javafx.stage.Stage
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.list
 import kotlinx.serialization.cbor.Cbor
-import kotlinx.serialization.decodeFromByteArray
-import kotlinx.serialization.encodeToByteArray
 import tornadofx.*
 import java.io.File
 import java.lang.Thread.sleep
@@ -34,8 +33,10 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     companion object{
         val tasks = mapOf<TaskGridCell, IvyLeeTask>().toSortedMap()
-        fun Map<TaskGridCell, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) =  keys.first { it.borderPane == bp!! }
-        fun Map<TaskGridCell, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) =  tasks[keys.first { it.borderPane == bp!! }]
+        val gdrive = ApplicationDataHandler(ConnectionProvider.connect())
+
+        fun Map<TaskGridCell, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
+        fun Map<TaskGridCell, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
     }
 
     val bpTopLeft: BorderPane by fxid("bp_topleft")
@@ -46,13 +47,13 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val bpBottomRight: BorderPane by fxid("bp_bottomright")
 
     init{
-        println("loading tasks!")
-        val folder = File("./IvyLeeTasks/")
         var oldTasks: List<IvyLeeTask?>? = null
         try{
-            val lastFile = folder.listFiles()?.toMutableList()?.sortedBy { -1 * it.lastModified() }?.firstOrNull()
-            println("loading from file ${lastFile?.absolutePath?:"NONE"}")
-            oldTasks = Cbor.decodeFromByteArray(ListSerializer(IvyLeeTask.serializer()), lastFile?.readBytes()?:throw Throwable("No data stored"))
+            val tasksFile = File("tasks.db")
+            println("downloading tasks from gdrive")
+            gdrive.readTasks(tasksFile)
+            println("loading tasks from file ${tasksFile.absolutePath?:"NONE"}")
+            oldTasks = Cbor.decodeFromByteArray(ListSerializer(IvyLeeTask.serializer()), tasksFile.readBytes())
             oldTasks.forEach ( ::println )
         }catch(e: Exception){
             e.printStackTrace()
@@ -172,12 +173,7 @@ class Main: App(IvyLee::class){
 
     override fun start(stage: Stage) {
         stage.onCloseRequest = EventHandler {
-            val folder = File("./IvyLeeTasks/")
-            folder.mkdirs()
-            val nFile =
-                File(folder.absolutePath + "/tasks.${LocalDateTime.now().format(DateTimeFormatter.ofPattern("""yyyy-MM-dd_hh-mm"""))}.db")
-            if (nFile.exists())
-                nFile.renameTo(File(nFile.absolutePath + ".old"))
+            val tasksFile = File("tasks.db")
 
             //Speichern auf nFile
             println("Exit..")
@@ -185,7 +181,9 @@ class Main: App(IvyLee::class){
                 it.status = TaskStatus.UNDONE
             }
             println("dumping tasks..")
-            nFile.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), IvyLee.tasks.values.toList()))
+            tasksFile.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), IvyLee.tasks.values.toList()))
+            println("uploading tasks to gdrive..")
+            IvyLee.gdrive.saveTasks(tasksFile)
         }
         super.start(stage)
     }

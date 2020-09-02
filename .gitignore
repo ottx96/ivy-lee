@@ -3,6 +3,8 @@
 out/
 build/
 **/*.class
+**/*.db
 bin/
 /IvyLeeTasks/
 /tokens/
+/*.db
