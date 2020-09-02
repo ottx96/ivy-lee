@@ -69,8 +69,8 @@ object ConnectionProvider {
 
         val x = connect();
         ApplicationDataHandler(x).apply {
-            saveTasks(java.io.File("tasks.db"))
             readTasks(java.io.File("tasks.db"))
+            saveTasks(java.io.File("tasks.db"))
         }
 
     }
