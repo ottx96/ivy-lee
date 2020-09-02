@@ -181,8 +181,10 @@ class Main: App(IvyLee::class){
 
             //Speichern auf nFile
             println("Exit..")
+            IvyLee.tasks.values.filter { it.status == TaskStatus.IN_WORK }.forEach {
+                it.status = TaskStatus.UNDONE
+            }
             println("dumping tasks..")
-//            nFile.writeBytes(Cbor.plain.dump(IvyLeeTask.serializer().list, IvyLee.tasks.values.toList()))
             nFile.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), IvyLee.tasks.values.toList()))
         }
         super.start(stage)
