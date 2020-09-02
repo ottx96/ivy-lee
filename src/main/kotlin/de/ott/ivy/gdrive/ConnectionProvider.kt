@@ -67,10 +67,10 @@ object ConnectionProvider {
     @JvmStatic
     fun main(args: Array<String>) {
 
-        val x = ConnectionProvider.connect();
+        val x = connect();
         ApplicationDataHandler(x).apply {
-            saveTasks()
-            readTasks()
+            saveTasks(java.io.File("tasks.db"))
+            readTasks(java.io.File("tasks.db"))
         }
 
     }
