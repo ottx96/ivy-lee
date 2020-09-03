@@ -1,34 +1,10 @@
-.notification_info, .notification_success, .notification_warning, .notification_error {
-    margin: 0px 0px;
-    padding:0px 15px;
-    border-radius:.5em;
-    border: 1px solid;
-    box-shadow:1px 1px 3px #888;
-    margin-top: 3px;
-}
-
-.notification_info {
-    color: #00529B;
-    background-color: #BDE5F8;
-}
-.notification_success {
-    color: #4F8A10;
-    background-color: #DFF2BF;
-}
-.notification_warning {
-    color: #9F6000;
-    background-color: #FEEFB3;
-}
-.notification_error {
-    color: #D8000C;
-    background-color: #FFD2D2;
-}
-
+/* General Elements */
 body{
     font-family: consolas;
     font-size: 12px;
 }
 
+/* Checkbox Redesign */
 label {
   display: block;
   padding-left: 15px;
@@ -45,4 +21,30 @@ input {
   position: relative;
   top: -1px;
   *overflow: hidden;
+}
+
+/* Notifications Extension */
+.notification_info, .notification_success, .notification_warning, .notification_error {
+    margin: 0px 0px;
+    padding:0px 15px;
+    border-radius:.5em;
+    border: 1px solid;
+    box-shadow:1px 1px 3px #888;
+    margin-top: 3px;
+}
+.notification_info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.notification_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.notification_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.notification_error {
+    color: #D8000C;
+    background-color: #FFD2D2;
 }
