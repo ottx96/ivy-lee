@@ -2,6 +2,8 @@ package de.ott.ivy.ui.dialog
 
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
+import de.ott.ivy.ui.IvyLee
+import fr.brouillard.oss.commonmark.ext.notifications.NotificationsExtension
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -16,6 +18,7 @@ import org.commonmark.renderer.html.HtmlRenderer
 import tornadofx.CssBox
 import tornadofx.View
 import tornadofx.style
+import java.lang.Thread.sleep
 
 
 class TaskDialog : View("Task Dialog"){
@@ -103,9 +106,12 @@ class TaskDialog : View("Task Dialog"){
         header.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
     }
 
-    val parser by lazy { Parser.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create() )).build() }
-    val renderer by lazy { HtmlRenderer.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create() )).build() }
+    val parser by lazy { Parser.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create(), NotificationsExtension.create() )).build() }
+    val renderer by lazy { HtmlRenderer.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create(), NotificationsExtension.create() )).build() }
     fun updateWebView(){
+        if(webView.engine.userStyleSheetLocation.isNullOrBlank())
+            webView.engine.userStyleSheetLocation = javaClass.getResource("/de/ott/ivy/css/style.css").toString()
+
         var htmlString = renderer.render(parser.parse( taskDesc.text )) // "<p>This is <em>Sparta</em></p>\n"
         println(htmlString)
         htmlString = htmlString.replace("""<li>""", "").replace("</li>", "<br>").replace("<ul>\n", "").replace("</ul>\n", "")

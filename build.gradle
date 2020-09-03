@@ -33,8 +33,9 @@ dependencies {
 
     // Markdown to HTML
     implementation 'com.atlassian.commonmark:commonmark:0.15.2'
-    compile group: 'com.atlassian.commonmark', name: 'commonmark-ext-autolink', version: '0.15.2' // Autolink
-    compile group: 'com.atlassian.commonmark', name: 'commonmark-ext-task-list-items', version: '0.15.2' // Task items
+    implementation 'fr.brouillard.oss:commonmark-ext-notifications:1.0.0' // Notifications
+    implementation group: 'com.atlassian.commonmark', name: 'commonmark-ext-autolink', version: '0.15.2' // Autolink
+    implementation group: 'com.atlassian.commonmark', name: 'commonmark-ext-task-list-items', version: '0.15.2' // Task items
 
     // GDrive API
     compile 'com.google.api-client:google-api-client:1.30.10'

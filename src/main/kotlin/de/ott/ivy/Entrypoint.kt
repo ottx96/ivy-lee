@@ -16,7 +16,7 @@ import java.io.File
 class Entrypoint: App(IvyLee::class){
 
     override fun start(stage: Stage) {
-        stage.icons.add(Image(Entrypoint::class.java.getResourceAsStream("/de.ott.ivy.images/frog-hq.png")))
+        stage.icons.add(Image(Entrypoint::class.java.getResourceAsStream("/de/ott/ivy/images/frog-hq.png")))
 
         stage.onCloseRequest = EventHandler {
             val tasksFile = File("tasks.db")
