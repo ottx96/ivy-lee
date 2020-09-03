@@ -108,6 +108,27 @@ class IvyLee : View("Ivy-Lee Tracking") {
         tasks.forEach(::updateCell)
         tasks.forEach(::println)
     }
+
+    init{
+        // auto-sync tasks to gdrive
+        Thread{
+            while(true){
+                try {
+                    sleep( 1000 * 60 * 15 ) // 15 Minuten
+                    // write file
+                    println("syncing tasks to gdrive..")
+                    val tasks = File("tasks-auto-sync.db")
+                    tasks.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), IvyLee.tasks.values.toList()))
+                    gdrive.saveTasks(tasks)
+                }catch(e: java.lang.Exception){
+                    e.printStackTrace()
+                }
+            }
+        }.apply {
+            isDaemon = true
+            start()
+        }
+    }
     
     fun mark(event: MouseEvent){
         (event.target as BorderPane).style {
