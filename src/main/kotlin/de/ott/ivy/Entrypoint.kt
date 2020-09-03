@@ -4,6 +4,7 @@ import de.ott.ivy.ui.IvyLee
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
 import javafx.event.EventHandler
+import javafx.scene.image.Image
 import javafx.stage.Stage
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
@@ -15,6 +16,8 @@ import java.io.File
 class Entrypoint: App(IvyLee::class){
 
     override fun start(stage: Stage) {
+        stage.icons.add(Image(Entrypoint::class.java.getResourceAsStream("/de.ott.ivy.images/frog-hq.png")))
+
         stage.onCloseRequest = EventHandler {
             val tasksFile = File("tasks.db")
 
