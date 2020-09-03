@@ -1,5 +1,7 @@
-package de.ott.ivy
+package de.ott.ivy.ui.dialog
 
+import de.ott.ivy.data.IvyLeeTask
+import de.ott.ivy.data.enum.TaskStatus
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -9,7 +11,6 @@ import javafx.stage.Stage
 import tornadofx.CssBox
 import tornadofx.View
 import tornadofx.style
-import java.awt.event.MouseEvent
 
 class TaskDialog: View("Task Dialog"){
     private val COLOR_BORDER = Color.valueOf("#cc0000")

@@ -6,7 +6,7 @@ plugins {
     id 'application'
 }
 
-application.mainClassName "de.ott.ivy.Main"
+application.mainClassName "de.ott.ivy.Entrypoint"
 
 javafx {
     version = "11"
