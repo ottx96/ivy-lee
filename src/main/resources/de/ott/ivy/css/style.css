@@ -4,6 +4,7 @@
     border-radius:.5em;
     border: 1px solid;
     box-shadow:1px 1px 3px #888;
+    margin-top: 3px;
 }
 
 .notification_info {
@@ -21,4 +22,27 @@
 .notification_error {
     color: #D8000C;
     background-color: #FFD2D2;
+}
+
+body{
+    font-family: consolas;
+    font-size: 12px;
+}
+
+label {
+  display: block;
+  padding-left: 15px;
+  margin-top: 6px;
+  text-indent: -15px;
+}
+input {
+  width: 13px;
+  height: 13px;
+  padding:0;
+  margin:0;
+  margin-top: 6px;
+  vertical-align: bottom;
+  position: relative;
+  top: -1px;
+  *overflow: hidden;
 }
