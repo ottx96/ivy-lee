@@ -9,6 +9,7 @@ import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
+import javafx.scene.web.WebView
 import javafx.stage.Stage
 import tornadofx.CssBox
 import tornadofx.View
@@ -19,8 +20,11 @@ class TaskDialog : View("Task Dialog"){
 
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
 
-    val taskDesc: TextArea by fxid("task_description")
     val taskName: TextField by fxid("task_name")
+    val header: Label by fxid("dialog_header")
+
+    val taskDesc: TextArea by fxid("task_description")
+    val webView: WebView by fxid("webview")
 
     val time: Slider by fxid("time")
     val lbl_time: Label by fxid("lbl_time")
@@ -49,6 +53,7 @@ class TaskDialog : View("Task Dialog"){
         with(currTask!!){
             taskDesc.text = descr
             taskName.text = name
+            updateHeader()
             time.value = estTimeSeconds.toDouble() / 60.0
             tb_frog.isSelected = frog
             progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
@@ -89,6 +94,14 @@ class TaskDialog : View("Task Dialog"){
     fun delete(){
         currTask = IvyLeeTask()
         close()
+    }
+
+    fun updateHeader() {
+        header.text = taskName.text
+    }
+
+    fun updateWebView(){
+        webView.engine.load("http://www.google.de")
     }
 
 }
