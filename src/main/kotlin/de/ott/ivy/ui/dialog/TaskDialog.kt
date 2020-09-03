@@ -97,7 +97,7 @@ class TaskDialog : View("Task Dialog"){
     }
 
     fun updateHeader() {
-        header.text = taskName.text
+        header.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
     }
 
     fun updateWebView(){
