@@ -2,6 +2,7 @@ package de.ott.ivy.ui.dialog
 
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
+import de.ott.ivy.html.MarkdownParser
 import de.ott.ivy.ui.IvyLee
 import fr.brouillard.oss.commonmark.ext.notifications.NotificationsExtension
 import javafx.event.EventHandler
@@ -57,9 +58,10 @@ class TaskDialog : View("Task Dialog"){
         lbl_time.textProperty().bind(time.valueProperty().asString("%.0f m"))
 
         with(currTask!!){
-            taskDesc.text = descr
             taskName.text = name
             updateHeader()
+            taskDesc.text = descr
+            updateWebView()
             time.value = estTimeSeconds.toDouble() / 60.0
             tb_frog.isSelected = frog
             progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
@@ -106,17 +108,11 @@ class TaskDialog : View("Task Dialog"){
         header.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
     }
 
-    val parser by lazy { Parser.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create(), NotificationsExtension.create() )).build() }
-    val renderer by lazy { HtmlRenderer.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create(), NotificationsExtension.create() )).build() }
     fun updateWebView(){
         if(webView.engine.userStyleSheetLocation.isNullOrBlank())
             webView.engine.userStyleSheetLocation = javaClass.getResource("/de/ott/ivy/css/style.css").toString()
 
-        var htmlString = renderer.render(parser.parse( taskDesc.text )) // "<p>This is <em>Sparta</em></p>\n"
-        println(htmlString)
-        htmlString = htmlString.replace("""<li>""", "").replace("</li>", "<br>").replace("<ul>\n", "").replace("</ul>\n", "")
-        println(htmlString)
-        webView.engine.loadContent(htmlString, "text/html")
+        webView.engine.loadContent(MarkdownParser.convertHtml(taskDesc.text), "text/html")
     }
 
 }
