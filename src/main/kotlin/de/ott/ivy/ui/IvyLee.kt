@@ -1,23 +1,38 @@
-package de.ott.ivy
+package de.ott.ivy.ui
 
+import de.ott.ivy.data.IvyLeeTask
+import de.ott.ivy.ui.dialog.TaskDialog
+import de.ott.ivy.data.TaskGridCellContainer
+import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.gdrive.ApplicationDataHandler
 import de.ott.ivy.gdrive.ConnectionProvider
-import javafx.event.EventHandler
-import javafx.scene.control.*
+import javafx.scene.control.Label
+import javafx.scene.control.ProgressBar
+import javafx.scene.control.ProgressIndicator
+import javafx.scene.control.TextArea
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.paint.Color
-import javafx.stage.Stage
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
-import tornadofx.*
+import tornadofx.CssBox
+import tornadofx.View
+import tornadofx.style
 import java.io.File
 import java.lang.Thread.sleep
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import kotlin.collections.List
+import kotlin.collections.Map
+import kotlin.collections.first
+import kotlin.collections.forEach
+import kotlin.collections.listOf
+import kotlin.collections.mapOf
+import kotlin.collections.set
+import kotlin.collections.sortedBy
+import kotlin.collections.toSortedMap
+import kotlin.collections.zip
 
 /**
  * Main program (UI)
@@ -32,11 +47,11 @@ class IvyLee : View("Ivy-Lee Tracking") {
     override val root: GridPane by fxml("/views/IvyLee.fxml")
 
     companion object{
-        val tasks = mapOf<TaskGridCell, IvyLeeTask>().toSortedMap()
+        val tasks = mapOf<TaskGridCellContainer, IvyLeeTask>().toSortedMap()
         val gdrive = ApplicationDataHandler(ConnectionProvider.connect())
 
-        fun Map<TaskGridCell, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
-        fun Map<TaskGridCell, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
+        fun Map<TaskGridCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
+        fun Map<TaskGridCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
     }
 
     val bpTopLeft: BorderPane by fxid("bp_topleft")
@@ -88,7 +103,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 }
             }
             // Klasse instanziieren und in Map einordnen
-            tasks[TaskGridCell(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
+            tasks[TaskGridCellContainer(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
         }
         tasks.forEach(::updateCell)
         tasks.forEach(::println)
@@ -145,46 +160,25 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
     }
 
-    fun updateCell(cell: TaskGridCell, task: IvyLeeTask) {
+    fun updateCell(cellContainer: TaskGridCellContainer, task: IvyLeeTask) {
         println("updating cell with task: $task")
 
-        cell.titleLabel.text = task.name
-        cell.descLabel.text = task.descr
-        cell.timeLabel.text = "${task.estTime} m"
+        cellContainer.titleLabel.text = task.name
+        cellContainer.descLabel.text = task.descr
+        cellContainer.timeLabel.text = "${task.estTime} m"
 
-        cell.progressBar.progress = task.timeInvestedMin * 1.0 / task.estTime
-        cell.statusIndicator.progress = task.timeInvestedMin * 1.0 / task.estTime
-        if(task.status == TaskStatus.DONE) cell.statusIndicator.progress = 1.0
+        cellContainer.progressBar.progress = task.timeInvestedMin * 1.0 / task.estTime
+        cellContainer.statusIndicator.progress = task.timeInvestedMin * 1.0 / task.estTime
+        if(task.status == TaskStatus.DONE) cellContainer.statusIndicator.progress = 1.0
 
         if (task.timeInvestedMin >= task.estTime)
-            cell.progressBarAdditional.progress = (task.timeInvestedMin - task.estTime) * 1.0 / task.estTime
+            cellContainer.progressBarAdditional.progress = (task.timeInvestedMin - task.estTime) * 1.0 / task.estTime
         else
-            cell.progressBarAdditional.progress = 0.0
+            cellContainer.progressBarAdditional.progress = 0.0
 
-        cell.borderPane.style {
+        cellContainer.borderPane.style {
             backgroundColor += task.status.color
             borderColor += CssBox(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK)
         }
-    }
-}
-
-@ExperimentalSerializationApi
-class Main: App(IvyLee::class){
-
-    override fun start(stage: Stage) {
-        stage.onCloseRequest = EventHandler {
-            val tasksFile = File("tasks.db")
-
-            //Speichern auf nFile
-            println("Exit..")
-            IvyLee.tasks.values.filter { it.status == TaskStatus.IN_WORK }.forEach {
-                it.status = TaskStatus.UNDONE
-            }
-            println("dumping tasks..")
-            tasksFile.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), IvyLee.tasks.values.toList()))
-            println("uploading tasks to gdrive..")
-            IvyLee.gdrive.saveTasks(tasksFile)
-        }
-        super.start(stage)
     }
 }
