@@ -49,7 +49,7 @@ class TaskDialog : View("Task Dialog"){
         with(currTask!!){
             taskDesc.text = descr
             taskName.text = name
-            time.value = estTimeSeconds.toDouble()
+            time.value = estTimeSeconds.toDouble() / 60.0
             tb_frog.isSelected = frog
             progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
