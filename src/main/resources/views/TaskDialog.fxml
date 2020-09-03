@@ -2,28 +2,11 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <Label graphicTextGap="8.0" text="Create Task" textAlignment="CENTER" BorderPane.alignment="CENTER_LEFT">
-         <font>
-            <Font name="System Bold" size="27.0" />
-         </font>
-         <effect>
-            <Lighting bumpInput="$null">
-               <light>
-                  <Light.Distant />
-               </light>
-            </Lighting>
-         </effect>
-         <BorderPane.margin>
-            <Insets left="5.0" />
-         </BorderPane.margin>
-      </Label>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
        <ButtonBar GridPane.rowIndex="1">
            <buttons>
@@ -45,8 +28,12 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="task_name" promptText="Task name" />
-            <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Task Description" VBox.vgrow="ALWAYS" />
+            <WebView id="webview" fx:id="webview" opacity="0.73" prefHeight="200.0" prefWidth="200.0" />
+            <TextField fx:id="task_name" onKeyTyped="#updateHeader" promptText="Task name">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></TextField>
+            <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#updateWebView" promptText="Task description" VBox.vgrow="ALWAYS" />
              <BorderPane maxWidth="1.7976931348623157E308">
                  <left>
                      <ToggleButton fx:id="frog" mnemonicParsing="false" text="FROG" BorderPane.alignment="CENTER">
@@ -75,9 +62,30 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </BorderPane.margin></BorderPane>
                </center>
+               <top>
+                  <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </top>
              </BorderPane>
             <Separator prefWidth="200.0" />
          </children>
       </VBox>
    </center>
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="dialog_header" alignment="TOP_CENTER" focusTraversable="false" graphicTextGap="8.0" prefWidth="99999.0" text="Create Task" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets left="15.0" right="15.0" />
+               </padding>
+            </Label>
+            <Separator prefWidth="200.0" />
+         </children>
+      </VBox>
+   </top>
 </BorderPane>

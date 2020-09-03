@@ -1,11 +1,13 @@
 package de.ott.ivy.ui
 
+import de.ott.ivy.Entrypoint
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.ui.dialog.TaskDialog
 import de.ott.ivy.data.TaskGridCellContainer
 import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.gdrive.ApplicationDataHandler
 import de.ott.ivy.gdrive.ConnectionProvider
+import de.ott.ivy.html.MarkdownParser
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.ProgressIndicator
@@ -15,6 +17,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 import javafx.scene.paint.Color
+import javafx.scene.web.WebView
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
@@ -47,6 +50,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
     override val root: GridPane by fxml("/views/IvyLee.fxml")
 
     companion object{
+        const val MAIN_THREAD_NAME = "UI_THREAD"
+
         val tasks = mapOf<TaskGridCellContainer, IvyLeeTask>().toSortedMap()
         val gdrive = ApplicationDataHandler(ConnectionProvider.connect())
 
@@ -62,6 +67,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val bpBottomRight: BorderPane by fxid("bp_bottomright")
 
     init{
+        Thread.currentThread().name = MAIN_THREAD_NAME
         var oldTasks: List<IvyLeeTask?>? = null
         try{
             val tasksFile = File("tasks.db")
@@ -78,7 +84,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
         listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight).zip(oldTasks?:listOf(null, null, null, null, null, null).sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
             var title: Label? = null
-            var desc: TextArea? = null
+            var desc: WebView? = null
             var time: Label? = null
             var status: ProgressIndicator? = null
             var progress: ProgressBar? = null
@@ -86,7 +92,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             bp.first.children.forEach {bpChild ->
                 when(bpChild){
                     is Label -> title = bpChild
-                    is TextArea -> desc = bpChild
+                    is WebView -> desc = bpChild
                     is HBox -> {
                         bpChild.children.forEach { hbChild ->
                             when(hbChild){
@@ -102,11 +108,12 @@ class IvyLee : View("Ivy-Lee Tracking") {
                     }
                 }
             }
+            println(desc)
             // Klasse instanziieren und in Map einordnen
             tasks[TaskGridCellContainer(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
         }
-        tasks.forEach(::updateCell)
         tasks.forEach(::println)
+        tasks.forEach(::updateCell)
     }
 
     init{
@@ -133,7 +140,6 @@ class IvyLee : View("Ivy-Lee Tracking") {
     fun mark(event: MouseEvent){
         (event.target as BorderPane).style {
             borderColor += CssBox(Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE)
-            //backgroundColor += tasks[event.target as BorderPane]!!.status.color.desaturate()
             backgroundColor += tasks.getTaskByBorderPane(event.target as BorderPane)!!.status.color.desaturate()
         }
     }
@@ -182,7 +188,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
         println("updating cell with task: $task")
 
         cellContainer.titleLabel.text = task.name
-        cellContainer.descLabel.text = task.descr
+        if(cellContainer.descLabel.engine.userStyleSheetLocation.isNullOrBlank())
+            cellContainer.descLabel.engine.userStyleSheetLocation = javaClass.getResource("/de/ott/ivy/css/style.css").toString()
         cellContainer.timeLabel.text = "${task.estTimeSeconds / 60.0} m"
 
         cellContainer.progressBar.progress = task.timeInvestedSeconds * 1.0 / task.estTimeSeconds
@@ -198,5 +205,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
             backgroundColor += task.status.color
             borderColor += CssBox(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK)
         }
+
+        if(Thread.currentThread().name == MAIN_THREAD_NAME)
+            cellContainer.descLabel.engine.loadContent(MarkdownParser.convertHtml(task.descr), "text/html")
     }
 }
