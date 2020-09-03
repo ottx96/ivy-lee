@@ -3,8 +3,10 @@ package de.ott.ivy.ui.dialog
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
 import javafx.event.EventHandler
+import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.image.Image
 import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import javafx.stage.Stage
@@ -12,7 +14,7 @@ import tornadofx.CssBox
 import tornadofx.View
 import tornadofx.style
 
-class TaskDialog: View("Task Dialog"){
+class TaskDialog : View("Task Dialog"){
     private val COLOR_BORDER = Color.valueOf("#cc0000")
 
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
@@ -47,9 +49,9 @@ class TaskDialog: View("Task Dialog"){
         with(currTask!!){
             taskDesc.text = descr
             taskName.text = name
-            time.value = estTime.toDouble()
+            time.value = estTimeSeconds.toDouble()
             tb_frog.isSelected = frog
-            progress.progress = if(estTime > 0) timeInvestedMin.toDouble() / estTime.toDouble() else 0.0
+            progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
     }
 
@@ -72,7 +74,7 @@ class TaskDialog: View("Task Dialog"){
         currTask!!.apply {
             name = taskName.text
             descr = taskDesc.text
-            estTime = time.value.toInt()
+            estTimeSeconds = time.value.toInt() * 60
             frog = tb_frog.isSelected
             status = TaskStatus.UNDONE
             if(taskName.text.isBlank()) currTask!!.status = TaskStatus.EMPTY

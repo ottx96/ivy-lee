@@ -139,11 +139,10 @@ class IvyLee : View("Ivy-Lee Tracking") {
                     Thread{
                         val threadCell = tasks.getCellByBorderPane(this)
                         while(true){
-                            repeat(60){
-                                if(task.status != TaskStatus.IN_WORK) return@Thread
-                                sleep(1000)
-                            }
-                            task.timeInvestedMin++
+                            if(task.status != TaskStatus.IN_WORK) return@Thread
+
+                            sleep(1000) // sleep 1s
+                            task.timeInvestedSeconds++
                             updateCell(threadCell, task)
                         }
                     }.start()
@@ -165,14 +164,14 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
         cellContainer.titleLabel.text = task.name
         cellContainer.descLabel.text = task.descr
-        cellContainer.timeLabel.text = "${task.estTime} m"
+        cellContainer.timeLabel.text = "${task.estTimeSeconds / 60.0} m"
 
-        cellContainer.progressBar.progress = task.timeInvestedMin * 1.0 / task.estTime
-        cellContainer.statusIndicator.progress = task.timeInvestedMin * 1.0 / task.estTime
+        cellContainer.progressBar.progress = task.timeInvestedSeconds * 1.0 / task.estTimeSeconds
+        cellContainer.statusIndicator.progress = task.timeInvestedSeconds * 1.0 / task.estTimeSeconds
         if(task.status == TaskStatus.DONE) cellContainer.statusIndicator.progress = 1.0
 
-        if (task.timeInvestedMin >= task.estTime)
-            cellContainer.progressBarAdditional.progress = (task.timeInvestedMin - task.estTime) * 1.0 / task.estTime
+        if (task.timeInvestedSeconds >= task.estTimeSeconds)
+            cellContainer.progressBarAdditional.progress = (task.timeInvestedSeconds - task.estTimeSeconds) * 1.0 / task.estTimeSeconds
         else
             cellContainer.progressBarAdditional.progress = 0.0
 
