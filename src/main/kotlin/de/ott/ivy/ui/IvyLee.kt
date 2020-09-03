@@ -138,7 +138,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 if(task.status == TaskStatus.IN_WORK){
                     Thread{
                         val threadCell = tasks.getCellByBorderPane(this)
-                        while(task.status != TaskStatus.IN_WORK){
+                        while(task.status == TaskStatus.IN_WORK){
                             sleep(1000) // sleep 1s
                             task.timeInvestedSeconds++
                             updateCell(threadCell, task)
