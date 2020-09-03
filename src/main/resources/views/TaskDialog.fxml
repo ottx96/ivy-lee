@@ -28,7 +28,7 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <WebView id="webview" fx:id="webview" disable="true" opacity="0.73" prefHeight="200.0" prefWidth="200.0" />
+            <WebView id="webview" fx:id="webview" opacity="0.73" prefHeight="200.0" prefWidth="200.0" />
             <TextField fx:id="task_name" onKeyTyped="#updateHeader" promptText="Task name">
                <font>
                   <Font name="System Bold" size="14.0" />

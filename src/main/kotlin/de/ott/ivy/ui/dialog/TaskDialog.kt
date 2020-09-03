@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import javafx.scene.web.WebView
 import javafx.stage.Stage
+import org.commonmark.ext.autolink.AutolinkExtension
 import org.commonmark.ext.task.list.items.TaskListItemsExtension
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
@@ -102,10 +103,12 @@ class TaskDialog : View("Task Dialog"){
         header.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
     }
 
-    val parser by lazy { Parser.builder().extensions( listOf(TaskListItemsExtension.create()) ).build() }
-    val renderer by lazy { HtmlRenderer.builder().extensions( listOf(TaskListItemsExtension.create()) ).build() }
+    val parser by lazy { Parser.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create() )).build() }
+    val renderer by lazy { HtmlRenderer.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create() )).build() }
     fun updateWebView(){
-        val htmlString = renderer.render(parser.parse( taskDesc.text )) // "<p>This is <em>Sparta</em></p>\n"
+        var htmlString = renderer.render(parser.parse( taskDesc.text )) // "<p>This is <em>Sparta</em></p>\n"
+        println(htmlString)
+        htmlString = htmlString.replace("""<li>""", "").replace("</li>", "<br>").replace("<ul>\n", "").replace("</ul>\n", "")
         println(htmlString)
         webView.engine.loadContent(htmlString, "text/html")
     }
