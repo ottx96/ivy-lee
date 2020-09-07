@@ -6,10 +6,13 @@ plugins {
     id 'maven-publish'
 }
 
+group = "de.ott.ivy"
+version = "1.0.0"
+
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
+            name = "Extension API"
             url = uri("https://maven.pkg.github.com/ottx96/ivy-lee")
             credentials {
                 username = project.findProperty("gpr.user") ?: "ottx96"
@@ -30,8 +33,6 @@ javafx {
     version = "11"
     modules = ['javafx.controls', 'javafx.base', 'javafx.fxml', 'javafx.graphics', 'javafx.web']
 }
-
-group 'de.ott'
 
 sourceCompatibility = 1.8
 
