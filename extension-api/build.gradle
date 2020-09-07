@@ -3,6 +3,26 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'org.openjfx.javafxplugin'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'maven-publish'
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "ivy-lee"
+            url = uri("https://maven.pkg.github.com/ottx96")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+//            from(components.java)
+            from(components.kotlin)
+        }
+    }
 }
 
 javafx {
