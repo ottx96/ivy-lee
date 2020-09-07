@@ -12,7 +12,7 @@ version = "1.0.0"
 publishing {
     repositories {
         maven {
-            name = "Extension API"
+            name = "extension-api"
             url = uri("https://maven.pkg.github.com/ottx96/ivy-lee")
             credentials {
                 username = project.findProperty("gpr.user") ?: "ottx96"
