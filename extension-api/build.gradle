@@ -21,10 +21,8 @@ publishing {
         }
     }
     publications {
-//        gpr(MavenPublication) {
         mavenJava(MavenPublication) {
             from components.java
-//            from(file("extension-api/libs/exxtension-api.jar"))
         }
     }
 }
