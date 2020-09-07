@@ -1,2 +1,4 @@
 rootProject.name = 'ivy-lee'
 
+include ':extension-api'
+project(':extension-api').projectDir = new File("extension-api/")
