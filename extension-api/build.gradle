@@ -9,7 +9,7 @@ plugins {
 publishing {
     repositories {
         maven {
-            name = "GitHub Packages"
+            name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/ottx96/ivy-lee")
             credentials {
                 username = project.findProperty("gpr.user") ?: "ottx96"
@@ -18,8 +18,9 @@ publishing {
         }
     }
     publications {
-        gpr(MavenPublication) {
-            from(components.java)
+//        gpr(MavenPublication) {
+        mavenJava(MavenPublication) {
+            from components.java
 //            from(file("extension-api/libs/exxtension-api.jar"))
         }
     }
