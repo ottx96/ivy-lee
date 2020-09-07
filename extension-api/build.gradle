@@ -12,8 +12,8 @@ publishing {
             name = "ivy-lee"
             url = uri("https://maven.pkg.github.com/ottx96")
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                username = project.findProperty("gpr.user") ?: "ottx96"
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
             }
         }
     }
