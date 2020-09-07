@@ -157,12 +157,16 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 val task = tasks.getTaskByBorderPane(this)!!
                 when(task.status){
                     TaskStatus.EMPTY -> { return }
-                    TaskStatus.UNDONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.IN_WORK
-                    TaskStatus.IN_WORK -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.DONE
-                    TaskStatus.DONE -> tasks.getTaskByBorderPane(this)!!.status = TaskStatus.UNDONE
+                    TaskStatus.UNDONE -> task.status = TaskStatus.IN_WORK
+                    TaskStatus.IN_WORK -> task.status = TaskStatus.DONE
+                    TaskStatus.DONE -> task.status = TaskStatus.UNDONE
                 }
                 updateCell(tasks.getCellByBorderPane(this), task)
                 if(task.status == TaskStatus.IN_WORK){
+                    // stop other timers
+                    tasks.values.filter { it.status == TaskStatus.IN_WORK && it != task }.forEach {
+                        it.status = TaskStatus.UNDONE
+                    }
                     Thread{
                         val threadCell = tasks.getCellByBorderPane(this)
                         while(task.status == TaskStatus.IN_WORK){
