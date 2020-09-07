@@ -1,7 +1,6 @@
 package de.ott.ivy.data
 
 import de.ott.ivy.data.enum.TaskStatus
-import javafx.scene.paint.Color
 import kotlinx.serialization.Serializable
 
 /**
