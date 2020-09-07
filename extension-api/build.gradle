@@ -9,8 +9,8 @@ plugins {
 publishing {
     repositories {
         maven {
-            name = "ivy-lee"
-            url = uri("https://maven.pkg.github.com/ottx96")
+            name = "GitHub Packages"
+            url = uri("https://maven.pkg.github.com/ottx96/ivy-lee")
             credentials {
                 username = project.findProperty("gpr.user") ?: "ottx96"
                 password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
