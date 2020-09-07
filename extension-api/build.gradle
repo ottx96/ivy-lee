@@ -19,8 +19,8 @@ publishing {
     }
     publications {
         gpr(MavenPublication) {
-//            from(components.java)
-            from(components.kotlin)
+            from(components.java)
+//            from(file("extension-api/libs/exxtension-api.jar"))
         }
     }
 }
