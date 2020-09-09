@@ -38,6 +38,7 @@ class TaskDialog : View("Task Dialog"){
     val tb_frog: ToggleButton by fxid("frog")
     val progress: ProgressIndicator by fxid("progress")
 
+    val extensionsButton: SplitMenuButton by fxid("extensions")
     val delete: Button by fxid("delete")
     val COLOR_DELETE = Color.valueOf("#e3736b")
 
@@ -66,6 +67,12 @@ class TaskDialog : View("Task Dialog"){
             tb_frog.isSelected = frog
             progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
+
+        extensionsButton.items.add(MenuItem("Test"))
+        extensionsButton.items.add(MenuItem("Test"))
+        extensionsButton.items.add(MenuItem("Test"))
+        extensionsButton.items.add(MenuItem("Test"))
+        extensionsButton.items.add(MenuItem("Test"))
     }
 
 
