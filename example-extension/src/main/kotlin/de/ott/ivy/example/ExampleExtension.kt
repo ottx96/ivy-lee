@@ -8,7 +8,7 @@ import de.ott.ivy.data.IvyLeeTask
 class ExampleExtension: TaskExtension {
 
     override fun execute(task: IvyLeeTask) {
-        task.descr = "Hello from ${javaClass.simpleName}!"
+        println("Hello from ${javaClass.simpleName})!")
     }
 
 }

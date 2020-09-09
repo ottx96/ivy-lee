@@ -1,6 +1,7 @@
 package de.ott.ivy.ui.dialog
 
 import de.ott.ivy.Entrypoint
+import de.ott.ivy.TaskExtension
 import de.ott.ivy.annotation.Extension
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
@@ -12,6 +13,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import javafx.scene.web.WebView
 import javafx.stage.Stage
+import kotlinx.serialization.ExperimentalSerializationApi
 import tornadofx.CssBox
 import tornadofx.View
 import tornadofx.style
@@ -19,6 +21,7 @@ import java.io.File
 import java.lang.Exception
 
 
+@ExperimentalSerializationApi
 class TaskDialog : View("Task Dialog"){
     private val COLOR_BORDER = Color.valueOf("#cc0000")
 
@@ -65,15 +68,38 @@ class TaskDialog : View("Task Dialog"){
             progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
 
-        File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt").file).useLines {
-            it.filter(String::isNotBlank).forEach {
+        val clazzes = mutableMapOf<String, Class<TaskExtension>>()
+        File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt")!!.file).useLines { lines ->
+            lines.filter(String::isNotBlank).forEach {
                 try{
                     val cl = Class.forName(it)
-                    extensionsButton.items.add(MenuItem( cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName ))
+                    if(!cl.interfaces.any { it == TaskExtension::class.java }) return@forEach
+                    clazzes[cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName] = cl as Class<TaskExtension>
+                    extensionsButton.items.add(
+                        MenuItem( cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName ).apply {
+                            onAction = EventHandler {
+                                extensionsButton.text = (it.target as MenuItem).text
+                            }
+                        }
+                    )
                 }catch(e: Exception){
                     e.printStackTrace()
                 }
             }
+        }
+        extensionsButton.text = extensionsButton.items[0].text
+        extensionsButton.onAction = EventHandler {
+            println("starting extension")
+            val cl = clazzes[extensionsButton.text]!!
+            val inst = cl.declaredConstructors[0].newInstance() as TaskExtension
+            inst.execute(IvyLeeTask().apply {
+                name = taskName.text
+                descr = taskDesc.text
+                estTimeSeconds = time.value.toInt() * 60
+                frog = tb_frog.isSelected
+                status = TaskStatus.UNDONE
+                if(taskName.text.isBlank()) currTask!!.status = TaskStatus.EMPTY
+            })
         }
     }
 
