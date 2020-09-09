@@ -1,10 +1,10 @@
 package de.ott.ivy.ui.dialog
 
+import de.ott.ivy.Entrypoint
+import de.ott.ivy.annotation.Extension
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.html.MarkdownParser
-import de.ott.ivy.ui.IvyLee
-import fr.brouillard.oss.commonmark.ext.notifications.NotificationsExtension
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -12,14 +12,10 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import javafx.scene.web.WebView
 import javafx.stage.Stage
-import org.commonmark.ext.autolink.AutolinkExtension
-import org.commonmark.ext.task.list.items.TaskListItemsExtension
-import org.commonmark.parser.Parser
-import org.commonmark.renderer.html.HtmlRenderer
 import tornadofx.CssBox
 import tornadofx.View
 import tornadofx.style
-import java.lang.Thread.sleep
+import java.io.File
 
 
 class TaskDialog : View("Task Dialog"){
@@ -68,13 +64,13 @@ class TaskDialog : View("Task Dialog"){
             progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
 
-        extensionsButton.items.add(MenuItem("Test"))
-        extensionsButton.items.add(MenuItem("Test"))
-        extensionsButton.items.add(MenuItem("Test"))
-        extensionsButton.items.add(MenuItem("Test"))
-        extensionsButton.items.add(MenuItem("Test"))
+        File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt").file).useLines {
+            it.forEach { classStr ->
+                val cl = Class.forName(classStr)
+                extensionsButton.items.add(MenuItem( cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName ))
+            }
+        }
     }
-
 
     companion object {
         var currTask: IvyLeeTask? = null
