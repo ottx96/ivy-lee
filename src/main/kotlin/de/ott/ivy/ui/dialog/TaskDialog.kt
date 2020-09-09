@@ -23,7 +23,19 @@ import java.lang.Exception
 
 @ExperimentalSerializationApi
 class TaskDialog : View("Task Dialog"){
-    private val COLOR_BORDER = Color.valueOf("#cc0000")
+
+    companion object {
+        private val COLOR_BORDER = Color.valueOf("#cc0000")
+        var currTask: IvyLeeTask? = null
+
+        fun showDialog(task: IvyLeeTask): IvyLeeTask {
+            currTask = task
+            Stage().apply {
+                scene = Scene(TaskDialog().root)
+            }.showAndWait()
+            return currTask!!
+        }
+    }
 
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
 
@@ -41,6 +53,8 @@ class TaskDialog : View("Task Dialog"){
     val extensionsButton: SplitMenuButton by fxid("extensions")
     val delete: Button by fxid("delete")
     val COLOR_DELETE = Color.valueOf("#e3736b")
+
+    val extensionClassList = mutableMapOf<String, Class<*>>()
 
     init {
         delete.onMouseEntered = EventHandler{
@@ -68,17 +82,16 @@ class TaskDialog : View("Task Dialog"){
             progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
 
-        val clazzes = mutableMapOf<String, Class<TaskExtension>>()
         File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt")!!.file).useLines { lines ->
             lines.filter(String::isNotBlank).forEach {
                 try{
                     val cl = Class.forName(it)
                     if(!cl.interfaces.any { it == TaskExtension::class.java }) return@forEach
-                    clazzes[cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName] = cl as Class<TaskExtension>
+                    extensionClassList[cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName] = cl
                     extensionsButton.items.add(
                         MenuItem( cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName ).apply {
-                            onAction = EventHandler {
-                                extensionsButton.text = (it.target as MenuItem).text
+                            onAction = EventHandler {event ->
+                                extensionsButton.text = (event.target as MenuItem).text
                             }
                         }
                     )
@@ -90,35 +103,14 @@ class TaskDialog : View("Task Dialog"){
         extensionsButton.text = extensionsButton.items[0].text
         extensionsButton.onAction = EventHandler {
             println("starting extension")
-            val cl = clazzes[extensionsButton.text]!!
+            val cl = extensionClassList[extensionsButton.text]!!
             val inst = cl.declaredConstructors[0].newInstance() as TaskExtension
-            inst.execute(IvyLeeTask().apply {
-                name = taskName.text
-                descr = taskDesc.text
-                estTimeSeconds = time.value.toInt() * 60
-                frog = tb_frog.isSelected
-                status = TaskStatus.UNDONE
-                if(taskName.text.isBlank()) currTask!!.status = TaskStatus.EMPTY
-            })
+            inst.execute(updateTask(IvyLeeTask()))
         }
     }
 
-    companion object {
-        var currTask: IvyLeeTask? = null
-
-        fun showDialog(task: IvyLeeTask): IvyLeeTask {
-            currTask = task
-
-            Stage().apply {
-                scene = Scene(TaskDialog().root)
-            }.showAndWait()
-
-            return currTask!!
-        }
-    }
-
-    fun ok() {
-        currTask!!.apply {
+    private fun updateTask(task: IvyLeeTask): IvyLeeTask{
+        return task.apply {
             name = taskName.text
             descr = taskDesc.text
             estTimeSeconds = time.value.toInt() * 60
@@ -126,6 +118,10 @@ class TaskDialog : View("Task Dialog"){
             status = TaskStatus.UNDONE
             if(taskName.text.isBlank()) currTask!!.status = TaskStatus.EMPTY
         }
+    }
+
+    fun ok() {
+        updateTask(currTask!!)
         close()
     }
 
