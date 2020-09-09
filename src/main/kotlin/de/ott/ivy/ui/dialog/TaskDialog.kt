@@ -16,6 +16,7 @@ import tornadofx.CssBox
 import tornadofx.View
 import tornadofx.style
 import java.io.File
+import java.lang.Exception
 
 
 class TaskDialog : View("Task Dialog"){
@@ -65,9 +66,13 @@ class TaskDialog : View("Task Dialog"){
         }
 
         File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt").file).useLines {
-            it.forEach { classStr ->
-                val cl = Class.forName(classStr)
-                extensionsButton.items.add(MenuItem( cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName ))
+            it.filter(String::isNotBlank).forEach {
+                try{
+                    val cl = Class.forName(it)
+                    extensionsButton.items.add(MenuItem( cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName ))
+                }catch(e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
     }
