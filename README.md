@@ -4,6 +4,10 @@
 **_Track your tasks with the ivy-lee method._**  
 _See [https://jamesclear.com/ivy-lee](https://jamesclear.com/ivy-lee)_
 
+## Preview
+
+###### (under construction)
+
 ## Features
 
 ### Markdown-Syntax
@@ -13,14 +17,12 @@ _See [https://www.markdownguide.org/basic-syntax/](https://www.markdownguide.org
 
 ### Examples
 
-For Examples visit [**_Markdown Examples (Documentation)_**](documentation/MARKDOWN_EXAMPLES.md).
+Want styling (markdown) examples?  
+Visit [**_Markdown Examples (Documentation)_**](documentation/MARKDOWN_EXAMPLES.md).
 
 ### Google Drive Support
 ###### (under construction)
 
-### Share Tasks among devices
-###### (under construction)
-
-##  Extensions (Extension API)
+###  Extensions (Extension API)
 Want to write your own extension(s) ?   
 Visit the [**_Extension API Documentation_**](documentation/EXTENSION_API.md).
