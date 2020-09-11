@@ -12,7 +12,7 @@
 ###### h6
 ```
 _Renders to:_  
-![custom styles](documentation/files/headers.png)
+![custom styles](files/headers.png)
 ***
 
 ## Bold / Italic
@@ -24,7 +24,7 @@ _Italic_
 _**Bold Italic**_  
 ```
 _Renders to:_  
-![custom styles](documentation/files/bold-italic.png)
+![custom styles](files/bold-italic.png)
 ***
 
 ## Listings / Enumerations
@@ -42,7 +42,7 @@ _Renders to:_
 - ..and on..
 ```
 _Renders to:_  
-![custom styles](documentation/files/listings.png)
+![custom styles](files/listings.png)
 ***
 
 ## Checkboxes / TODOs
@@ -55,7 +55,7 @@ _Renders to:_
 - [x] fourth item
 ```
 _Renders to:_  
-![custom styles](documentation/files/checkboxes.png)
+![custom styles](files/checkboxes.png)
 ***
 
 ## Custom Styles
@@ -69,5 +69,5 @@ There are custom styles defined in [**style.css**](src/main/resources/de/ott/ivy
 !x ERROR!
 ```
 _Renders to:_
-![custom styles](documentation/files/custom-syntax.png)
+![custom styles](files/custom-syntax.png)
 ***
