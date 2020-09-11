@@ -11,7 +11,7 @@ _See [https://jamesclear.com/ivy-lee](https://jamesclear.com/ivy-lee)_
 Task descriptions support _**markdown**_.  
 _See [https://www.markdownguide.org/basic-syntax/](https://www.markdownguide.org/basic-syntax/)_
 
-#### Examples
+### Examples
 
 For Examples visit [**_Markdown Examples (Documentation)_**](documentation/MARKDOWN_EXAMPLES.md).
 
