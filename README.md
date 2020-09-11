@@ -12,7 +12,7 @@ _See [https://jamesclear.com/ivy-lee](https://jamesclear.com/ivy-lee)_
 ### Google Drive Support
 ###### (under construction)
 
-### Share Tasks among evices
+### Share Tasks among devices
 ###### (under construction)
 
 ##  Extensions (Extension API)
