@@ -116,7 +116,8 @@ class TaskDialog : View("Task Dialog"){
             estTimeSeconds = time.value.toInt() * 60
             frog = tb_frog.isSelected
             status = TaskStatus.UNDONE
-            if(taskName.text.isBlank()) currTask!!.status = TaskStatus.EMPTY
+            if(taskName.text.isBlank())
+                currTask!!.status = TaskStatus.EMPTY
         }
     }
 
@@ -130,6 +131,7 @@ class TaskDialog : View("Task Dialog"){
     }
 
     fun delete(){
+        currTask!!.status = TaskStatus.UNDONE
         currTask = IvyLeeTask()
         close()
     }

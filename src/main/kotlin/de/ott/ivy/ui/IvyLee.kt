@@ -170,14 +170,13 @@ class IvyLee : View("Ivy-Lee Tracking") {
                     Thread{
                         val threadCell = tasks.getCellByBorderPane(this)
                         while(task.status == TaskStatus.IN_WORK){
-                            sleep(1000) // sleep 1s
                             task.timeInvestedSeconds++
                             updateCell(threadCell, task)
+                            sleep(1000) // sleep 1s
                         }
                     }.start()
                 }
             }
-
         else if(event.isSecondaryButtonDown){
             // open custom dialog
             (event.target as BorderPane).apply {
