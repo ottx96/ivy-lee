@@ -18,7 +18,7 @@ _See [https://www.markdownguide.org/basic-syntax/](https://www.markdownguide.org
 Want to write your own extension(s) ?   
 Visit the [**_Extension API Documentation_**](documentation/EXTENSION_API.md).
 
-### Examples
+## Examples
 
 Want styling (markdown) examples?  
 Visit [**_Markdown Examples (Documentation)_**](documentation/MARKDOWN_EXAMPLES.md).
