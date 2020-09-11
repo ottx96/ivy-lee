@@ -4,17 +4,17 @@
 **_Track your tasks with the ivy-lee method._**  
 _See [https://jamesclear.com/ivy-lee](https://jamesclear.com/ivy-lee)_
 
-### Features
+## Features
 
-#### Markdown-Syntax
+### Markdown-Syntax
 ###### (under construction)
 
-#### Google Drive Support
+### Google Drive Support
 ###### (under construction)
 
-#### Share Tasks among evices
+### Share Tasks among evices
 ###### (under construction)
 
-###  Extensions (Extension API)
+##  Extensions (Extension API)
 Want to write your own extension(s) ?   
 Visit the [**_Extension API Documentation_**](documentation/EXTENSION_API.md).
