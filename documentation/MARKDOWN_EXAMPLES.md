@@ -41,7 +41,7 @@ _Renders to:_
 - the list goes on..
 - ..and on..
 ```
-_Renders to:_  
+_Renders to:_   
 ![custom styles](files/listings.png)
 ***
 
@@ -68,6 +68,6 @@ There are custom styles defined in [**style.css**](src/main/resources/de/ott/ivy
 !v Success!
 !x ERROR!
 ```
-_Renders to:_
+_Renders to:_  
 ![custom styles](files/custom-syntax.png)
 ***
