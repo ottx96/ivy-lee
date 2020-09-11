@@ -13,6 +13,8 @@ import kotlinx.serialization.Serializable
  * @since = 28. Januar 2020
  */
 @Serializable
-data class IvyLeeTask(var name: String = "", var descr: String = "", var estTimeSeconds: Int = 0, var status: TaskStatus = TaskStatus.EMPTY, var timeInvestedSeconds: Int = 0, var frog: Boolean = false){
+data class IvyLeeTask(var name: String = "", var descr: String = "",
+                      var estTimeSeconds: Int = 0, var status: TaskStatus = TaskStatus.EMPTY,
+                      var timeInvestedSeconds: Int = 0, var frog: Boolean = false){
     val REVISION = 1
 }

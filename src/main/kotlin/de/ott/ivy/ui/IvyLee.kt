@@ -82,7 +82,9 @@ class IvyLee : View("Ivy-Lee Tracking") {
             println("No data stored..")
         }
 
-        listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight).zip(oldTasks?:listOf(null, null, null, null, null, null).sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
+        listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight)
+            .zip(oldTasks?:listOf(null, null, null, null, null, null)
+            .sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
             var title: Label? = null
             var desc: WebView? = null
             var time: Label? = null
@@ -177,7 +179,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                     }.start()
                 }
             }
-        else if(event.isSecondaryButtonDown){
+        else {
             // open custom dialog
             (event.target as BorderPane).apply {
                 tasks[tasks.getCellByBorderPane(this)] = TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
