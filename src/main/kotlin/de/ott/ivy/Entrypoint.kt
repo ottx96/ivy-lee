@@ -3,6 +3,7 @@ package de.ott.ivy
 import de.ott.ivy.ui.IvyLee
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
+import de.ott.ivy.ui.dialog.SetupDialog
 import javafx.event.EventHandler
 import javafx.scene.image.Image
 import javafx.stage.Stage
@@ -14,6 +15,10 @@ import java.io.File
 
 @ExperimentalSerializationApi
 class Entrypoint: App(IvyLee::class){
+
+    companion object{
+        val CONFIG_FOLDER = File("config/")
+    }
 
     override fun start(stage: Stage) {
         stage.icons.add(Image(Entrypoint::class.java.getResourceAsStream("/de/ott/ivy/images/frog-hq.png")))
@@ -31,6 +36,15 @@ class Entrypoint: App(IvyLee::class){
             println("uploading tasks to gdrive..")
             IvyLee.gdrive.saveTasks(tasksFile)
         }
+
+        // check, if initial run
+        if(!CONFIG_FOLDER.exists()){
+            // run setup!
+            SetupDialog.showDialog()
+        }
+
+
+
         super.start(stage)
     }
 }
