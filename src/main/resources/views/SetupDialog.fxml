@@ -13,7 +13,7 @@
                <content>
                   <BorderPane fx:id="bp_language" prefHeight="200.0" prefWidth="200.0">
                      <left>
-                        <Label contentDisplay="RIGHT" text="English" BorderPane.alignment="CENTER_RIGHT">
+                        <Label fx:id="language" contentDisplay="RIGHT" text="en_US" BorderPane.alignment="CENTER_RIGHT">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -30,7 +30,7 @@
                         </Label>
                      </top>
                      <center>
-                        <ComboBox prefWidth="9999999.0" promptText="en_US" BorderPane.alignment="CENTER">
+                        <ComboBox fx:id="languages" prefWidth="9999999.0" promptText="English" visibleRowCount="12" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets left="25.0" right="25.0" />
                            </BorderPane.margin>
