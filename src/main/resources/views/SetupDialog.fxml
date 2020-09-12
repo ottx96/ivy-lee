@@ -5,20 +5,43 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Accordion BorderPane.alignment="CENTER">
         <panes>
-          <TitledPane animated="false" text="Langauge">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+          <TitledPane text="Langauge">
+               <content>
+                  <BorderPane fx:id="bp_language" prefHeight="200.0" prefWidth="200.0">
+                     <left>
+                        <Label contentDisplay="RIGHT" text="English" BorderPane.alignment="CENTER_RIGHT">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <BorderPane.margin>
+                              <Insets left="15.0" right="5.0" />
+                           </BorderPane.margin>
+                        </Label>
+                     </left>
+                     <top>
+                        <Label text="Choose Language" BorderPane.alignment="TOP_LEFT">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </top>
+                     <center>
+                        <ComboBox prefWidth="9999999.0" promptText="en_US" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="25.0" right="25.0" />
+                           </BorderPane.margin>
+                        </ComboBox>
+                     </center></BorderPane>
+               </content>
           </TitledPane>
-          <TitledPane animated="false" text="Google Drive">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+          <TitledPane expanded="false" text="Google Drive">
+               <content>
+                  <BorderPane fx:id="bp_gdrive" prefHeight="200.0" prefWidth="200.0" />
+               </content>
           </TitledPane>
         </panes>
       </Accordion>
@@ -26,6 +49,7 @@
    <bottom>
       <ButtonBar buttonMinWidth="85.0" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
+            <Button cancelButton="true" mnemonicParsing="false" text="Cancel" />
           <Button defaultButton="true" mnemonicParsing="false" text="OK" />
         </buttons>
          <BorderPane.margin>
@@ -34,7 +58,7 @@
       </ButtonBar>
    </bottom>
    <top>
-      <Label text="Setup" BorderPane.alignment="TOP_LEFT">
+      <Label text="Ivy-Lee Tracker: Setup" BorderPane.alignment="TOP_LEFT">
          <font>
             <Font name="Corbel Bold" size="24.0" />
          </font>
