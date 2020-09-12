@@ -7,11 +7,6 @@ object ExtensionCrawler {
 
     const val PACKAGE_REGEX = """([a-z]+\.)*[a-z]*"""
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        findClasses()
-    }
-
     fun findClasses() {
         // Get a File object for the package
         val url = javaClass.classLoader.getResource("")
@@ -31,19 +26,16 @@ object ExtensionCrawler {
                                 .substring(1)
 
                     println(fullyQualifiedClassName)
-                    try {
-                        // Try to create an instance of the object
+                    // Try to create an instance of the object
+                    try{
                         val c = Class.forName(fullyQualifiedClassName)
                         if(c.getAnnotation(Extension::class.java) != null){
                             println("Extension found in class: $c")
                         }
-                    } catch (e: Exception){
+                    }catch(e: ClassNotFoundException){
                         e.printStackTrace()
                     }
                 }
         }
     }
-
 }
-
-class WrongFormatException(msg: String?): Exception(msg)

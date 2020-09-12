@@ -8,12 +8,14 @@ import org.commonmark.renderer.html.HtmlRenderer
 
 object MarkdownParser {
 
-    val parser by lazy { Parser.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create(), NotificationsExtension.create() )).build() }
-    val renderer by lazy { HtmlRenderer.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create(), NotificationsExtension.create() )).build() }
+    private val parser: Parser by lazy { Parser.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create(), NotificationsExtension.create() )).build() }
+    private val renderer: HtmlRenderer by lazy { HtmlRenderer.builder().extensions( listOf(AutolinkExtension.create(), TaskListItemsExtension.create(), NotificationsExtension.create() )).build() }
     fun convertHtml(markdown: String): String{
-        var htmlString = renderer.render(parser.parse( markdown )) // "<p>This is <em>Sparta</em></p>\n"
-        htmlString = htmlString.replace("""<li>""", "").replace("</li>", "<br>").replace("<ul>\n", "").replace("</ul>\n", "")
-        println(htmlString)
+        var htmlString = renderer.render(parser.parse( markdown ))
+
+        if(htmlString.contains("""type="checkbox""""))
+            htmlString = htmlString.replace("""<li>""", "").replace("</li>", "<br>").replace("<ul>", "").replace("</ul>", "")
+
         return htmlString
     }
 
