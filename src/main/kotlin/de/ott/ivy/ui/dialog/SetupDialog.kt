@@ -1,18 +1,11 @@
 package de.ott.ivy.ui.dialog
 
-import de.ott.ivy.data.IvyLeeTask
-import javafx.scene.Parent
 import javafx.scene.Scene
-import javafx.scene.control.DialogPane
 import javafx.scene.control.Pagination
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
-import javafx.scene.paint.Color
 import javafx.stage.Stage
 import tornadofx.View
-import tornadofx.borderpane
-import tornadofx.center
-import tornadofx.label
 
 class SetupDialog : View("Setup") {
 
@@ -29,14 +22,20 @@ class SetupDialog : View("Setup") {
     }
 
     init {
-        pagination.setPageFactory {
-            borderpane {
-                center {
-                    label("this is page $it") {  }
-                }
-            }
+        val pages = mutableListOf<BorderPane>()
+
+        // Max 5 pages
+        repeat(5){
+            val cRes = javaClass.getResource("/views/pages/page_${it}.fxml") ?: return@repeat
+            val x = object: View(""){
+                override val root: BorderPane by fxml(cRes.openStream())
+            }.root
+            pages.add(x)
         }
-        pagination.maxPageIndicatorCount = 50
+
+        if(pages.isNullOrEmpty()) throw Exception("empty pages!")
+        pagination.pageCount = pages.size
+        pagination.setPageFactory { pages[it] }
     }
 
 }
