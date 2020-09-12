@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Accordion BorderPane.alignment="CENTER">
         <panes>
@@ -40,9 +40,40 @@
           </TitledPane>
           <TitledPane expanded="false" text="Google Drive">
                <content>
-                  <BorderPane fx:id="bp_gdrive" prefHeight="200.0" prefWidth="200.0" />
+                  <BorderPane fx:id="bp_gdrive" prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <Label text="Connect to Google Drive" BorderPane.alignment="CENTER_LEFT">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </top>
+                     <right>
+                        <ProgressIndicator BorderPane.alignment="CENTER" />
+                     </right>
+                     <center>
+                        <Hyperlink text="Connect to Google Drive" BorderPane.alignment="CENTER" />
+                     </center></BorderPane>
                </content>
           </TitledPane>
+            <TitledPane text="Settings">
+               <content>
+                  <BorderPane prefHeight="150.0" prefWidth="200.0">
+                     <top>
+                        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label prefWidth="99999.0" text="Enter your task(s) ID">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <ComboBox editable="true" prefWidth="99999.0" promptText="Task ID" />
+                           </children>
+                        </HBox>
+                     </top>
+                  </BorderPane>
+               </content>
+            </TitledPane>
         </panes>
       </Accordion>
    </center>
