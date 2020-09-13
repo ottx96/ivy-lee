@@ -111,7 +111,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 }
             }
             println(desc)
-            // Klasse instanziieren und in Map einordnen
+            // intanciate class and put it in the map
             tasks[TaskGridCellContainer(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
         }
         tasks.forEach(::println)
@@ -189,7 +189,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
     }
 
-    fun updateCell(cellContainer: TaskGridCellContainer, task: IvyLeeTask) {
+    private fun updateCell(cellContainer: TaskGridCellContainer, task: IvyLeeTask) {
         println("updating cell with task: $task")
 
         cellContainer.titleLabel.text = task.name

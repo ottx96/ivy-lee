@@ -1,6 +1,9 @@
 package de.ott.ivy.ui.dialog
 
+import com.google.api.services.drive.Drive
+import com.google.common.util.concurrent.Futures.withTimeout
 import de.ott.ivy.Entrypoint
+import de.ott.ivy.gdrive.ConnectionProvider
 import javafx.beans.property.BooleanProperty
 import javafx.beans.value.ObservableBooleanValue
 import javafx.beans.value.ObservableValueBase
@@ -12,6 +15,7 @@ import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 import tornadofx.*
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class SetupDialog : View("Setup") {
     override val root: BorderPane by fxml("/views/SetupDialog.fxml")
@@ -61,7 +65,12 @@ class SetupDialog : View("Setup") {
         }
 
         hyperlinkConnect.onAction = EventHandler {
-            progressGDrive.progress = 1.0
+            runAsync { runCatching { ConnectionProvider.connect() }.getOrThrow() }.apply {
+                onSucceeded = EventHandler {
+                    progressGDrive.progress = 1.0
+                }
+            }
+
         }
 
         Locale.getAvailableLocales().sortedBy { it.displayLanguage }.forEach {

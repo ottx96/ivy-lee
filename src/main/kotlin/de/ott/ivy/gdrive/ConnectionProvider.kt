@@ -30,6 +30,8 @@ object ConnectionProvider {
     private val SCOPES = listOf(DriveScopes.DRIVE_APPDATA, DriveScopes.DRIVE_FILE)
     private const val CREDENTIALS_FILE_PATH = "/de/ott/ivy/gdrive/credentials.json"
 
+    private var receiver: LocalServerReceiver? = null
+
     /**
      * Creates an authorized Credential object.
      * @param httpTransport The network HTTP Transport.
@@ -48,8 +50,8 @@ object ConnectionProvider {
             .setDataStoreFactory(FileDataStoreFactory(java.io.File(TOKENS_DIRECTORY_PATH)))
             .setAccessType("offline")
             .build()
-        val receiver = LocalServerReceiver.Builder().setPort(8888).build()
-        return AuthorizationCodeInstalledApp(flow, receiver).authorize("user")
+
+        return AuthorizationCodeInstalledApp(flow, createReceiver()).authorize("user")
     }
 
     @Throws(IOException::class, GeneralSecurityException::class)
@@ -61,14 +63,9 @@ object ConnectionProvider {
             .build()
     }
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-
-        val x = connect();
-        ApplicationDataHandler(x).apply {
-            readTasks(java.io.File("tasks.db"))
-            saveTasks(java.io.File("tasks.db"))
-        }
-
+    private fun createReceiver(): LocalServerReceiver {
+        receiver?.stop()
+        receiver = LocalServerReceiver.Builder().setPort(8888).build()
+        return receiver!!
     }
 }
