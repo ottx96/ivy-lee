@@ -6,9 +6,7 @@ import javafx.beans.value.ObservableBooleanValue
 import javafx.beans.value.ObservableValueBase
 import javafx.event.EventHandler
 import javafx.scene.Scene
-import javafx.scene.control.Button
-import javafx.scene.control.ComboBox
-import javafx.scene.control.Label
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
@@ -19,11 +17,11 @@ class SetupDialog : View("Setup") {
 
     override val root: BorderPane by fxml("/views/SetupDialog.fxml")
 
-    val borderPaneGDrive: BorderPane by fxid("bp_gdrive")
-    val borderPaneLanguage: BorderPane by fxid("bp_language")
-
     val languages: ComboBox<String> by fxid("languages")
     val language: Label by fxid("language")
+
+    val hyperlinkConnect: Hyperlink by fxid("hyperlink_connect")
+    val progressGDrive: ProgressIndicator by fxid("progress_gdrive")
 
     val comboBoxTaskID: ComboBox<String> by fxid("combobox_task_id")
 
@@ -44,9 +42,17 @@ class SetupDialog : View("Setup") {
 
         buttonOK.enableWhen {
             comboBoxTaskID.valueProperty().isNotBlank()
+                    .and(languages.valueProperty().isNotBlank())
+                    .and(progressGDrive.indeterminateProperty().not())
         }
         buttonOK.disableWhen {
             comboBoxTaskID.valueProperty().isBlank()
+                    .or(languages.valueProperty().isBlank())
+                    .or(progressGDrive.indeterminateProperty())
+        }
+
+        hyperlinkConnect.onAction = EventHandler {
+            progressGDrive.progress = 1.0
         }
 
         Locale.getAvailableLocales().sortedBy { it.displayLanguage }.forEach {
