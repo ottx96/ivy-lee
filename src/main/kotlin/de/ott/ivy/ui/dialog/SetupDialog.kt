@@ -14,7 +14,6 @@ import tornadofx.*
 import java.util.*
 
 class SetupDialog : View("Setup") {
-
     override val root: BorderPane by fxml("/views/SetupDialog.fxml")
 
     val languages: ComboBox<String> by fxid("languages")
@@ -28,11 +27,14 @@ class SetupDialog : View("Setup") {
     val buttonOK: Button by fxid("btn_ok")
     val buttonCancel: Button by fxid("btn_cancel")
 
+    private var success = false
     companion object {
-        fun showDialog(){
+        fun showDialog(): Boolean{
+            val dialog = SetupDialog()
             Stage().apply {
-                scene = Scene(SetupDialog().root)
+                scene = Scene(dialog.root)
             }.showAndWait()
+            return dialog.success
         }
     }
 
@@ -49,6 +51,13 @@ class SetupDialog : View("Setup") {
             comboBoxTaskID.valueProperty().isBlank()
                     .or(languages.valueProperty().isBlank())
                     .or(progressGDrive.indeterminateProperty())
+        }
+        buttonCancel.onAction = EventHandler {
+            close()
+        }
+        buttonOK.onAction = EventHandler {
+            success = Entrypoint.CONFIG_FOLDER.mkdirs()
+            close()
         }
 
         hyperlinkConnect.onAction = EventHandler {

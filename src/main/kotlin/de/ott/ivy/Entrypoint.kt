@@ -4,6 +4,7 @@ import de.ott.ivy.ui.IvyLee
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.ui.dialog.SetupDialog
+import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.scene.image.Image
 import javafx.stage.Stage
@@ -12,6 +13,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
 import tornadofx.App
 import java.io.File
+import kotlin.system.exitProcess
 
 @ExperimentalSerializationApi
 class Entrypoint: App(IvyLee::class){
@@ -21,8 +23,16 @@ class Entrypoint: App(IvyLee::class){
     }
 
     override fun start(stage: Stage) {
-        stage.icons.add(Image(Entrypoint::class.java.getResourceAsStream("/de/ott/ivy/images/frog-hq.png")))
+        // check, if initial run
+        if(!CONFIG_FOLDER.exists())
+            // run setup!
+            if(!SetupDialog.showDialog()){
+                // Setup was cancelled!
+                Platform.exit()
+                exitProcess(0)
+            }
 
+        stage.icons.add(Image(Entrypoint::class.java.getResourceAsStream("/de/ott/ivy/images/frog-hq.png")))
         stage.onCloseRequest = EventHandler {
             val tasksFile = File("tasks.db")
 
@@ -36,14 +46,6 @@ class Entrypoint: App(IvyLee::class){
             println("uploading tasks to gdrive..")
             IvyLee.gdrive.saveTasks(tasksFile)
         }
-
-        // check, if initial run
-        if(!CONFIG_FOLDER.exists()){
-            // run setup!
-            SetupDialog.showDialog()
-        }
-
-
 
         super.start(stage)
     }
