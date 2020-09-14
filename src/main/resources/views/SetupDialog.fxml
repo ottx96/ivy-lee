@@ -9,7 +9,7 @@
    <center>
       <Accordion BorderPane.alignment="CENTER">
         <panes>
-          <TitledPane text="Language">
+          <TitledPane text="Language" expanded="true">
                <content>
                   <BorderPane fx:id="bp_language" prefHeight="200.0" prefWidth="200.0">
                      <left>
