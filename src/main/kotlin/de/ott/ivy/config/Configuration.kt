@@ -1,21 +1,32 @@
 package de.ott.ivy.config
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import de.ott.ivy.Entrypoint
+import kotlinx.serialization.ExperimentalSerializationApi
 import java.util.*
+import java.util.concurrent.TimeUnit
 
-data class Configuration(val taskId: String, val language: Locale = Locale.ENGLISH, val deleteInterval: Int){
+@ExperimentalSerializationApi
+data class Configuration(val taskId: String, val cleanInterval: Int, val timeUnit: TimeUnit = TimeUnit.DAYS, val language: Locale = Locale.getDefault()) {
 
     companion object{
-        val gson by lazy{
+        private val gson: Gson by lazy{
             GsonBuilder().setPrettyPrinting().create()
         }
 
-        fun fromJson(jsonString: String): Configuration{
+        private fun fromJson(jsonString: String): Configuration {
             return gson.fromJson(jsonString, Configuration::class.java)
+        }
+
+        val instance: Configuration by lazy {
+            val jsonString = Entrypoint.CONFIG_FILE.readText()
+            return@lazy fromJson(jsonString)
         }
     }
 
-    fun toJsonString(): String{
+    fun toJsonString(): String {
         return gson.toJson(this)
     }
+
 }

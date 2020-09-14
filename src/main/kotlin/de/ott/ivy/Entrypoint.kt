@@ -19,12 +19,12 @@ import kotlin.system.exitProcess
 class Entrypoint: App(IvyLee::class){
 
     companion object{
-        val CONFIG_FOLDER = File("config/")
+        val CONFIG_FILE = File("config/config.json")
     }
 
     override fun start(stage: Stage) {
         // check, if initial run
-        if(!CONFIG_FOLDER.exists())
+        if(!CONFIG_FILE.exists())
             // run setup!
             if(!SetupDialog.showDialog()){
                 // Setup was cancelled!

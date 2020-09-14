@@ -21,7 +21,7 @@ import java.security.GeneralSecurityException
 object ConnectionProvider {
     private const val APPLICATION_NAME = "IvyLeeTracker (Desktop)"
     private val JSON_FACTORY: JsonFactory = JacksonFactory.getDefaultInstance()
-    private const val TOKENS_DIRECTORY_PATH = "tokens"
+    private const val TOKENS_DIRECTORY_PATH = "config/tokens"
 
     /**
      * Global instance of the scopes required by this quickstart.

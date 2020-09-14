@@ -3,6 +3,7 @@ package de.ott.ivy.ui.dialog
 import com.google.api.services.drive.Drive
 import com.google.common.util.concurrent.Futures.withTimeout
 import de.ott.ivy.Entrypoint
+import de.ott.ivy.config.Configuration
 import de.ott.ivy.gdrive.ConnectionProvider
 import javafx.beans.property.BooleanProperty
 import javafx.beans.value.ObservableBooleanValue
@@ -60,7 +61,10 @@ class SetupDialog : View("Setup") {
             close()
         }
         buttonOK.onAction = EventHandler {
-            success = Entrypoint.CONFIG_FOLDER.mkdirs()
+            Entrypoint.CONFIG_FILE.outputStream().writer().use {
+                it.write(Configuration("taskId", 90).toJsonString())
+            }
+            success = Entrypoint.CONFIG_FILE.exists()
             close()
         }
 
