@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <Accordion BorderPane.alignment="CENTER">
         <panes>
@@ -56,7 +56,7 @@
                      </center></BorderPane>
                </content>
           </TitledPane>
-            <TitledPane text="Settings">
+            <TitledPane expanded="false" text="Settings">
                <content>
                   <BorderPane prefHeight="150.0" prefWidth="200.0">
                      <top>
