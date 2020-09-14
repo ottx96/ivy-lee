@@ -1,5 +1,6 @@
 package de.ott.ivy.ui
 
+import de.ott.ivy.config.Configuration
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.ui.dialog.TaskDialog
 import de.ott.ivy.data.TaskGridCellContainer
@@ -120,8 +121,11 @@ class IvyLee : View("Ivy-Lee Tracking") {
         // auto-sync tasks to gdrive
         Thread{
             while(true){
+                var ct = 0
                 try {
                     sleep( 1000 * 60 * 15 ) // 15 Minuten
+                    if(++ct % 10 == 0) // 150 Minuten
+                        gdrive.cleanupFilesOlderThan(Configuration.instance.cleanInterval, Configuration.instance.timeUnit)
                     // write file
                     println("syncing tasks to gdrive..")
                     val tasks = File("tasks-auto-sync.db")

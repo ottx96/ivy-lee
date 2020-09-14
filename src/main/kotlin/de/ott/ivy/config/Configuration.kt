@@ -11,7 +11,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 @ExperimentalSerializationApi
-data class Configuration(val taskId: String, val cleanInterval: Int, val timeUnit: TimeUnit = TimeUnit.DAYS, val language: Locale = Locale.getDefault()) {
+data class Configuration(val taskId: String, val cleanInterval: Long, val timeUnit: ChronoUnit = ChronoUnit.DAYS, val language: Locale = Locale.getDefault()) {
 
     companion object{
         private val gson: Gson by lazy{
