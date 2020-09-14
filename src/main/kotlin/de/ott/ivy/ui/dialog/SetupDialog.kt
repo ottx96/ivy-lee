@@ -70,7 +70,6 @@ class SetupDialog : View("Setup") {
                     progressGDrive.progress = 1.0
                 }
             }
-
         }
 
         Locale.getAvailableLocales().sortedBy { it.displayLanguage }.forEach {

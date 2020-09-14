@@ -47,6 +47,9 @@ dependencies {
     compile group: 'com.google.apis', name: 'google-api-services-drive', version: 'v3-rev20200813-1.30.10'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.31.0'
 
+    // GSON Serializer
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.6'
+
     // UnitTests
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0-RC1'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0-RC1'
