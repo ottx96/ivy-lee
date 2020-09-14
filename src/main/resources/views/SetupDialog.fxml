@@ -71,6 +71,25 @@
                            </children>
                         </HBox>
                      </top>
+                     <center>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label prefWidth="99999.0" text="Delete tasks older than (months)">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <Slider blockIncrement="3.0" majorTickUnit="2.0" max="12.0" minorTickCount="1" prefWidth="99999.0" showTickLabels="true" showTickMarks="true" value="3.0" HBox.hgrow="ALWAYS">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                              </Slider>
+                           </children>
+                        </HBox>
+                     </center>
                   </BorderPane>
                </content>
             </TitledPane>
@@ -80,8 +99,8 @@
    <bottom>
       <ButtonBar buttonMinWidth="85.0" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-            <Button cancelButton="true" mnemonicParsing="false" text="Cancel" />
-          <Button defaultButton="true" mnemonicParsing="false" text="OK" />
+            <Button fx:id="btn_cancel" cancelButton="true" mnemonicParsing="false" text="Cancel" />
+          <Button fx:id="btn_ok" defaultButton="true" mnemonicParsing="false" text="OK" />
         </buttons>
          <BorderPane.margin>
             <Insets left="15.0" right="15.0" />
