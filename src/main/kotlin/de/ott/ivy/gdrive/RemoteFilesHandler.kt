@@ -41,6 +41,7 @@ class RemoteFilesHandler(val service: Drive) {
     fun readTasks(fileLocation: File) {
         service.files().list().apply {
             spaces = "appDataFolder"
+            q = "name = '${Configuration.instance.taskId}'"
             orderBy = "modifiedTime desc"
             pageSize = 1
             fields = "files(id, name)"

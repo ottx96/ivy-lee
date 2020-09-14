@@ -82,7 +82,7 @@
                                     <Insets />
                                  </HBox.margin>
                               </Label>
-                              <Slider blockIncrement="3.0" majorTickUnit="2.0" max="12.0" minorTickCount="1" prefWidth="99999.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" HBox.hgrow="ALWAYS">
+                              <Slider fx:id="slider_interval" blockIncrement="3.0" majorTickUnit="2.0" max="12.0" minorTickCount="1" prefWidth="99999.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" HBox.hgrow="ALWAYS">
                                  <HBox.margin>
                                     <Insets left="5.0" />
                                  </HBox.margin>

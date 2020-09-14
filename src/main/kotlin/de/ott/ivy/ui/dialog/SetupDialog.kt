@@ -28,6 +28,7 @@ class SetupDialog : View("Setup") {
     val progressGDrive: ProgressIndicator by fxid("progress_gdrive")
 
     val comboBoxTaskID: ComboBox<String> by fxid("combobox_task_id")
+    val sliderInterval: Slider by fxid("slider_interval")
 
     val buttonOK: Button by fxid("btn_ok")
     val buttonCancel: Button by fxid("btn_cancel")
@@ -62,7 +63,7 @@ class SetupDialog : View("Setup") {
         }
         buttonOK.onAction = EventHandler {
             Entrypoint.CONFIG_FILE.outputStream().writer().use {
-                it.write(Configuration("taskId", 90).toJsonString())
+                it.write(Configuration(comboBoxTaskID.value, sliderInterval.value.toInt(), TimeUnit.DAYS, Locale.forLanguageTag(language.text)).toJsonString())
             }
             success = Entrypoint.CONFIG_FILE.exists()
             close()
