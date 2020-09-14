@@ -11,7 +11,8 @@ import java.time.temporal.ChronoUnit
 
 class RemoteFilesHandler(val service: Drive) {
 
-    fun cleanupFilesOlderThan(time: Long, chronoUnit: ChronoUnit){
+    fun cleanupFilesOlderThan(time: Long, chronoUnit: ChronoUnit) {
+        println("cleaning outdated gdrive files..")
         val olderThan = LocalDateTime.now().minus(time + 1, chronoUnit)
         service.files().list().apply {
             spaces = "appDataFolder"

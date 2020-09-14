@@ -16,6 +16,7 @@ import javafx.scene.image.Image
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 import tornadofx.*
+import java.time.temporal.ChronoUnit
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -86,7 +87,7 @@ class SetupDialog : View("Setup") {
         }
         buttonOK.onAction = EventHandler {
             Entrypoint.CONFIG_FILE.outputStream().writer().use {
-                it.write(Configuration(comboBoxTaskID.value, sliderInterval.value.toInt(), TimeUnit.DAYS, Locale.forLanguageTag(language.text)).toJsonString())
+                it.write(Configuration(comboBoxTaskID.value, sliderInterval.value.toLong(), ChronoUnit.MONTHS, Locale.forLanguageTag(language.text)).toJsonString())
             }
             success = Entrypoint.CONFIG_FILE.exists()
             close()
