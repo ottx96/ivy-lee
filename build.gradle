@@ -48,7 +48,7 @@ dependencies {
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.31.0'
 
     // UnitTests
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0-RC1'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0-RC1'
 }
 
