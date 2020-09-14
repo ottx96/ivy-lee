@@ -10,10 +10,12 @@ import javafx.beans.property.BooleanProperty
 import javafx.beans.value.ObservableBooleanValue
 import javafx.beans.value.ObservableValueBase
 import javafx.event.EventHandler
+import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.layout.BorderPane
+import javafx.scene.text.Font
 import javafx.stage.Stage
 import tornadofx.*
 import java.time.temporal.ChronoUnit
@@ -49,6 +51,9 @@ class SetupDialog : View("Setup") {
     init {
         title = "Ivy-Lee Task Tracker - Setup"
         icon = imageview(Image(Entrypoint::class.java.getResourceAsStream("/de/ott/ivy/images/frog-hq.png")))
+
+        comboBoxTaskID.editor.alignment = Pos.CENTER
+        comboBoxTaskID.editor.font = Font.font("System", 14.0)
 
         Locale.getAvailableLocales().sortedBy { it.displayLanguage }.forEach {
             if(!languages.items.contains(it.displayLanguage))

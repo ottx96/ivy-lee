@@ -9,7 +9,7 @@
    <center>
       <Accordion BorderPane.alignment="CENTER">
         <panes>
-          <TitledPane text="Language" expanded="true">
+          <TitledPane expanded="true" text="Language">
                <content>
                   <BorderPane fx:id="bp_language" prefHeight="200.0" prefWidth="200.0">
                      <left>
@@ -67,7 +67,7 @@
                                     <Font size="14.0" />
                                  </font>
                               </Label>
-                              <ComboBox fx:id="combobox_task_id" editable="true" prefWidth="99999.0" promptText="Task ID" />
+                              <ComboBox fx:id="combobox_task_id" editable="true" prefWidth="99999.0" promptText="Task ID" visibleRowCount="5" />
                            </children>
                         </HBox>
                      </top>
