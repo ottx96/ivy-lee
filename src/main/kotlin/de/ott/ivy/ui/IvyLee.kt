@@ -1,17 +1,15 @@
 package de.ott.ivy.ui
 
-import de.ott.ivy.Entrypoint
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.ui.dialog.TaskDialog
 import de.ott.ivy.data.TaskGridCellContainer
 import de.ott.ivy.data.enum.TaskStatus
-import de.ott.ivy.gdrive.ApplicationDataHandler
+import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.gdrive.ConnectionProvider
 import de.ott.ivy.html.MarkdownParser
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.ProgressIndicator
-import javafx.scene.control.TextArea
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
@@ -53,7 +51,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         const val MAIN_THREAD_NAME = "UI_THREAD"
 
         val tasks = mapOf<TaskGridCellContainer, IvyLeeTask>().toSortedMap()
-        val gdrive = ApplicationDataHandler(ConnectionProvider.connect())
+        val gdrive = RemoteFilesHandler(ConnectionProvider.connect())
 
         fun Map<TaskGridCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
         fun Map<TaskGridCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
