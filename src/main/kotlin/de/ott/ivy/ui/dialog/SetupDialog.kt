@@ -5,6 +5,7 @@ import com.google.common.util.concurrent.Futures.withTimeout
 import de.ott.ivy.Entrypoint
 import de.ott.ivy.config.Configuration
 import de.ott.ivy.gdrive.ConnectionProvider
+import de.ott.ivy.gdrive.RemoteFilesHandler
 import javafx.beans.property.BooleanProperty
 import javafx.beans.value.ObservableBooleanValue
 import javafx.beans.value.ObservableValueBase
@@ -48,6 +49,13 @@ class SetupDialog : View("Setup") {
         title = "Ivy-Lee Task Tracker - Setup"
         icon = imageview(Image(Entrypoint::class.java.getResourceAsStream("/de/ott/ivy/images/frog-hq.png")))
 
+        Locale.getAvailableLocales().sortedBy { it.displayLanguage }.forEach {
+            if(!languages.items.contains(it.displayLanguage))
+                languages.items.add( it.displayLanguage )
+        }
+        languages.value = Locale.getDefault().displayLanguage
+        language.text = Locale.getDefault().language
+
         buttonOK.enableWhen {
             comboBoxTaskID.valueProperty().isNotBlank()
                     .and(languages.valueProperty().isNotBlank())
@@ -58,6 +66,21 @@ class SetupDialog : View("Setup") {
                     .or(languages.valueProperty().isBlank())
                     .or(progressGDrive.indeterminateProperty())
         }
+
+        hyperlinkConnect.onAction = EventHandler {
+            runAsync { runCatching { ConnectionProvider.connect() }.getOrThrow() }.apply {
+                onSucceeded = EventHandler {
+                    progressGDrive.progress = 1.0
+
+                    // Add task Ids to combo box
+                    comboBoxTaskID.items.addAll( RemoteFilesHandler(ConnectionProvider.connect()).getTaskIds().keys )
+                }
+            }
+        }
+        languages.onAction = EventHandler {
+            language.text =  Locale.getAvailableLocales().firstOrNull {  it.displayLanguage == languages.value  }?.language?:"N/A"
+        }
+
         buttonCancel.onAction = EventHandler {
             close()
         }
@@ -69,24 +92,6 @@ class SetupDialog : View("Setup") {
             close()
         }
 
-        hyperlinkConnect.onAction = EventHandler {
-            runAsync { runCatching { ConnectionProvider.connect() }.getOrThrow() }.apply {
-                onSucceeded = EventHandler {
-                    progressGDrive.progress = 1.0
-                }
-            }
-        }
-
-        Locale.getAvailableLocales().sortedBy { it.displayLanguage }.forEach {
-            if(!languages.items.contains(it.displayLanguage))
-                languages.items.add( it.displayLanguage )
-        }
-        languages.value = Locale.getDefault().displayLanguage
-        language.text = Locale.getDefault().language
-
-        languages.onAction = EventHandler {
-            language.text =  Locale.getAvailableLocales().firstOrNull {  it.displayLanguage == languages.value  }?.language?:"N/A"
-        }
     }
 
 }

@@ -61,7 +61,7 @@ class RemoteFilesHandler(val service: Drive) {
             spaces = "appDataFolder"
             orderBy = "modifiedTime desc"
             pageSize = 1000
-            fields = "files(name)"
+            fields = "files(id, name)"
         }.execute().files.forEach {f ->
             ids[f.name] = f
         }
