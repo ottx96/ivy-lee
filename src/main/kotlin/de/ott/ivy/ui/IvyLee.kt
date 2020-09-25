@@ -1,17 +1,16 @@
 package de.ott.ivy.ui
 
-import de.ott.ivy.Entrypoint
+import de.ott.ivy.config.Configuration
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.ui.dialog.TaskDialog
 import de.ott.ivy.data.TaskGridCellContainer
 import de.ott.ivy.data.enum.TaskStatus
-import de.ott.ivy.gdrive.ApplicationDataHandler
+import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.gdrive.ConnectionProvider
 import de.ott.ivy.html.MarkdownParser
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.ProgressIndicator
-import javafx.scene.control.TextArea
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.GridPane
@@ -53,7 +52,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         const val MAIN_THREAD_NAME = "UI_THREAD"
 
         val tasks = mapOf<TaskGridCellContainer, IvyLeeTask>().toSortedMap()
-        val gdrive = ApplicationDataHandler(ConnectionProvider.connect())
+        val gdrive = RemoteFilesHandler(ConnectionProvider.connect())
 
         fun Map<TaskGridCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
         fun Map<TaskGridCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
@@ -111,7 +110,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 }
             }
             println(desc)
-            // Klasse instanziieren und in Map einordnen
+            // intanciate class and put it in the map
             tasks[TaskGridCellContainer(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
         }
         tasks.forEach(::println)
@@ -122,8 +121,11 @@ class IvyLee : View("Ivy-Lee Tracking") {
         // auto-sync tasks to gdrive
         Thread{
             while(true){
+                var ct = 0
                 try {
                     sleep( 1000 * 60 * 15 ) // 15 Minuten
+                    if(++ct % 10 == 0) // 150 Minuten
+                        gdrive.cleanupFilesOlderThan(Configuration.instance.cleanInterval, Configuration.instance.timeUnit)
                     // write file
                     println("syncing tasks to gdrive..")
                     val tasks = File("tasks-auto-sync.db")
@@ -189,7 +191,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
     }
 
-    fun updateCell(cellContainer: TaskGridCellContainer, task: IvyLeeTask) {
+    private fun updateCell(cellContainer: TaskGridCellContainer, task: IvyLeeTask) {
         println("updating cell with task: $task")
 
         cellContainer.titleLabel.text = task.name
