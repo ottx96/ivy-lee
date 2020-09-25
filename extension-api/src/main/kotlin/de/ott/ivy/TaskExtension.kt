@@ -47,10 +47,10 @@ import de.ott.ivy.data.IvyLeeTask
  *    + searchExtensions(): List<? implements TaskExtension>
  *   }
  *
- *     ExtensionCrawler x--> CustomExtension: searches
- *     ExtensionCrawler x.> TaskExtension: <<use>>
+ *     ExtensionCrawler --> CustomExtension: searches
+ *     ExtensionCrawler .> TaskExtension: <<use>>
  *     TaskDialog ..> ExtensionCrawler: <<use>>
- *     TaskDialog "1" x---> "n" CustomExtension: executes
+ *     TaskDialog "1" ---> "n" CustomExtension: executes
  *     CustomExtension "1" --o "0..1" Extension: contains
  *   }
  * }
