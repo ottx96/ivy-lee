@@ -26,3 +26,6 @@ Visit [**_Markdown Examples (Documentation)_**](documentation/MARKDOWN_EXAMPLES.
 ## Preview
 
 ###### (under construction)
+
+## Diagrams (Unified Modeling Language)
+![UML use case diagram](documentation/files/uml-use-case.svg)
