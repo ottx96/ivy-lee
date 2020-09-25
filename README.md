@@ -23,6 +23,11 @@ Visit the [**_Extension API Documentation_**](documentation/EXTENSION_API.md).
 Want styling (markdown) examples?  
 Visit [**_Markdown Examples (Documentation)_**](documentation/MARKDOWN_EXAMPLES.md).
 
+## Additions
+Want some diagrams ?  
+Visit [_**U**nified **M**odeling **L**anguage (Diagrams)_](documentation/UML.md).
+
 ## Preview
 
 ###### (under construction)
+

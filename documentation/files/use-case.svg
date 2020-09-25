@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="289px" preserveAspectRatio="none" style="width:523px;height:289px;" version="1.1" viewBox="0 0 523 289" width="523px" zoomAndPan="magnify"><defs><filter height="300%" id="f17ljeefbsv031" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e93389f8491581beb98a0d1836636d06]
+cluster uc main application--><rect fill="#FFFFFF" filter="url(#f17ljeefbsv031)" height="254" style="stroke: #000000; stroke-width: 1.5;" width="490" x="22" y="24"/><path d="M167,25 L167,34.6094 L157,44.6094 L22,44.6094 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="135" x="25" y="39.5332">uc main application</text><!--MD5=[3ff016c1aa5003d713567a073e2181a6]
+cluster application--><rect fill="#FFFFFF" filter="url(#f17ljeefbsv031)" height="168" style="stroke: #000000; stroke-width: 1.5;" width="364" x="124" y="85"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="77" x="267.5" y="101.5332">application</text><!--MD5=[8fc3522a43f8c7199df5e09e5bb0188e]
+entity user--><ellipse cx="57.5" cy="70" fill="#FEFECE" filter="url(#f17ljeefbsv031)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M57.5,78 L57.5,105 M44.5,86 L70.5,86 M57.5,105 L44.5,120 M57.5,105 L70.5,120 " fill="none" filter="url(#f17ljeefbsv031)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="28" x="43.5" y="140.0332">user</text><!--MD5=[d0f5cd282d0be848de72a9d5f8e0a6eb]
+entity gdrive--><ellipse cx="57.5" cy="188" fill="#FEFECE" filter="url(#f17ljeefbsv031)" rx="8" ry="8" style="stroke: #A80036; stroke-width: 1.5;"/><path d="M57.5,196 L57.5,223 M44.5,204 L70.5,204 M57.5,223 L44.5,238 M57.5,223 L70.5,238 " fill="none" filter="url(#f17ljeefbsv031)" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="39" x="38" y="258.0332">gdrive</text><ellipse cx="419.4767" cy="220.9517" fill="#FEFECE" filter="url(#f17ljeefbsv031)" rx="40.4767" ry="15.4517" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="53" x="392.9767" y="226.2564">edit task</text><ellipse cx="419.4975" cy="136.9517" fill="#FEFECE" filter="url(#f17ljeefbsv031)" rx="52.4975" ry="15.4517" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="70" x="384.4975" y="142.2564">create task</text><ellipse cx="196.033" cy="219.9517" fill="#FEFECE" filter="url(#f17ljeefbsv031)" rx="56.033" ry="15.4517" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="75" x="158.533" y="225.2564">synchronize</text><ellipse cx="196.2487" cy="153.9517" fill="#FEFECE" filter="url(#f17ljeefbsv031)" rx="27.7487" ry="15.4517" style="stroke: #A80036; stroke-width: 1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="35" x="178.7487" y="159.2564">setup</text><!--MD5=[5a25c34911c4c9e7d15940eee1acb8e7]
+link edit task to create task--><path d="M419.5,205.2002 C419.5,191.825 419.5,172.547 419.5,157.897 " fill="none" id="edit task-&gt;create task" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="419.5,152.729,415.5,161.729,419.5,157.729,423.5,161.729,419.5,152.729" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="55" x="380" y="184.4951">«include»</text><!--MD5=[a60b5f66e88f3ae231739b2d7449e161]
+link gdrive to synchronize--><path d="M77.1935,220 C92.0693,220 113.76,220 134.486,220 " fill="none" id="gdrive-&gt;synchronize" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="139.73,220,130.73,216,134.73,220,130.73,224,139.73,220" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[38bb05893a4e4991bee60dcdaaf11086]
+link synchronize to create task--><path d="M230.161,207.5741 C270.717,192.377 339.17,166.726 381.429,150.891 " fill="none" id="synchronize-&gt;create task" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="386.195,149.105,376.3637,148.5165,381.5128,150.8591,379.1702,156.0081,386.195,149.105" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="53" x="283" y="164.4951">«extend»</text><!--MD5=[d57cf49f6f6bfb1209bb4412555b29f8]
+link synchronize to edit task--><path d="M252.037,220.2485 C289.528,220.4177 338.536,220.639 373.652,220.7975 " fill="none" id="synchronize-&gt;edit task" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="378.729,220.8204,369.7474,216.7793,373.7291,220.7975,369.7108,224.7792,378.729,220.8204" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="53" x="283" y="216.4951">«extend»</text><!--MD5=[a2e4ddd1be44ba0ec8f8addbd0234902]
+link user to setup--><path d="M72.115,111.303 C83.4264,118.659 100.1713,128.705 116,135 C133.302,141.881 153.765,146.718 169.529,149.788 " fill="none" id="user-setup" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[faf008db40b0ea922037f59d96e67763]
+link gdrive to setup--><path d="M77.0822,208.5439 C88.1884,201.8978 102.6849,193.57 116,187 C134.661,177.792 156.539,168.786 172.533,162.515 " fill="none" id="gdrive-setup" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[290f981eb32595db74ba738dafc45fed]
+link user to create task--><path d="M72.1173,98.945 C113.013,90.322 238.038,67.992 337,93 C357.662,98.221 378.775,109.83 394.334,119.813 " fill="none" id="user-&gt;create task" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="398.57,122.579,393.2215,114.309,394.3836,119.8452,388.8474,121.0073,398.57,122.579" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[a78d867a28de53ab991f5b1a689d000b]
+link user to edit task--><path d="M72.0266,100.714 C114.25,97.341 246.208,91.689 337,142 C340.768,144.088 377.422,180.19 400.272,202.8601 " fill="none" id="user-&gt;edit task" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="404.09,206.6504,400.5212,197.4709,400.5417,203.1277,394.8849,203.1481,404.09,206.6504" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[45b4e82d6dfa86c7e95dbe0240748388]
+@startuml
+frame "uc main application" {
+left to right direction
+actor user
+actor gdrive
+ rectangle application {
+     (edit task) .> (create task): <<include>>
+     gdrive - -> (synchronize)
+     (synchronize) ..> (create task): <<extend>>
+     (synchronize) ..> (edit task): <<extend>>
+     user - - (setup)
+     gdrive - - (setup)
+     user - -> (create task)
+     user - -> (edit task)
+ }
+}
+@enduml
+
+PlantUML version 1.2020.09(Sun May 10 12:51:06 CEST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.8+10-b944.31
+Operating System: Windows 10
+Default Encoding: Cp1252
+Language: de
+Country: DE
+--></g></svg>

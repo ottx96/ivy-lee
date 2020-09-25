@@ -14,7 +14,7 @@ Here you go!
 ###### (under construction)
 
 #### Class Hierarchy (UML class diagram)   
-![Extension API UML class diagram](files/TaskExtension.svg)
+![Extension API UML class diagram](files/uml-class-diagram.svg)
 
 #### class Extension (annotation)
 

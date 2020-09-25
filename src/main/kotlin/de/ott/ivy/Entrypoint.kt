@@ -15,6 +15,31 @@ import tornadofx.App
 import java.io.File
 import kotlin.system.exitProcess
 
+/**
+ * **Entry point of the application.**
+ * Uploads tasks on closing.
+ *
+ * Runs [IvyLee].
+ * @see [IvyLee]
+ *
+ * @startuml
+ * frame "uc main application" {
+ * left to right direction
+ * actor user
+ * actor gdrive
+ *  rectangle application {
+ *      (edit task) .> (create task): <<include>>
+ *      gdrive --> (synchronize)
+ *      (synchronize) ..> (create task): <<extend>>
+ *      (synchronize) ..> (edit task): <<extend>>
+ *      user -- (setup)
+ *      gdrive -- (setup)
+ *      user --> (create task)
+ *      user --> (edit task)
+ *  }
+ * }
+ * @enduml
+ */
 @ExperimentalSerializationApi
 class Entrypoint: App(IvyLee::class){
 
