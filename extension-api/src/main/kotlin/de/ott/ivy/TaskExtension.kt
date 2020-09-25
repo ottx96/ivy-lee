@@ -20,11 +20,10 @@ import de.ott.ivy.data.IvyLeeTask
  *     - tasks: List<IvyLeeTask>
  *     --
  *     # execute(extensionId: String): void
- *
  *    }
  *   }
  *
- *   package "IvyLee: ExtensionAPI" <<Node>> {
+ *   package "IvyLee: ExtensionAPI" <<Package>> {
  *   annotation Extension
  *   Extension : ~ displayName: String
  *   Extension : --
