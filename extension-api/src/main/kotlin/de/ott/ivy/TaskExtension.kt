@@ -14,47 +14,47 @@ import de.ott.ivy.data.IvyLeeTask
  * @see de.ott.ivy.annotation.Extension
  *
  * @startuml
+ * package "class ExtensionAPI (class diagram)" <<frame>>{
+ *   package "IvyLee: Main" <<Cloud>> {
+ *    class TaskDialog {
+ *     - tasks: List<IvyLeeTask>
+ *     --
+ *     # execute(extensionId: String): void
  *
- * package "IvyLee: Main" <<Cloud>> {
- *  class TaskDialog {
- *   - tasks: List<IvyLeeTask>
+ *    }
+ *   }
+ *
+ *   package "IvyLee: ExtensionAPI" <<Node>> {
+ *   annotation Extension
+ *   Extension : ~ displayName: String
+ *   Extension : --
+ *
+ *   class CustomExtension implements TaskExtension {
+ *   custom fields
  *   --
- *   # execute(extensionId: String): void
+ *   custom methods
+ *   ==
+ *    + execute(IvyLeeTask): void
+ *   }
  *
- *  }
+ *   interface TaskExtension {
+ *    --
+ *    + {abstract} execute(IvyLeeTask): void
+ *   }
+ *
+ *
+ *   class ExtensionCrawler {
+ *    --
+ *    + searchExtensions(): List<? implements TaskExtension>
+ *   }
+ *
+ *     ExtensionCrawler x--> CustomExtension: searches
+ *     ExtensionCrawler x.> TaskExtension: <<use>>
+ *     TaskDialog ..> ExtensionCrawler: <<use>>
+ *     TaskDialog "1" x---> "n" CustomExtension: executes
+ *     CustomExtension "1" --o "0..1" Extension: contains
+ *   }
  * }
- *
- * package "IvyLee: ExtensionAPI" <<Node>> {
- * annotation Extension
- * Extension : ~ displayName: String
- * Extension : --
- *
- * class CustomExtension implements TaskExtension {
- * custom fields
- * --
- * custom methods
- * ==
- *  + execute(IvyLeeTask): void
- * }
- *
- * interface TaskExtension {
- *  --
- *  + {abstract} execute(IvyLeeTask): void
- * }
- *
- *
- * class ExtensionCrawler {
- *  --
- *  + searchExtensions(): List<? implements TaskExtension>
- * }
- *
- *   ExtensionCrawler x--> CustomExtension: searches
- *   ExtensionCrawler x.> TaskExtension: <<use>>
- *   TaskDialog ..> ExtensionCrawler: <<use>>
- *   TaskDialog "1" x---> "n" CustomExtension: executes
- *   CustomExtension "1" ..o "0..1" Extension: contains
- * }
- *
  * @enduml
  */
 interface TaskExtension {
