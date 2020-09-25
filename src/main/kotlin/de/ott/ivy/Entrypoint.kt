@@ -23,10 +23,10 @@ import kotlin.system.exitProcess
  * @see [IvyLee]
  *
  * @startuml
- * frame "uc task tracker" {
+ * frame "uc main application" {
  * left to right direction
- * actor gdrive
  * actor user
+ * actor gdrive
  *  rectangle application {
  *      (edit task) .> (create task): <<include>>
  *      gdrive --> (synchronize)
