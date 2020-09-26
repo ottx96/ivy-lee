@@ -6,7 +6,7 @@ import javafx.stage.Stage
 import tornadofx.View
 
 class IssueDialog: View("GitHub Issues"){
-    override val root: BorderPane by fxml("/de/ott/ivy/ext/github/views/github-issues.fxml")
+    override val root: BorderPane by fxml("/de/ott/ivy/ext/github/views/IssueDialog.fxml")
 
     companion object {
         fun showDialog(): Boolean{
