@@ -5,3 +5,6 @@ project(':extension-api').projectDir = new File("extension-api/")
 
 include ':example-extension'
 project(':example-extension').projectDir = new File("example-extension/")
+
+include ':github-extension'
+project(':github-extension').projectDir = new File("github-extension/")
