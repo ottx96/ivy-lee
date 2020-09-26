@@ -40,7 +40,7 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
                  <Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" text="Cancel" />
-                 <Button fx:id="ok" defaultButton="true" disable="true" mnemonicParsing="false" text="OK">
+                 <Button fx:id="ok" defaultButton="true" mnemonicParsing="false" text="Connect">
                      <graphic>
                         <ImageView fx:id="imageview" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic></Button>

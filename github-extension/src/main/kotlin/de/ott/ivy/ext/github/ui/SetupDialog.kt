@@ -1,6 +1,9 @@
 package de.ott.ivy.ext.github.ui
 
+import com.google.gson.GsonBuilder
+import de.ott.ivy.ext.github.GithubExtension
 import de.ott.ivy.ext.github.config.Credentials
+import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.control.DialogPane
@@ -9,8 +12,10 @@ import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
+import org.kohsuke.github.GitHub
 import tornadofx.View
-import tornadofx.enableWhen
+import java.awt.Desktop
+import java.net.URI
 
 class SetupDialog: View("") {
     override val root: DialogPane by fxml("/de/ott/ivy/ext/github/views/SetupDialog.fxml")
@@ -34,9 +39,42 @@ class SetupDialog: View("") {
         }
     }
 
+    var g: GitHub? = null
     init {
+
         imageView.image = Image("/de/ott/ivy/ext/github/views/images/Red_x_100x100.png")
-        println(imageView.image)
+        create.onAction = EventHandler {
+            Desktop.getDesktop().browse(URI.create("https://github.com/settings/tokens/new"))
+        }
+
+        buttonOk.onAction = EventHandler {
+            if(g?.isCredentialValid == true){
+                // write json file
+                GithubExtension.CREDENTIALS_FILE.outputStream().writer(charset("UTF-8")).use {
+                    it.write(GsonBuilder().setPrettyPrinting().create().toJson(Credentials(username.text, token.text)))
+                }
+                close()
+            }
+
+            if(!(g?.isCredentialValid?:false)){
+                buttonOk.isDisable = true
+                g = GitHub.connect(username.text, token.text)
+                buttonOk.isDisable = false
+                if(g?.isCredentialValid == true){
+                    buttonOk.text = "OK"
+                    imageView.image = Image("/de/ott/ivy/ext/github/views/images/Light_green_check_100x100.png")
+                    username.isDisable = true
+                    token.isDisable = true
+                }else{
+                    imageView.image = Image("/de/ott/ivy/ext/github/views/images/Red_x_100x100.png")
+                }
+            }
+        }
+
+        buttonCancel.onAction = EventHandler {
+            close()
+        }
+
     }
 
 }
