@@ -18,14 +18,9 @@ class GithubExtension : TaskExtension {
     val issueToTask: MutableMap<String, IvyLeeTask> by lazy{
         TODO()
     }
-    val credentials: Credentials by lazy {
-        Credentials.fromJson(CREDENTIALS_FILE) ?: SetupDialog.showDialog()
-    }
+    val credentials = Credentials.fromJson(CREDENTIALS_FILE) ?: SetupDialog.showDialog()
 
     override fun execute(task: IvyLeeTask) {
-
-        credentials.user
         IssueDialog.showDialog()
-
     }
 }

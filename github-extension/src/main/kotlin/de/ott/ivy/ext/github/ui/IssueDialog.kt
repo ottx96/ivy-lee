@@ -18,4 +18,8 @@ class IssueDialog: View("GitHub Issues"){
         }
     }
 
+    init {
+
+    }
+
 }

@@ -1,22 +1,28 @@
 package de.ott.ivy.ext.github.config
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize
+import com.google.gson.GsonBuilder
+import com.google.gson.annotations.SerializedName
 import java.io.File
+import java.nio.charset.Charset
 
-@JsonSerialize
 data class Credentials(val user: String, val oAuthToken: String){
     companion object{
         fun fromJson(json: String): Credentials {
-            TODO("unmarshal")
+            return GsonBuilder().setPrettyPrinting().create().fromJson(json, Credentials::class.java)
         }
         fun fromJson(json: File): Credentials? {
-            return null
+            if(!json.exists()) return null
+            return GsonBuilder().setPrettyPrinting().create().fromJson(json.inputStream().reader(charset = Charset.forName("UTF-8")), Credentials::class.java)
         }
-        fun toJson(json: String): Credentials {
-            TODO("marshal")
+    }
+
+    fun toJson(): String =
+        GsonBuilder().setPrettyPrinting().create().toJson(this)
+
+    fun toJson(json: File): File {
+        json.outputStream().writer(charset("UTF-8")).use {
+            it.write(GsonBuilder().setPrettyPrinting().create().toJson(this))
         }
-        fun toJson(json: File): Credentials? {
-            TODO("marshal")
-        }
+        return json
     }
 }

@@ -50,9 +50,7 @@ class SetupDialog: View("") {
         buttonOk.onAction = EventHandler {
             if(g?.isCredentialValid == true){
                 // write json file
-                GithubExtension.CREDENTIALS_FILE.outputStream().writer(charset("UTF-8")).use {
-                    it.write(GsonBuilder().setPrettyPrinting().create().toJson(Credentials(username.text, token.text)))
-                }
+                Credentials(username.text, token.text).toJson(GithubExtension.CREDENTIALS_FILE)
                 close()
             }
 
