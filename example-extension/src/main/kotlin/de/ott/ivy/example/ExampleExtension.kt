@@ -4,7 +4,7 @@ import de.ott.ivy.TaskExtension
 import de.ott.ivy.annotation.Extension
 import de.ott.ivy.data.IvyLeeTask
 
-@Extension("Example Extension, hello from Annotation!")
+@Extension("My Example Extension")
 class ExampleExtension: TaskExtension {
 
     override fun execute(task: IvyLeeTask) {
