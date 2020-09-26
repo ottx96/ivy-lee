@@ -1,5 +1,7 @@
 package de.ott.ivy.ext.github.ui
 
+import de.ott.ivy.data.IvyLeeTask
+import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.ext.github.GithubExtension
 import de.ott.ivy.ext.github.config.Credentials
 import de.ott.ivy.ext.github.data.GitHubIssue
@@ -18,13 +20,12 @@ import javafx.scene.text.FontWeight
 import javafx.scene.web.WebView
 import javafx.stage.Stage
 import javafx.stage.StageStyle
+import org.kohsuke.github.GHIssueState
 import org.kohsuke.github.GitHub
 import org.kohsuke.github.MarkdownMode
-import tornadofx.View
-import tornadofx.importStylesheet
-import tornadofx.label
-import tornadofx.selectedItem
+import tornadofx.*
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.math.E
 
 
 class IssueDialog: View("GitHub Issues") {
@@ -41,6 +42,8 @@ class IssueDialog: View("GitHub Issues") {
     val buttonOK: Button by fxid("ok")
     val buttonCancel: Button by fxid("cancel")
 
+    var task: IvyLeeTask? = null
+
     companion object {
         val github by lazy {
             with(Credentials.fromJson(GithubExtension.CREDENTIALS_FILE)!!) {
@@ -48,12 +51,13 @@ class IssueDialog: View("GitHub Issues") {
             }
         }
 
-        fun showDialog(): Boolean {
+        fun showDialog(task: IvyLeeTask): IvyLeeTask {
             val dialog = IssueDialog()
+            dialog.task = task
             Stage().apply {
                 scene = Scene(dialog.root)
             }.showAndWait()
-            return true
+            return dialog.task!!
         }
     }
 
@@ -61,6 +65,23 @@ class IssueDialog: View("GitHub Issues") {
     init {
         table.style = "-fx-font-size: 1.4em;"
         queryField.promptText = queryField.promptText.replace("<username>", github.myself.login)
+
+        initTableTreeView()
+        Thread(TableBuilderRunner(table, queryField.promptText)).start()
+
+        buttonOK.onAction = EventHandler {
+            val t = task?:return@EventHandler
+            val i = table.selectedItem?.data?:return@EventHandler
+            t.name = i.title
+            t.descr = i.body
+            t.status = when(i.state){
+                GHIssueState.OPEN -> TaskStatus.UNDONE
+                GHIssueState.CLOSED -> TaskStatus.DONE
+                else -> TaskStatus.EMPTY
+            }
+            close()
+        }
+        buttonCancel.onAction = EventHandler { close() }
 
         queryField.onAction = EventHandler {
             github.refreshCache()

@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 class TableBuilderRunner(val table: TreeTableView<GitHubIssue>, val query: String): Runnable {
 
     companion object{
-        val running = AtomicBoolean(true)
+        val running = AtomicBoolean(false)
     }
 
     override fun run() {
