@@ -3,20 +3,28 @@ package de.ott.ivy.ext.github.ui
 import de.ott.ivy.ext.github.GithubExtension
 import de.ott.ivy.ext.github.config.Credentials
 import de.ott.ivy.ext.github.data.GitHubIssue
+import de.ott.ivy.ext.github.html.MarkdownParser
+import de.ott.ivy.ext.github.threading.TableBuilderRunner
 import javafx.event.EventHandler
+import javafx.geometry.Insets
 import javafx.scene.Scene
-import javafx.scene.control.TextField
-import javafx.scene.control.TreeItem
-import javafx.scene.control.TreeTableColumn
-import javafx.scene.control.TreeTableView
+import javafx.scene.control.*
 import javafx.scene.control.cell.TreeItemPropertyValueFactory
-import javafx.scene.layout.BorderPane
+import javafx.scene.layout.*
+import javafx.scene.paint.Color
+import javafx.scene.shape.Rectangle
+import javafx.scene.text.Font
+import javafx.scene.text.FontWeight
+import javafx.scene.web.WebView
 import javafx.stage.Stage
 import javafx.stage.StageStyle
 import org.kohsuke.github.GitHub
+import org.kohsuke.github.MarkdownMode
 import tornadofx.View
 import tornadofx.importStylesheet
+import tornadofx.label
 import tornadofx.selectedItem
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 class IssueDialog: View("GitHub Issues") {
@@ -25,13 +33,21 @@ class IssueDialog: View("GitHub Issues") {
     val queryField: TextField by fxid("query")
     val table: TreeTableView<GitHubIssue> by fxid("tableview")
 
-    val github by lazy {
-        with(Credentials.fromJson(GithubExtension.CREDENTIALS_FILE)!!) {
-            return@lazy GitHub.connect(user, oAuthToken)
-        }
-    }
+    val labels: FlowPane by fxid("labels")
+
+    val markdown: TextArea by fxid("markdown")
+    val web: WebView by fxid("web")
+
+    val buttonOK: Button by fxid("ok")
+    val buttonCancel: Button by fxid("cancel")
 
     companion object {
+        val github by lazy {
+            with(Credentials.fromJson(GithubExtension.CREDENTIALS_FILE)!!) {
+                return@lazy GitHub.connect(user, oAuthToken)
+            }
+        }
+
         fun showDialog(): Boolean {
             val dialog = IssueDialog()
             Stage().apply {
@@ -41,34 +57,40 @@ class IssueDialog: View("GitHub Issues") {
         }
     }
 
+    val running = AtomicBoolean(false)
     init {
         table.style = "-fx-font-size: 1.4em;"
         queryField.promptText = queryField.promptText.replace("<username>", github.myself.login)
-        initTableTreeView()
 
         queryField.onAction = EventHandler {
-            table.root.children.clear()
+            github.refreshCache()
+            initTableTreeView()
             if (queryField.text.isNullOrBlank())
                 queryField.text = queryField.promptText
 
             // All Repositories from all Teams
-            Thread{
-                github.searchRepositories().q("user:${github.myself.login}").list().forEach { repo ->
-                    val header = TreeItem(GitHubIssue(null, "", "", "${repo.fullName}"))
-                    header.isExpanded = true
-                    table.root.children.add(header)
+            Thread(TableBuilderRunner(table, queryField.text)).start()
+        }
 
-                    github.searchIssues().q("${queryField.text} repo:${repo.fullName}").list().forEach { issue ->
-                        header.children.add(TreeItem(GitHubIssue(issue)))
-                    }
-
-                    if(header.children.isEmpty()) table.root.children.remove(header)
-                }
-            }.start()
+        table.onMouseClicked = EventHandler {
+            val issue = table.selectedItem?.data?:return@EventHandler
+            markdown.text = issue.body
+            labels.children.clear()
+            issue.labels.forEach { lbl ->
+                labels.add(label(" [${lbl.name}],"){
+                    clip = Rectangle(1024.0,768.0)
+                    font = Font.font("System", 22.0)
+                    background = Background(BackgroundFill(Color.valueOf("#${lbl.color}"), CornerRadii.EMPTY, Insets.EMPTY))
+                })
+            }
+            // refresh web view
+            web.engine.loadContent(MarkdownParser.convertHtml(issue.body), "text/html")
         }
     }
 
     private fun initTableTreeView() {
+        table.columns.clear()
+
         val columnRepository = TreeTableColumn<GitHubIssue, String>("Repository")
         val columnTitle = TreeTableColumn<GitHubIssue, String>("Title")
         val columnAuthor = TreeTableColumn<GitHubIssue, String>("Author")

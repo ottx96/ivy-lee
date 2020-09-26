@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <TextField fx:id="query" alignment="CENTER" promptText="assignee:&lt;username&gt; is:issue is:open" BorderPane.alignment="CENTER">
          <font>
@@ -12,10 +14,38 @@
          </font></TextField>
    </top>
    <center>
-      <TreeTableView fx:id="tableview" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
-         <columnResizePolicy>
-            <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TreeTableView>
+      <SplitPane dividerPositions="0.677257525083612" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <TreeTableView fx:id="tableview" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columnResizePolicy>
+                        <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TreeTableView>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <FlowPane fx:id="labels" alignment="CENTER" prefHeight="60.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <WebView fx:id="web" prefHeight="275.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+                  <TextArea fx:id="markdown" disable="true" editable="false" prefHeight="220.0" prefWidth="200.0" wrapText="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="335.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextArea>
+                  <ButtonBar prefHeight="60.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <buttons>
+                        <Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" text="Cancel" />
+                      <Button fx:id="ok" defaultButton="true" mnemonicParsing="false" text="OK" />
+                    </buttons>
+                     <padding>
+                        <Insets right="15.0" />
+                     </padding>
+                  </ButtonBar>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
    </center>
 </BorderPane>
