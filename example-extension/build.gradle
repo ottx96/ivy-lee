@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
+    id 'org.openjfx.javafxplugin'
 }
 
 sourceCompatibility = 1.8
@@ -10,11 +11,22 @@ repositories {
     jcenter()
 }
 
+javafx {
+    version = "11"
+    modules = ['javafx.controls', 'javafx.base', 'javafx.fxml', 'javafx.graphics', 'javafx.web']
+}
+
+
 dependencies {
     // Submodule extension api
     api project(':extension-api')
+
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    // TornadoFX (JavaFX DSL)
+    implementation 'no.tornado:tornadofx:1.7.20'
+
     // UnitTests
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0'
