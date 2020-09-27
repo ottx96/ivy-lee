@@ -26,15 +26,15 @@ import kotlin.system.exitProcess
  * @startuml
  * frame "uc main application" {
  * left to right direction
- * actor user
  * actor gdrive
+ * actor user
  *  rectangle application {
+ *      gdrive -- (setup)
  *      (edit task) .> (create task): <<include>>
  *      gdrive --> (synchronize)
  *      (synchronize) ..> (create task): <<extend>>
  *      (synchronize) ..> (edit task): <<extend>>
  *      user -- (setup)
- *      gdrive -- (setup)
  *      user --> (create task)
  *      user --> (edit task)
  *  }
