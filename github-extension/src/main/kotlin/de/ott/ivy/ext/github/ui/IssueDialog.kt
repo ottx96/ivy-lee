@@ -72,8 +72,9 @@ class IssueDialog: View("GitHub Issues") {
         buttonOK.onAction = EventHandler {
             val t = task?:return@EventHandler
             val i = table.selectedItem?.data?:return@EventHandler
-            t.name = i.title
-            t.descr = i.body
+            t.name = "[GHIssue][#${i.number}] ${i.title}"
+            val labels = i.labels.joinToString { "<span style=\"color:${it.color}\">[**${it.name}**]</span>" }
+            t.descr = "$labels  \n${i.body}"
             t.status = when(i.state){
                 GHIssueState.OPEN -> TaskStatus.UNDONE
                 GHIssueState.CLOSED -> TaskStatus.DONE

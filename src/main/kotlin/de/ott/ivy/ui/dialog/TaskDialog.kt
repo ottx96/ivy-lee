@@ -72,15 +72,7 @@ class TaskDialog : View("Task Dialog"){
 
         lbl_time.textProperty().bind(time.valueProperty().asString("%.0f m"))
 
-        with(currTask!!){
-            taskName.text = name
-            updateHeader()
-            taskDesc.text = descr
-            updateWebView()
-            time.value = estTimeSeconds.toDouble() / 60.0
-            tb_frog.isSelected = frog
-            progress.progress = if(estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
-        }
+        initUIFromTask(currTask!!)
 
         File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt")!!.file).useLines { lines ->
             lines.filter(String::isNotBlank).forEach {
@@ -105,11 +97,25 @@ class TaskDialog : View("Task Dialog"){
             println("starting extension")
             val cl = extensionClassList[extensionsButton.text]!!
             val inst = cl.declaredConstructors[0].newInstance() as TaskExtension
-            inst.execute(updateTask(IvyLeeTask()))
+            val newTask = currTask!!.copy()  // create copy of the task
+            inst.execute(newTask)  // execute the extension
+            initUIFromTask(newTask)  // refresh UI with new task
         }
     }
 
-    private fun updateTask(task: IvyLeeTask): IvyLeeTask{
+    private fun initUIFromTask(task: IvyLeeTask) {
+        with(task) {
+            taskName.text = name
+            updateHeader()
+            taskDesc.text = descr
+            updateWebView()
+            time.value = estTimeSeconds.toDouble() / 60.0
+            tb_frog.isSelected = frog
+            progress.progress = if (estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
+        }
+    }
+
+    private fun updateTask(task: IvyLeeTask): IvyLeeTask {
         return task.apply {
             name = taskName.text
             descr = taskDesc.text
