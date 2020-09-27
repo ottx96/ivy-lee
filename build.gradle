@@ -26,7 +26,7 @@ repositories {
 dependencies {
     // Submodule extension api
     api project(':extension-api')
-    implementation project(':example-extension')
+    implementation project(':github-extension')
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
