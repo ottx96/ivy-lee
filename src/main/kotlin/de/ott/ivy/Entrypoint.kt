@@ -22,6 +22,7 @@ import kotlin.system.exitProcess
  * Runs [IvyLee].
  * @see [IvyLee]
  *
+ * UML: use case diagram
  * @startuml
  * frame "uc main application" {
  * left to right direction
@@ -38,6 +39,42 @@ import kotlin.system.exitProcess
  *      user --> (edit task)
  *  }
  * }
+ * @enduml
+ *
+ * UML: activity diagram
+ * @startuml
+ * |User|
+ * start
+ * :right click task cell;
+ * |Application|
+ * if (task present?) then (true)
+ *   :load task instance (task data);
+ * else (no)
+ *   :initialize empty task instance;
+ * endif
+ * :initialize task dialog;
+ * :load task data to GUI;
+ * |User|
+ * :input (modify) task data;
+ * if(click button) then (cancel)
+ *   |User|
+ *   end
+ * else (ok)
+ *   |Application|
+ *   :save task instance;
+ *   fork
+ *     |Application|
+ *     :close dialog;
+ *     :refresh GUI;
+ *   fork again
+ *     |Google Drive|
+ *     :synchronize tasks to cloud;
+ *     detach
+ *   |Application|
+ *   endfork
+ *   stop
+ * endif
+ * |Google Drive|
  * @enduml
  */
 @ExperimentalSerializationApi
