@@ -12,6 +12,11 @@
          <children>
             <VBox fx:id="tasklist" maxHeight="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
+                  <ToolBar fx:id="tool_bar" prefHeight="40.0" prefWidth="200.0">
+                    <items>
+                      <Button mnemonicParsing="false" text="Create Task" />
+                    </items>
+                  </ToolBar>
                   <BorderPane onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #000000;" GridPane.columnIndex="1" VBox.vgrow="SOMETIMES">
                      <top>
                         <Label fx:id="task_title_top_right" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">

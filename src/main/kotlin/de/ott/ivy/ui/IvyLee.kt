@@ -10,10 +10,7 @@ import de.ott.ivy.html.MarkdownParser
 import de.ott.ivy.ui.dialog.TaskDialog
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
-import javafx.scene.control.Label
-import javafx.scene.control.ProgressBar
-import javafx.scene.control.ProgressIndicator
-import javafx.scene.control.ScrollPane
+import javafx.scene.control.*
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
@@ -55,7 +52,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
     }
 
     val taskList: VBox by fxid("tasklist")
-    val anchorPane: AnchorPane by fxid("anchor_pane")
+    val toolBar: ToolBar by fxid("tool_bar")
 
     init {
         root.isFitToHeight = true
@@ -79,8 +76,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             println("No data stored..")
         }
 
-        taskList.children.clear()
-//        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask())
+        taskList.children.removeAll { it is BorderPane }
         oldTasks!!.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }.forEach { task ->
             println("Create borderPane for task: $task")
             // create contaienr
@@ -89,7 +85,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             }.load<BorderPane>()
 
             bp.minWidthProperty().bind( root.widthProperty().minus( 15 ) )
-            bp.minHeightProperty().bind( root.heightProperty().divide( 4 ))
+            bp.minHeightProperty().bind( root.heightProperty().minus( toolBar.heightProperty() ).divide( 4 ))
 
             bp.onMouseEntered = EventHandler { mark(it) }
             bp.onMouseExited = EventHandler { unmark(it) }
