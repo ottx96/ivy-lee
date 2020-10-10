@@ -59,7 +59,6 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val anchorPane: AnchorPane by fxid("anchor_pane")
     val taskList: VBox by fxid("tasklist")
     val toolBar: ToolBar by fxid("tool_bar")
-
     val addButton: ImageView by fxid("add_image")
 
     init {
@@ -79,6 +78,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         } catch (t: Throwable) {
             println("No data stored..")
         }
+        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask())
 
         val lSize = oldTasks?.size?:1
         anchorPane.prefHeight = min(200 * 4, max(lSize * 200, 200)).toDouble()
@@ -206,10 +206,18 @@ class IvyLee : View("Ivy-Lee Tracking") {
         else {
             // open custom dialog
             (event.target as BorderPane).apply {
-                tasks[tasks.getCellByBorderPane(this)] = TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
-                updateCell(tasks.getCellByBorderPane(this), tasks.getTaskByBorderPane(this)!!)
+                val newTask = TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
+                if(newTask.status == TaskStatus.EMPTY) {
+                    val cell = tasks.getCellByBorderPane(this)
+                    taskList.children.remove( cell.borderPane )
+                    tasks.remove( cell )
+                }
+                else {
+                    tasks[tasks.getCellByBorderPane(this)] = newTask
+                    updateCell(tasks.getCellByBorderPane(this), tasks.getTaskByBorderPane(this)!!)
+                    mark(event)
+                }
             }
-            mark(event)
         }
     }
 
