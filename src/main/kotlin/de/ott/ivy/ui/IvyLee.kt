@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.ProgressIndicator
+import javafx.scene.control.ScrollPane
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
@@ -25,6 +26,7 @@ import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
 import tornadofx.CssBox
 import tornadofx.View
+import tornadofx.minus
 import tornadofx.style
 import java.io.File
 import java.lang.Thread.sleep
@@ -40,7 +42,7 @@ import kotlin.collections.set
  */
 @ExperimentalSerializationApi
 class IvyLee : View("Ivy-Lee Tracking") {
-    override val root: AnchorPane by fxml("/views/IvyLee2.fxml")
+    override val root: ScrollPane by fxml("/views/IvyLee2.fxml")
 
     companion object {
         const val MAIN_THREAD_NAME = "UI_THREAD"
@@ -53,8 +55,15 @@ class IvyLee : View("Ivy-Lee Tracking") {
     }
 
     val taskList: VBox by fxid("tasklist")
+    val anchorPane: AnchorPane by fxid("anchor_pane")
 
     init {
+        root.isFitToHeight = true
+        root.isFitToWidth = true
+
+//        anchorPane.prefWidthProperty().bind( root.widthProperty() )
+//        anchorPane.prefHeightProperty().bind( root.heightProperty() )
+
         Thread.currentThread().name = MAIN_THREAD_NAME
         var oldTasks: List<IvyLeeTask?>? = null
         try {
@@ -71,12 +80,16 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
 
         taskList.children.clear()
+//        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask())
         oldTasks!!.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }.forEach { task ->
             println("Create borderPane for task: $task")
             // create contaienr
             val bp = FXMLLoader().apply {
                 location = classLoader.getResource("views/TaskCell.fxml")
             }.load<BorderPane>()
+
+            bp.minWidthProperty().bind( root.widthProperty().minus( 15 ) )
+            bp.minHeightProperty().bind( root.heightProperty().divide( 4 ))
 
             bp.onMouseEntered = EventHandler { mark(it) }
             bp.onMouseExited = EventHandler { unmark(it) }
@@ -115,41 +128,6 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
             tasks.forEach(::println)
             tasks.forEach(::updateCell)
-
-//        listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight)
-//            .zip(oldTasks?:listOf(null, null, null, null, null, null)
-//            .sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
-//            var title: Label? = null
-//            var desc: WebView? = null
-//            var time: Label? = null
-//            var status: ProgressIndicator? = null
-//            var progress: ProgressBar? = null
-//            var progressAdditional: ProgressBar? = null
-//            bp.first.children.forEach {bpChild ->
-//                when(bpChild){
-//                    is Label -> title = bpChild
-//                    is WebView -> desc = bpChild
-//                    is HBox -> {
-//                        bpChild.children.forEach { hbChild ->
-//                            when(hbChild){
-//                                is ProgressBar -> {
-//                                    if(hbChild.id.matches(Regex(""".*additional.*""")))
-//                                        progressAdditional = hbChild
-//                                    else progress = hbChild
-//                                }
-//                                is Label -> time = hbChild
-//                                is ProgressIndicator -> status = hbChild
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            println(desc)
-//            // intanciate class and put it in the map
-//            tasks[TaskGridCellContainer(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
-//        }
-//        tasks.forEach(::println)
-//        tasks.forEach(::updateCell)
         }
     }
 
