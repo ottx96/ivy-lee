@@ -8,21 +8,15 @@ import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.gdrive.ConnectionProvider
 import de.ott.ivy.html.MarkdownParser
-import javafx.scene.control.Label
-import javafx.scene.control.ProgressBar
-import javafx.scene.control.ProgressIndicator
+import javafx.event.EventHandler
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.HBox
+import javafx.scene.layout.*
 import javafx.scene.paint.Color
-import javafx.scene.web.WebView
+import javafx.scene.text.Font
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
-import tornadofx.CssBox
-import tornadofx.View
-import tornadofx.style
+import tornadofx.*
 import java.io.File
 import java.lang.Thread.sleep
 import kotlin.collections.List
@@ -32,9 +26,7 @@ import kotlin.collections.forEach
 import kotlin.collections.listOf
 import kotlin.collections.mapOf
 import kotlin.collections.set
-import kotlin.collections.sortedBy
 import kotlin.collections.toSortedMap
-import kotlin.collections.zip
 
 /**
  * Main program (UI)
@@ -46,7 +38,7 @@ import kotlin.collections.zip
  */
 @ExperimentalSerializationApi
 class IvyLee : View("Ivy-Lee Tracking") {
-    override val root: GridPane by fxml("/views/IvyLee2.fxml")
+    override val root: AnchorPane by fxml("/views/IvyLee2.fxml")
 
     companion object{
         const val MAIN_THREAD_NAME = "UI_THREAD"
@@ -58,12 +50,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         fun Map<TaskGridCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
     }
 
-    val bpTopLeft: BorderPane by fxid("bp_topleft")
-    val bpTopRight: BorderPane by fxid("bp_topright")
-    val bpMiddleLeft: BorderPane by fxid("bp_middleleft")
-    val bpMiddleRight: BorderPane by fxid("bp_middleright")
-    val bpBottomLeft: BorderPane by fxid("bp_bottomleft")
-    val bpBottomRight: BorderPane by fxid("bp_bottomright")
+    val taskList: VBox by fxid("vbox")
 
     init{
         Thread.currentThread().name = MAIN_THREAD_NAME
@@ -81,40 +68,73 @@ class IvyLee : View("Ivy-Lee Tracking") {
             println("No data stored..")
         }
 
-        listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight)
-            .zip(oldTasks?:listOf(null, null, null, null, null, null)
-            .sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
-            var title: Label? = null
-            var desc: WebView? = null
-            var time: Label? = null
-            var status: ProgressIndicator? = null
-            var progress: ProgressBar? = null
-            var progressAdditional: ProgressBar? = null
-            bp.first.children.forEach {bpChild ->
-                when(bpChild){
-                    is Label -> title = bpChild
-                    is WebView -> desc = bpChild
-                    is HBox -> {
-                        bpChild.children.forEach { hbChild ->
-                            when(hbChild){
-                                is ProgressBar -> {
-                                    if(hbChild.id.matches(Regex(""".*additional.*""")))
-                                        progressAdditional = hbChild
-                                    else progress = hbChild
-                                }
-                                is Label -> time = hbChild
-                                is ProgressIndicator -> status = hbChild
-                            }
-                        }
+        taskList.children.clear()
+        println("adding tasks to taskList..")
+        val tmp = oldTasks?.toMutableList()!!
+        tmp.add(IvyLeeTask().apply {
+            name = "Mein Task!"
+        })
+        tmp.forEach { task ->
+            println("Create borderPane for task: $task")
+            // create contaienr
+            val bp = borderpane {
+                onMouseEntered = EventHandler { mark(it) }
+                onMouseExited = EventHandler { unmark(it) }
+                onMousePressed = EventHandler { onClick(it) }
+
+                prefWidth = 300.0
+                prefHeight = 150.0
+
+                top { 
+                    label {
+                        text = task?.name?:"N/A"
+                        font = Font.font("Calibri Light", 18.0)
+                    }
+                }
+                center {
+                    textfield {
+
                     }
                 }
             }
-            println(desc)
-            // intanciate class and put it in the map
-            tasks[TaskGridCellContainer(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
+        taskList.children.add(bp)
+
         }
-        tasks.forEach(::println)
-        tasks.forEach(::updateCell)
+
+//        listOf(bpTopLeft, bpTopRight, bpMiddleLeft, bpMiddleRight, bpBottomLeft, bpBottomRight)
+//            .zip(oldTasks?:listOf(null, null, null, null, null, null)
+//            .sortedBy { (Math.random() * 100).toInt() }).forEach { bp ->
+//            var title: Label? = null
+//            var desc: WebView? = null
+//            var time: Label? = null
+//            var status: ProgressIndicator? = null
+//            var progress: ProgressBar? = null
+//            var progressAdditional: ProgressBar? = null
+//            bp.first.children.forEach {bpChild ->
+//                when(bpChild){
+//                    is Label -> title = bpChild
+//                    is WebView -> desc = bpChild
+//                    is HBox -> {
+//                        bpChild.children.forEach { hbChild ->
+//                            when(hbChild){
+//                                is ProgressBar -> {
+//                                    if(hbChild.id.matches(Regex(""".*additional.*""")))
+//                                        progressAdditional = hbChild
+//                                    else progress = hbChild
+//                                }
+//                                is Label -> time = hbChild
+//                                is ProgressIndicator -> status = hbChild
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            println(desc)
+//            // intanciate class and put it in the map
+//            tasks[TaskGridCellContainer(bp.first, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = bp.second ?: IvyLeeTask()
+//        }
+//        tasks.forEach(::println)
+//        tasks.forEach(::updateCell)
     }
 
     init{
