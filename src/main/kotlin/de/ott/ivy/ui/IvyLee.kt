@@ -30,6 +30,8 @@ import tornadofx.style
 import java.io.File
 import java.lang.Integer.max
 import java.lang.Thread.sleep
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.collections.set
 import kotlin.math.min
 
@@ -78,12 +80,16 @@ class IvyLee : View("Ivy-Lee Tracking") {
         } catch (t: Throwable) {
             println("No data stored..")
         }
-        anchorPane.prefHeight = min( 250 * 4, max(oldTasks?.size?:1 * 250, 250) ).toDouble()
+
+        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), )
+
+        val lSize = oldTasks?.size?:1
+        anchorPane.prefHeight = min( 200 * 4, max(lSize * 200, 200 ) ).toDouble()
         root.isFitToHeight = true
         root.isFitToWidth = true
 
         taskList.children.removeAll { it is BorderPane }
-        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask())
+        val tmp = AtomicBoolean(false)
         oldTasks!!.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }.forEach { task ->
             println("Create borderPane for task: $task")
             // create contaienr
@@ -94,7 +100,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             bp.minWidthProperty().bind( root.widthProperty().minus( 15 ) )
             bp.minHeightProperty().bind( root.heightProperty().minus( toolBar.heightProperty() )
                     .divide( min( 4, max(1, oldTasks.size) ) )          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
-                    .minus(2))                                          //  border with is 2 px
+                    .minus(1.25))                                       //  border with is 2 px
 
             bp.onMouseEntered = EventHandler { mark(it) }
             bp.onMouseExited = EventHandler { unmark(it) }
