@@ -46,7 +46,7 @@ import kotlin.collections.zip
  */
 @ExperimentalSerializationApi
 class IvyLee : View("Ivy-Lee Tracking") {
-    override val root: GridPane by fxml("/views/IvyLee.fxml")
+    override val root: GridPane by fxml("/views/IvyLee2.fxml")
 
     companion object{
         const val MAIN_THREAD_NAME = "UI_THREAD"
