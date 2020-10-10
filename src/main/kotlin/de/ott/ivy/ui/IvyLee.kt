@@ -11,6 +11,8 @@ import de.ott.ivy.ui.dialog.TaskDialog
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.*
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
@@ -26,8 +28,10 @@ import tornadofx.View
 import tornadofx.minus
 import tornadofx.style
 import java.io.File
+import java.lang.Integer.max
 import java.lang.Thread.sleep
 import kotlin.collections.set
+import kotlin.math.min
 
 /**
  * Main program (UI)
@@ -51,15 +55,14 @@ class IvyLee : View("Ivy-Lee Tracking") {
         fun Map<TaskCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
     }
 
+    val anchorPane: AnchorPane by fxid("anchor_pane")
     val taskList: VBox by fxid("tasklist")
     val toolBar: ToolBar by fxid("tool_bar")
 
-    init {
-        root.isFitToHeight = true
-        root.isFitToWidth = true
+    val addButton: ImageView by fxid("add_image")
 
-//        anchorPane.prefWidthProperty().bind( root.widthProperty() )
-//        anchorPane.prefHeightProperty().bind( root.heightProperty() )
+    init {
+        addButton.image = Image(javaClass.getResourceAsStream("/de/ott/ivy/images/frog.png"))
 
         Thread.currentThread().name = MAIN_THREAD_NAME
         var oldTasks: List<IvyLeeTask?>? = null
@@ -75,8 +78,12 @@ class IvyLee : View("Ivy-Lee Tracking") {
         } catch (t: Throwable) {
             println("No data stored..")
         }
+        anchorPane.prefHeight = min( 250 * 4, max(oldTasks?.size?:1 * 250, 250) ).toDouble()
+        root.isFitToHeight = true
+        root.isFitToWidth = true
 
         taskList.children.removeAll { it is BorderPane }
+        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask())
         oldTasks!!.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }.forEach { task ->
             println("Create borderPane for task: $task")
             // create contaienr
@@ -85,7 +92,9 @@ class IvyLee : View("Ivy-Lee Tracking") {
             }.load<BorderPane>()
 
             bp.minWidthProperty().bind( root.widthProperty().minus( 15 ) )
-            bp.minHeightProperty().bind( root.heightProperty().minus( toolBar.heightProperty() ).divide( 4 ))
+            bp.minHeightProperty().bind( root.heightProperty().minus( toolBar.heightProperty() )
+                    .divide( min( 4, max(1, oldTasks.size) ) )          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
+                    .minus(2))                                          //  border with is 2 px
 
             bp.onMouseEntered = EventHandler { mark(it) }
             bp.onMouseExited = EventHandler { unmark(it) }

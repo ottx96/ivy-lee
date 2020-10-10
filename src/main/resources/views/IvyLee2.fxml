@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
@@ -12,10 +13,13 @@
          <children>
             <VBox fx:id="tasklist" maxHeight="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ToolBar fx:id="tool_bar" prefHeight="40.0" prefWidth="200.0">
-                    <items>
-                      <Button mnemonicParsing="false" text="Create Task" />
-                    </items>
+                  <ToolBar fx:id="tool_bar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                     <items>
+                        <ImageView fx:id="add_image" blendMode="DARKEN" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../de/ott/ivy/images/frog.png" />
+                           </image></ImageView>
+                     </items>
                   </ToolBar>
                   <BorderPane onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #000000;" GridPane.columnIndex="1" VBox.vgrow="SOMETIMES">
                      <top>
