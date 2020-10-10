@@ -31,7 +31,6 @@ import java.io.File
 import java.lang.Integer.max
 import java.lang.Thread.sleep
 import java.util.concurrent.atomic.AtomicBoolean
-import java.util.concurrent.atomic.AtomicInteger
 import kotlin.collections.set
 import kotlin.math.min
 
@@ -67,7 +66,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         addButton.image = Image(javaClass.getResourceAsStream("/de/ott/ivy/images/frog.png"))
 
         Thread.currentThread().name = MAIN_THREAD_NAME
-        var oldTasks: List<IvyLeeTask?>? = null
+        var oldTasks: List<IvyLeeTask>? = null
         try {
             val tasksFile = File("tasks.db")
             println("downloading tasks from gdrive")
@@ -81,26 +80,24 @@ class IvyLee : View("Ivy-Lee Tracking") {
             println("No data stored..")
         }
 
-        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), )
-
         val lSize = oldTasks?.size?:1
-        anchorPane.prefHeight = min( 200 * 4, max(lSize * 200, 200 ) ).toDouble()
+        anchorPane.prefHeight = min(200 * 4, max(lSize * 200, 200)).toDouble()
         root.isFitToHeight = true
         root.isFitToWidth = true
 
         taskList.children.removeAll { it is BorderPane }
         val tmp = AtomicBoolean(false)
-        oldTasks!!.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }.forEach { task ->
+        oldTasks?.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }?.forEach { task ->
             println("Create borderPane for task: $task")
             // create contaienr
             val bp = FXMLLoader().apply {
                 location = classLoader.getResource("views/TaskCell.fxml")
             }.load<BorderPane>()
 
-            bp.minWidthProperty().bind( root.widthProperty().minus( 15 ) )
-            bp.minHeightProperty().bind( root.heightProperty().minus( toolBar.heightProperty() )
-                    .divide( min( 4, max(1, oldTasks.size) ) )          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
-                    .minus(1.25))                                       //  border with is 2 px
+            bp.minWidthProperty().bind(root.widthProperty().minus(15))
+            bp.minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())
+                    .divide(min(4, max(1, oldTasks.size)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
+                    .minus(1.25))                                   //  border with is 2 px
 
             bp.onMouseEntered = EventHandler { mark(it) }
             bp.onMouseExited = EventHandler { unmark(it) }
@@ -114,7 +111,6 @@ class IvyLee : View("Ivy-Lee Tracking") {
             var progressAdditional: ProgressBar? = null
             bp.children.forEach { bpChild ->
                 println("curr child: $bpChild")
-
                 when (bpChild) {
                     is Label -> title = bpChild
                     is WebView -> desc = bpChild
@@ -133,9 +129,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
                     }
                 }
             }
-
             taskList.children.add(bp)
-            tasks[TaskCellContainer(bp, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = task?: IvyLeeTask()
+            tasks[TaskCellContainer(bp, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = task
 
             tasks.forEach(::println)
             tasks.forEach(::updateCell)
