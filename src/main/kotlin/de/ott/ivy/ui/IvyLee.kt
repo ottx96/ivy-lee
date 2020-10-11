@@ -3,31 +3,23 @@ package de.ott.ivy.ui
 import de.ott.ivy.config.Configuration
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.TaskCellContainer
-import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.gdrive.ConnectionProvider
 import de.ott.ivy.gdrive.RemoteFilesHandler
-import de.ott.ivy.html.MarkdownParser
-import de.ott.ivy.ui.dialog.TaskDialog
 import de.ott.ivy.ui.event.IvyLeeEventHandler
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.*
-import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.MouseEvent
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
-import javafx.scene.paint.Color
 import javafx.scene.web.WebView
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
-import tornadofx.CssBox
 import tornadofx.View
 import tornadofx.minus
-import tornadofx.style
 import java.io.File
 import java.lang.Integer.max
 import java.lang.Thread.sleep
@@ -45,7 +37,7 @@ import kotlin.math.min
  */
 @ExperimentalSerializationApi
 class IvyLee : View("Ivy-Lee Tracking") {
-    override val root: ScrollPane by fxml("/views/IvyLee2.fxml")
+    override val root: ScrollPane by fxml("/views/IvyLee.fxml")
 
     companion object {
         const val MAIN_THREAD_NAME = "UI_THREAD"
