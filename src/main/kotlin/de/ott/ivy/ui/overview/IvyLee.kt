@@ -98,7 +98,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
 
         taskList.children.removeAll { it is BorderPane }
-        oldTasks?.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }?.forEach { task ->
+        oldTasks?.forEach { task ->
             val bp = ComponentBuilder.createTaskContainer(task, taskList)
 
             bp.minWidthProperty().bind(root.widthProperty().minus(15))
