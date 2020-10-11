@@ -8,12 +8,19 @@ import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.ui.event.IvyLeeEventHandler
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
+import javafx.scene.CacheHint
 import javafx.scene.control.*
+import javafx.scene.effect.Blend
+import javafx.scene.effect.BlendMode
+import javafx.scene.effect.ColorAdjust
+import javafx.scene.effect.ColorInput
+import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
+import javafx.scene.paint.Color
 import javafx.scene.web.WebView
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
@@ -26,6 +33,7 @@ import java.lang.Thread.sleep
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.set
 import kotlin.math.min
+
 
 /**
  * Main program (UI)
@@ -52,7 +60,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val anchorPane: AnchorPane by fxid("anchor_pane")
     val taskList: VBox by fxid("tasklist")
     val toolBar: ToolBar by fxid("tool_bar")
-    val addButton: ImageView by fxid("add_image")
+    val addButton: ImageView by fxid("add")
+    val settingsButton: ImageView by fxid("settings")
 
     val eventHandler = IvyLeeEventHandler(anchorPane, taskList, toolBar, addButton)
 
@@ -77,16 +86,15 @@ class IvyLee : View("Ivy-Lee Tracking") {
         } catch (t: Throwable) {
             println("No data stored..")
         }
-        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask())
 
-        val lSize = oldTasks.size
+        val lSize = oldTasks?.size?:1
         anchorPane.prefHeight = min(200 * 4, max(lSize * 200, 200)).toDouble()
         root.isFitToHeight = true
         root.isFitToWidth = true
 
         taskList.children.removeAll { it is BorderPane }
         val tmp = AtomicBoolean(false)
-        oldTasks.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }.forEach { task ->
+        oldTasks?.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }?.forEach { task ->
             println("Create borderPane for task: $task")
             // create contaienr
             val bp = FXMLLoader().apply {
@@ -95,7 +103,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
             bp.minWidthProperty().bind(root.widthProperty().minus(15))
             bp.minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())
-                    .divide(min(4, max(1, oldTasks.size)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
+                    .divide(min(4, max(1, oldTasks?.size?:1)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
                     .minus(1.25))                                   //  border with is 2 px
 
             bp.onMouseEntered = EventHandler { eventHandler.mark(it) }

@@ -13,41 +13,23 @@
          <children>
             <VBox fx:id="tasklist" maxHeight="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ToolBar fx:id="tool_bar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
+                  <ToolBar fx:id="tool_bar" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #2B2B2B;" VBox.vgrow="NEVER">
                      <items>
-                        <ImageView fx:id="add_image" blendMode="DARKEN" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="add" fitHeight="36.0" fitWidth="36.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/frog.png" />
-                           </image></ImageView>
-                        <ImageView fx:id="add_image1" blendMode="DARKEN" fitHeight="32.0" fitWidth="32.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../de/ott/ivy/images/frog.png" />
+                              <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
                            </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
                         </ImageView>
-                        <ImageView fx:id="add_image11" blendMode="DARKEN" fitHeight="32.0" fitWidth="32.0" layoutX="46.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="settings" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/frog.png" />
+                              <Image url="@../de/ott/ivy/images/material-design/png/settings-72px-white.png" />
                            </image>
-                        </ImageView>
-                        <ImageView fx:id="add_image12" blendMode="DARKEN" fitHeight="32.0" fitWidth="32.0" layoutX="46.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../de/ott/ivy/images/frog.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="add_image121" blendMode="DARKEN" fitHeight="32.0" fitWidth="32.0" layoutX="118.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../de/ott/ivy/images/frog.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="add_image1211" blendMode="DARKEN" fitHeight="32.0" fitWidth="32.0" layoutX="154.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../de/ott/ivy/images/frog.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="add_image12111" blendMode="DARKEN" fitHeight="32.0" fitWidth="32.0" layoutX="190.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../de/ott/ivy/images/frog.png" />
-                           </image>
+                           <viewport>
+                              <Rectangle2D />
+                           </viewport>
                         </ImageView>
                      </items>
                   </ToolBar>
