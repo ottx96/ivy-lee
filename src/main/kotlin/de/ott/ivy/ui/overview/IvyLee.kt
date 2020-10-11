@@ -72,7 +72,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 minWidthProperty().bind(root.widthProperty().minus(15))
                 minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())
                         .divide(min(4, max(1, tasks.size)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
-                        .minus(1.35))                                //  border with is 2 px
+                        .minus(1.35))                                //  border width is ~2 px
 
                 onMouseEntered = EventHandler { eventHandler.mark(it) }
                 onMouseExited = EventHandler { eventHandler.unmark(it) }
@@ -98,7 +98,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
 
         taskList.children.removeAll { it is BorderPane }
-        oldTasks?.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }?.forEach { task ->
+        oldTasks?.forEach { task ->
             val bp = ComponentBuilder.createTaskContainer(task, taskList)
 
             bp.minWidthProperty().bind(root.widthProperty().minus(15))
