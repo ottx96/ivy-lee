@@ -19,5 +19,8 @@ data class IvyLeeTask(var name: String = "", var descr: String = "",
                       var estTimeSeconds: Int = 0, var status: TaskStatus = TaskStatus.EMPTY,
                       var timeInvestedSeconds: Int = 0, var frog: Boolean = false,
                       var dueDate: LocalDate = LocalDate.now().plusDays(7)) {
-    val REVISION = 2
+
+    companion object {
+        const val REVISION = 2
+    }
 }
