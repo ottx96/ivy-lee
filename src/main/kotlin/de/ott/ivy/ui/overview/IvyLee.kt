@@ -8,24 +8,17 @@ import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.ui.overview.event.IvyLeeEventHandler
 import de.ott.ivy.ui.overview.impl.ComponentBuilder
 import javafx.event.EventHandler
-import javafx.scene.control.Label
-import javafx.scene.control.ProgressBar
-import javafx.scene.control.ProgressIndicator
 import javafx.scene.control.ScrollPane
 import javafx.scene.image.ImageView
 import javafx.scene.layout.*
-import javafx.scene.web.WebView
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
 import tornadofx.View
-import tornadofx.doubleBinding
 import tornadofx.minus
 import java.io.File
-import java.lang.Integer.max
 import java.lang.Thread.sleep
-import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.collections.set
+import kotlin.math.max
 import kotlin.math.min
 
 
@@ -104,9 +97,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             println("No data stored..")
         }
 
-        val lSize = oldTasks?.size?:1
         taskList.children.removeAll { it is BorderPane }
-        val tmp = AtomicBoolean(false)
         oldTasks?.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }?.forEach { task ->
             val bp = ComponentBuilder.createTaskContainer(task, taskList)
 
@@ -121,6 +112,11 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
             tasks.forEach(::println)
             tasks.forEach(eventHandler::updateCell)
+        }
+        when {
+            tasks.isEmpty() -> root.prefHeight = 200.0
+            tasks.size > 4  -> root.prefHeight = 800.0
+            else            -> root.prefHeight = tasks.size * 200.0
         }
     }
 
