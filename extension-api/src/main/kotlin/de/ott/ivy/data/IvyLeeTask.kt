@@ -15,11 +15,11 @@ import java.time.LocalDate
  * @author = manuel.ott
  * @since = 28. Januar 2020
  */
-@Serializable(with = LocalDateSerializer::class)
+@Serializable
 data class IvyLeeTask(var name: String = "", var descr: String = "",
                       var estTimeSeconds: Int = 0, var status: TaskStatus = TaskStatus.EMPTY,
                       var timeInvestedSeconds: Int = 0, var favorite: Boolean = false,
-                      var dueDate: LocalDate = LocalDate.now().plusDays(7),
+                      @Serializable(with = LocalDateSerializer::class) var dueDate: LocalDate = LocalDate.now().plusDays(7),
                       var priority: Priorities = Priorities.LOWEST) {
 
     companion object {
