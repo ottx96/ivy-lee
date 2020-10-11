@@ -40,37 +40,37 @@ class TaskDialog : View("Task Dialog"){
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
 
     val taskName: TextField by fxid("task_name")
-    val header: Label by fxid("dialog_header")
+//    val header: Label by fxid("dialog_header")
 
     val taskDesc: TextArea by fxid("task_description")
     val webView: WebView by fxid("webview")
 
-    val time: Slider by fxid("time")
-    val lbl_time: Label by fxid("lbl_time")
-    val tb_frog: ToggleButton by fxid("frog")
-    val progress: ProgressIndicator by fxid("progress")
+//    val time: Slider by fxid("time")
+//    val lbl_time: Label by fxid("lbl_time")
+//    val tb_frog: ToggleButton by fxid("frog")
+//    val progress: ProgressIndicator by fxid("progress")
 
     val extensionsButton: SplitMenuButton by fxid("extensions")
-    val delete: Button by fxid("delete")
+//    val delete: Button by fxid("delete")
     val COLOR_DELETE = Color.valueOf("#e3736b")
 
     val extensionClassList = mutableMapOf<String, Class<*>>()
 
     init {
-        delete.onMouseEntered = EventHandler{
-            delete.style {
-                backgroundColor += COLOR_DELETE.desaturate()
-                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
-            }
-        }
-        delete.onMouseExited = EventHandler {
-            delete.style {
-                backgroundColor += COLOR_DELETE
-                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
-            }
-        }
+//        delete.onMouseEntered = EventHandler{
+//            delete.style {
+//                backgroundColor += COLOR_DELETE.desaturate()
+//                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
+//            }
+//        }
+//        delete.onMouseExited = EventHandler {
+//            delete.style {
+//                backgroundColor += COLOR_DELETE
+//                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
+//            }
+//        }
 
-        lbl_time.textProperty().bind(time.valueProperty().asString("%.0f m"))
+//        lbl_time.textProperty().bind(time.valueProperty().asString("%.0f m"))
 
         initUIFromTask(currTask!!)
 
@@ -109,9 +109,9 @@ class TaskDialog : View("Task Dialog"){
             updateHeader()
             taskDesc.text = descr
             updateWebView()
-            time.value = estTimeSeconds.toDouble() / 60.0
-            tb_frog.isSelected = favorite
-            progress.progress = if (estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
+//            time.value = estTimeSeconds.toDouble() / 60.0
+//            tb_frog.isSelected = favorite
+//            progress.progress = if (estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
     }
 
@@ -119,8 +119,8 @@ class TaskDialog : View("Task Dialog"){
         return task.apply {
             name = taskName.text
             descr = taskDesc.text
-            estTimeSeconds = time.value.toInt() * 60
-            favorite = tb_frog.isSelected
+//            estTimeSeconds = time.value.toInt() * 60
+//            favorite = tb_frog.isSelected
             status = TaskStatus.UNDONE
             if(taskName.text.isBlank())
                 currTask!!.status = TaskStatus.EMPTY
@@ -136,14 +136,8 @@ class TaskDialog : View("Task Dialog"){
         close()
     }
 
-    fun delete(){
-        currTask!!.status = TaskStatus.UNDONE
-        currTask = IvyLeeTask()
-        close()
-    }
-
     fun updateHeader() {
-        header.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
+//        header.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
     }
 
     fun updateWebView(){

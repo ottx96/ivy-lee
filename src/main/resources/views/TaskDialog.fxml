@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
@@ -10,13 +11,21 @@
    <bottom>
        <ButtonBar GridPane.rowIndex="1">
            <buttons>
-               <Button fx:id="delete" onAction="#delete" style="-fx-background-color: #e3736b; -fx-border-color: #cc0000;" text="Delete" ButtonBar.buttonData="LEFT" />
-               <SplitMenuButton fx:id="extensions" alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="9999.0" text="Extensions" textAlignment="CENTER" />
-               <Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+               <SplitMenuButton fx:id="extensions" alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="99999.0" text="Extensions" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font></SplitMenuButton>
+               <Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" onAction="#cancel" text="Cancel">
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
                <Button fx:id="ok" defaultButton="true" mnemonicParsing="false" onAction="#ok" text="OK">
                    <opaqueInsets>
                        <Insets />
-                   </opaqueInsets></Button>
+                   </opaqueInsets>
+               <font>
+                  <Font size="14.0" />
+               </font></Button>
            </buttons>
            <GridPane.margin>
                <Insets bottom="15.0" left="10.0" right="10.0" top="10.0" />
@@ -29,64 +38,63 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <WebView id="webview" fx:id="webview" opacity="0.73" prefHeight="200.0" prefWidth="200.0" />
+            <WebView id="webview" fx:id="webview" minHeight="125.0" minWidth="-1.0" opacity="0.73" prefHeight="-1.0" prefWidth="-1.0" />
             <TextField fx:id="task_name" onKeyTyped="#updateHeader" promptText="Task name">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></TextField>
             <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#updateWebView" promptText="Task description" VBox.vgrow="ALWAYS" />
-             <BorderPane maxWidth="1.7976931348623157E308">
-                 <left>
-                     <ToggleButton fx:id="frog" mnemonicParsing="false" text="FROG" BorderPane.alignment="CENTER">
-                     <BorderPane.margin>
-                        <Insets left="5.0" />
-                     </BorderPane.margin></ToggleButton>
-                 </left>
-                 <right>
-                     <ProgressIndicator fx:id="progress" progress="0.0" BorderPane.alignment="CENTER">
-                     <padding>
-                        <Insets top="5.0" />
-                     </padding>
-                     <BorderPane.margin>
-                        <Insets right="5.0" />
-                     </BorderPane.margin></ProgressIndicator>
-                 </right>
-               <center>
-                  <BorderPane BorderPane.alignment="CENTER">
-                     <center>
-                        <Slider fx:id="time" blockIncrement="60.0" max="480.0" BorderPane.alignment="CENTER" />
-                     </center>
-                     <right>
-                        <Label fx:id="lbl_time" text="0 m" BorderPane.alignment="CENTER" />
-                     </right>
-                     <BorderPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </BorderPane.margin></BorderPane>
-               </center>
-               <top>
-                  <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
-               </top>
-             </BorderPane>
+            <HBox prefWidth="200.0" spacing="2.0" style="-fx-background-color: #dddddd;">
+               <children>
+                  <DatePicker editable="false" prefHeight="32.0" prefWidth="150.0" promptText="due to" showWeekNumbers="true">
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin></DatePicker>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="314.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="150.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="196.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="285.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="327.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="369.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="411.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                     </image>
+                  </ImageView>
+                  <Label prefHeight="32.0" text="Critical">
+                     <font>
+                        <Font name="System Bold Italic" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" right="15.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
             <Separator prefWidth="200.0" />
          </children>
       </VBox>
    </center>
-   <top>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="dialog_header" alignment="TOP_CENTER" focusTraversable="false" graphicTextGap="8.0" prefWidth="99999.0" text="Create Task" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets left="15.0" right="15.0" />
-               </padding>
-            </Label>
-            <Separator prefWidth="200.0" />
-         </children>
-      </VBox>
-   </top>
 </BorderPane>
