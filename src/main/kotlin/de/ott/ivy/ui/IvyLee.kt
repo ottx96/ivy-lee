@@ -8,6 +8,7 @@ import de.ott.ivy.gdrive.ConnectionProvider
 import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.html.MarkdownParser
 import de.ott.ivy.ui.dialog.TaskDialog
+import de.ott.ivy.ui.event.IvyLeeEventHandler
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.*
@@ -61,15 +62,14 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val toolBar: ToolBar by fxid("tool_bar")
     val addButton: ImageView by fxid("add_image")
 
+    val eventHandler = IvyLeeEventHandler(anchorPane, taskList, toolBar, addButton)
+
     init {
         // set scroll speed
         val SPEED = 0.00175
         root.content.onScroll = EventHandler {
             root.vvalue -= it.deltaY * SPEED
         }
-
-        // set images
-        addButton.image = Image(javaClass.getResourceAsStream("/de/ott/ivy/images/frog.png"))
 
         Thread.currentThread().name = MAIN_THREAD_NAME
         var oldTasks: List<IvyLeeTask>? = null
@@ -106,9 +106,9 @@ class IvyLee : View("Ivy-Lee Tracking") {
                     .divide(min(4, max(1, oldTasks.size)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
                     .minus(1.25))                                   //  border with is 2 px
 
-            bp.onMouseEntered = EventHandler { mark(it) }
-            bp.onMouseExited = EventHandler { unmark(it) }
-            bp.onMousePressed = EventHandler { onClick(it) }
+            bp.onMouseEntered = EventHandler { eventHandler.mark(it) }
+            bp.onMouseExited = EventHandler { eventHandler.unmark(it) }
+            bp.onMousePressed = EventHandler { eventHandler.onClick(it) }
 
             var title: Label? = null
             var desc: WebView? = null
@@ -140,7 +140,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             tasks[TaskCellContainer(bp, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = task
 
             tasks.forEach(::println)
-            tasks.forEach(::updateCell)
+            tasks.forEach(eventHandler::updateCell)
         }
     }
 
@@ -168,89 +168,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
     }
 
-    fun mark(event: MouseEvent) {
-        (event.target as BorderPane).style {
-            borderColor += CssBox(Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE)
-            backgroundColor += tasks.getTaskByBorderPane(event.target as BorderPane)!!.status.color.desaturate()
-        }
-    }
 
-    fun unmark(event: MouseEvent) {
-        (event.target as BorderPane).style {
-            backgroundColor += tasks.getTaskByBorderPane(event.target as BorderPane)!!.status.color
-            borderColor += CssBox(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK)
-        }
-    }
 
-    fun onClick(event: MouseEvent) {
-        if (event.isPrimaryButtonDown)
-            (event.target as BorderPane).apply {
-                val task = tasks.getTaskByBorderPane(this)!!
-                when (task.status) {
-                    TaskStatus.EMPTY -> {
-                        return
-                    }
-                    TaskStatus.UNDONE -> task.status = TaskStatus.IN_WORK
-                    TaskStatus.IN_WORK -> task.status = TaskStatus.DONE
-                    TaskStatus.DONE -> task.status = TaskStatus.UNDONE
-                }
-                updateCell(tasks.getCellByBorderPane(this), task)
-                if (task.status == TaskStatus.IN_WORK) {
-                    // stop other timers
-                    tasks.values.filter { it.status == TaskStatus.IN_WORK && it != task }.forEach {
-                        it.status = TaskStatus.UNDONE
-                    }
-                    Thread {
-                        val threadCell = tasks.getCellByBorderPane(this)
-                        while (task.status == TaskStatus.IN_WORK) {
-                            task.timeInvestedSeconds++
-                            updateCell(threadCell, task)
-                            sleep(1000) // sleep 1s
-                        }
-                    }.start()
-                }
-            }
-        else {
-            // open custom dialog
-            (event.target as BorderPane).apply {
-                val newTask = TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
-                if(newTask.status == TaskStatus.EMPTY) {
-                    val cell = tasks.getCellByBorderPane(this)
-                    taskList.children.remove(cell.borderPane)
-                    tasks.remove(cell)
-                }
-                else {
-                    tasks[tasks.getCellByBorderPane(this)] = newTask
-                    updateCell(tasks.getCellByBorderPane(this), tasks.getTaskByBorderPane(this)!!)
-                    mark(event)
-                }
-            }
-        }
-    }
 
-    private fun updateCell(cellContainer: TaskCellContainer, task: IvyLeeTask) {
-        println("updating cell with task: $task")
-
-        cellContainer.titleLabel.text = task.name
-        if (cellContainer.descLabel.engine.userStyleSheetLocation.isNullOrBlank())
-            cellContainer.descLabel.engine.userStyleSheetLocation = javaClass.getResource("/de/ott/ivy/css/style.css").toString()
-        cellContainer.timeLabel.text = "${task.estTimeSeconds / 60.0} m"
-
-        cellContainer.progressBar.progress = task.timeInvestedSeconds * 1.0 / task.estTimeSeconds
-        cellContainer.statusIndicator.progress = task.timeInvestedSeconds * 1.0 / task.estTimeSeconds
-        if (task.status == TaskStatus.DONE) cellContainer.statusIndicator.progress = 1.0
-
-        if (task.timeInvestedSeconds >= task.estTimeSeconds)
-            cellContainer.progressBarAdditional.progress = (task.timeInvestedSeconds - task.estTimeSeconds) * 1.0 / task.estTimeSeconds
-        else
-            cellContainer.progressBarAdditional.progress = 0.0
-
-        cellContainer.borderPane.style {
-            backgroundColor += task.status.color
-            borderColor += CssBox(Color.BLACK, Color.BLACK, Color.BLACK, Color.BLACK)
-        }
-
-        if (Thread.currentThread().name == MAIN_THREAD_NAME)
-            cellContainer.descLabel.engine.loadContent(MarkdownParser.convertHtml(task.descr), "text/html")
-    }
 }

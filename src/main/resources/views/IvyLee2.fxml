@@ -21,7 +21,7 @@
                            </image></ImageView>
                      </items>
                   </ToolBar>
-                  <BorderPane onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #000000;" GridPane.columnIndex="1" VBox.vgrow="SOMETIMES">
+                  <BorderPane prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #000000;" GridPane.columnIndex="1" VBox.vgrow="SOMETIMES">
                      <top>
                         <Label fx:id="task_title_top_right" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">
                            <font>
@@ -68,7 +68,7 @@
                         <WebView disable="true" opacity="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
-                  <BorderPane onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: #84ee3f; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="1" VBox.vgrow="SOMETIMES">
+                  <BorderPane prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: #84ee3f; -fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="1" VBox.vgrow="SOMETIMES">
                      <top>
                         <Label fx:id="task_title_middle_right" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">
                            <font>
@@ -115,7 +115,7 @@
                         <WebView disable="true" opacity="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
-                  <BorderPane onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: #ff9933; -fx-border-color: #000000;" GridPane.columnIndex="1" VBox.vgrow="SOMETIMES">
+                  <BorderPane prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: #ff9933; -fx-border-color: #000000;" GridPane.columnIndex="1" VBox.vgrow="SOMETIMES">
                      <top>
                         <Label fx:id="task_title_top_right" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">
                            <font>
@@ -162,7 +162,7 @@
                         <WebView disable="true" opacity="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                      </center>
                   </BorderPane>
-                  <BorderPane onMouseEntered="#mark" onMouseExited="#unmark" onMousePressed="#onClick" prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: #ffdd22; -fx-border-color: #000000;" GridPane.rowIndex="1" VBox.vgrow="SOMETIMES">
+                  <BorderPane prefHeight="150.0" prefWidth="300.0" style="-fx-background-color: #ffdd22; -fx-border-color: #000000;" GridPane.rowIndex="1" VBox.vgrow="SOMETIMES">
                      <top>
                         <Label fx:id="task_title_middle_left" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">
                            <font>
