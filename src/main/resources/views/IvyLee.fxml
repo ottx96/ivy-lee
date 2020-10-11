@@ -23,7 +23,7 @@
                               <Rectangle2D />
                            </viewport>
                            <HBox.margin>
-                              <Insets bottom="4.0" left="15.0" top="4.0" />
+                              <Insets bottom="2.0" left="15.0" top="2.0" />
                            </HBox.margin>
                         </ImageView>
                         <Pane fx:id="pane_add" prefWidth="420.0">
@@ -38,7 +38,7 @@
                               </ImageView>
                            </children>
                            <HBox.margin>
-                              <Insets bottom="4.0" top="4.0" />
+                              <Insets bottom="2.0" top="2.0" />
                            </HBox.margin>
                         </Pane>
                      </children>
