@@ -6,8 +6,8 @@
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
 
-
 <!--<BorderPane prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.TaskCell">-->
+
 <BorderPane prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <WebView disable="true" opacity="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
@@ -45,13 +45,10 @@
       </HBox>
    </bottom>
    <top>
-      <Label fx:id="task_title_middle_right1" text="Titel" textAlignment="CENTER" BorderPane.alignment="CENTER">
+      <Label fx:id="task_title_middle_right1" alignment="TOP_CENTER" contentDisplay="CENTER" text="Titel" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
             <Font name="Calibri Light" size="18.0" />
          </font>
-         <BorderPane.margin>
-            <Insets left="10.0" top="5.0" />
-         </BorderPane.margin>
       </Label>
    </top>
 </BorderPane>

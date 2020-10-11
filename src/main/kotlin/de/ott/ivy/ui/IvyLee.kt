@@ -62,6 +62,13 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val addButton: ImageView by fxid("add_image")
 
     init {
+        // set scroll speed
+        val SPEED = 0.00175
+        root.content.onScroll = EventHandler {
+            root.vvalue -= it.deltaY * SPEED
+        }
+
+        // set images
         addButton.image = Image(javaClass.getResourceAsStream("/de/ott/ivy/images/frog.png"))
 
         Thread.currentThread().name = MAIN_THREAD_NAME
@@ -78,16 +85,16 @@ class IvyLee : View("Ivy-Lee Tracking") {
         } catch (t: Throwable) {
             println("No data stored..")
         }
-        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask())
+        oldTasks = listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask(), IvyLeeTask())
 
-        val lSize = oldTasks?.size?:1
+        val lSize = oldTasks.size
         anchorPane.prefHeight = min(200 * 4, max(lSize * 200, 200)).toDouble()
         root.isFitToHeight = true
         root.isFitToWidth = true
 
         taskList.children.removeAll { it is BorderPane }
         val tmp = AtomicBoolean(false)
-        oldTasks?.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }?.forEach { task ->
+        oldTasks.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }.forEach { task ->
             println("Create borderPane for task: $task")
             // create contaienr
             val bp = FXMLLoader().apply {
@@ -209,8 +216,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 val newTask = TaskDialog.showDialog(tasks.getTaskByBorderPane(this)!!)
                 if(newTask.status == TaskStatus.EMPTY) {
                     val cell = tasks.getCellByBorderPane(this)
-                    taskList.children.remove( cell.borderPane )
-                    tasks.remove( cell )
+                    taskList.children.remove(cell.borderPane)
+                    tasks.remove(cell)
                 }
                 else {
                     tasks[tasks.getCellByBorderPane(this)] = newTask
