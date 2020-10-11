@@ -19,6 +19,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
 import tornadofx.View
+import tornadofx.doubleBinding
 import tornadofx.minus
 import java.io.File
 import java.lang.Integer.max
@@ -65,11 +66,27 @@ class IvyLee : View("Ivy-Lee Tracking") {
         root.content.onScroll = EventHandler {
             root.vvalue -= it.deltaY * SPEED
         }
+
         addButtonPane.prefWidthProperty().bind( root.widthProperty() )
         addButton.xProperty().bind(addButtonPane.widthProperty().minus( addButton.fitWidthProperty() ).minus(15))
 
         addButton.setOnMouseClicked {
+            ComponentBuilder.createTaskContainer(IvyLeeTask(), taskList)
 
+            tasks.forEach { it.key.borderPane.apply {
+                minHeightProperty().unbind()
+                minWidthProperty().unbind()
+                minWidthProperty().bind(root.widthProperty().minus(15))
+                minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())
+                        .divide(min(4, max(1, tasks.size)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
+                        .minus(1.35))                                //  border with is 2 px
+
+                onMouseEntered = EventHandler { eventHandler.mark(it) }
+                onMouseExited = EventHandler { eventHandler.unmark(it) }
+                onMousePressed = EventHandler { eventHandler.onClick(it) }
+            }}
+
+            tasks.forEach(eventHandler::updateCell)
         }
 
         Thread.currentThread().name = MAIN_THREAD_NAME
@@ -88,10 +105,6 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
 
         val lSize = oldTasks?.size?:1
-        anchorPane.prefHeight = min(200 * 4, max(lSize * 200, 200)).toDouble()
-        root.isFitToHeight = true
-        root.isFitToWidth = true
-
         taskList.children.removeAll { it is BorderPane }
         val tmp = AtomicBoolean(false)
         oldTasks?.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }?.forEach { task ->
