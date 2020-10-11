@@ -1,25 +1,21 @@
-package de.ott.ivy.ui.event
+package de.ott.ivy.ui.overview.event
 
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.TaskCellContainer
 import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.html.MarkdownParser
-import de.ott.ivy.ui.IvyLee
-import de.ott.ivy.ui.IvyLee.Companion.getCellByBorderPane
-import de.ott.ivy.ui.IvyLee.Companion.getTaskByBorderPane
+import de.ott.ivy.ui.overview.IvyLee
+import de.ott.ivy.ui.overview.IvyLee.Companion.getCellByBorderPane
+import de.ott.ivy.ui.overview.IvyLee.Companion.getTaskByBorderPane
 import de.ott.ivy.ui.dialog.TaskDialog
-import javafx.scene.control.ToolBar
-import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
-import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import tornadofx.CssBox
 import tornadofx.style
 
-class IvyLeeEventHandler(val anchorPane: AnchorPane, val taskList: VBox, val toolBar: HBox, val addButton: ImageView) {
+class IvyLeeEventHandler(private val taskList: VBox) {
 
     fun mark(event: MouseEvent) {
         (event.target as BorderPane).style {

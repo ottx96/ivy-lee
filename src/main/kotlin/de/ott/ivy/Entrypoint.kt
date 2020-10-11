@@ -1,6 +1,6 @@
 package de.ott.ivy
 
-import de.ott.ivy.ui.IvyLee
+import de.ott.ivy.ui.overview.IvyLee
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enum.TaskStatus
 import de.ott.ivy.ui.dialog.SetupDialog

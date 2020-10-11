@@ -1,13 +1,13 @@
-package de.ott.ivy.ui
+package de.ott.ivy.ui.overview
 
 import de.ott.ivy.config.Configuration
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.TaskCellContainer
 import de.ott.ivy.gdrive.ConnectionProvider
 import de.ott.ivy.gdrive.RemoteFilesHandler
-import de.ott.ivy.ui.event.IvyLeeEventHandler
+import de.ott.ivy.ui.overview.event.IvyLeeEventHandler
+import de.ott.ivy.ui.overview.impl.ComponentBuilder
 import javafx.event.EventHandler
-import javafx.fxml.FXMLLoader
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.ProgressIndicator
@@ -57,7 +57,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val addButtonPane: Pane by fxid("pane_add")
     val settingsButton: ImageView by fxid("settings")
 
-    val eventHandler = IvyLeeEventHandler(anchorPane, taskList, toolBar, addButton)
+    val eventHandler = IvyLeeEventHandler(taskList)
 
     init {
         // set scroll speed
@@ -67,6 +67,10 @@ class IvyLee : View("Ivy-Lee Tracking") {
         }
         addButtonPane.prefWidthProperty().bind( root.widthProperty() )
         addButton.xProperty().bind(addButtonPane.widthProperty().minus( addButton.fitWidthProperty() ).minus(15))
+
+        addButton.setOnMouseClicked {
+
+        }
 
         Thread.currentThread().name = MAIN_THREAD_NAME
         var oldTasks: List<IvyLeeTask>? = null
@@ -91,11 +95,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         taskList.children.removeAll { it is BorderPane }
         val tmp = AtomicBoolean(false)
         oldTasks?.ifEmpty { listOf(IvyLeeTask(), IvyLeeTask(), IvyLeeTask()) }?.forEach { task ->
-            println("Create borderPane for task: $task")
-            // create contaienr
-            val bp = FXMLLoader().apply {
-                location = classLoader.getResource("views/TaskCell.fxml")
-            }.load<BorderPane>()
+            val bp = ComponentBuilder.createTaskContainer(task, taskList)
 
             bp.minWidthProperty().bind(root.widthProperty().minus(15))
             bp.minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())
@@ -105,35 +105,6 @@ class IvyLee : View("Ivy-Lee Tracking") {
             bp.onMouseEntered = EventHandler { eventHandler.mark(it) }
             bp.onMouseExited = EventHandler { eventHandler.unmark(it) }
             bp.onMousePressed = EventHandler { eventHandler.onClick(it) }
-
-            var title: Label? = null
-            var desc: WebView? = null
-            var time: Label? = null
-            var status: ProgressIndicator? = null
-            var progress: ProgressBar? = null
-            var progressAdditional: ProgressBar? = null
-            bp.children.forEach { bpChild ->
-                println("curr child: $bpChild")
-                when (bpChild) {
-                    is Label -> title = bpChild
-                    is WebView -> desc = bpChild
-                    is HBox -> {
-                        bpChild.children.forEach { hbChild ->
-                            when (hbChild) {
-                                is ProgressBar -> {
-                                    if (hbChild.id.matches(Regex(""".*additional.*""")))
-                                        progressAdditional = hbChild
-                                    else progress = hbChild
-                                }
-                                is Label -> time = hbChild
-                                is ProgressIndicator -> status = hbChild
-                            }
-                        }
-                    }
-                }
-            }
-            taskList.children.add(bp)
-            tasks[TaskCellContainer(bp, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = task
 
             tasks.forEach(::println)
             tasks.forEach(eventHandler::updateCell)
@@ -152,7 +123,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                     // write file
                     println("syncing tasks to gdrive..")
                     val tasks = File("tasks-auto-sync.db")
-                    tasks.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), IvyLee.tasks.values.toList()))
+                    tasks.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), Companion.tasks.values.toList()))
                     gdrive.saveTasks(tasks)
                 } catch (e: java.lang.Exception) {
                     e.printStackTrace()
