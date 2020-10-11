@@ -2,7 +2,7 @@ package de.ott.ivy
 
 import de.ott.ivy.ui.overview.IvyLee
 import de.ott.ivy.data.IvyLeeTask
-import de.ott.ivy.data.enum.TaskStatus
+import de.ott.ivy.data.enums.TaskStatus
 import de.ott.ivy.ui.dialog.SetupDialog
 import javafx.application.Platform
 import javafx.event.EventHandler

@@ -1,7 +1,7 @@
 package de.ott.ivy.ext.github.ui
 
 import de.ott.ivy.data.IvyLeeTask
-import de.ott.ivy.data.enum.TaskStatus
+import de.ott.ivy.data.enums.TaskStatus
 import de.ott.ivy.ext.github.GithubExtension
 import de.ott.ivy.ext.github.config.Credentials
 import de.ott.ivy.ext.github.data.GitHubIssue
@@ -16,16 +16,12 @@ import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 import javafx.scene.text.Font
-import javafx.scene.text.FontWeight
 import javafx.scene.web.WebView
 import javafx.stage.Stage
-import javafx.stage.StageStyle
 import org.kohsuke.github.GHIssueState
 import org.kohsuke.github.GitHub
-import org.kohsuke.github.MarkdownMode
 import tornadofx.*
 import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.math.E
 
 
 class IssueDialog: View("GitHub Issues") {

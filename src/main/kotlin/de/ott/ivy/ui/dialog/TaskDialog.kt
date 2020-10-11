@@ -4,7 +4,7 @@ import de.ott.ivy.Entrypoint
 import de.ott.ivy.TaskExtension
 import de.ott.ivy.annotation.Extension
 import de.ott.ivy.data.IvyLeeTask
-import de.ott.ivy.data.enum.TaskStatus
+import de.ott.ivy.data.enums.TaskStatus
 import de.ott.ivy.html.MarkdownParser
 import javafx.event.EventHandler
 import javafx.scene.Scene
@@ -110,7 +110,7 @@ class TaskDialog : View("Task Dialog"){
             taskDesc.text = descr
             updateWebView()
             time.value = estTimeSeconds.toDouble() / 60.0
-            tb_frog.isSelected = frog
+            tb_frog.isSelected = favorite
             progress.progress = if (estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
     }
@@ -120,7 +120,7 @@ class TaskDialog : View("Task Dialog"){
             name = taskName.text
             descr = taskDesc.text
             estTimeSeconds = time.value.toInt() * 60
-            frog = tb_frog.isSelected
+            favorite = tb_frog.isSelected
             status = TaskStatus.UNDONE
             if(taskName.text.isBlank())
                 currTask!!.status = TaskStatus.EMPTY
