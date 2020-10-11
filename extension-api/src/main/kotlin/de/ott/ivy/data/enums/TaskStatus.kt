@@ -1,4 +1,4 @@
-package de.ott.ivy.data.enum
+package de.ott.ivy.data.enums
 
 import javafx.scene.paint.Color
 

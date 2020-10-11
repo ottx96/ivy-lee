@@ -2,7 +2,7 @@ package de.ott.ivy.ui.overview.event
 
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.TaskCellContainer
-import de.ott.ivy.data.enum.TaskStatus
+import de.ott.ivy.data.enums.TaskStatus
 import de.ott.ivy.html.MarkdownParser
 import de.ott.ivy.ui.overview.IvyLee
 import de.ott.ivy.ui.overview.IvyLee.Companion.getCellByBorderPane
