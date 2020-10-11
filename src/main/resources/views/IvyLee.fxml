@@ -9,30 +9,40 @@
 
 <ScrollPane fx:id="scroll_pane" hbarPolicy="NEVER" minHeight="150.0" minWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <content>
-      <AnchorPane fx:id="anchor_pane" prefHeight="800.0" prefWidth="450.0">
+      <AnchorPane fx:id="anchor_pane" minHeight="150.0" minWidth="300.0" prefHeight="800.0" prefWidth="450.0">
          <children>
             <VBox fx:id="tasklist" maxHeight="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ToolBar fx:id="tool_bar" nodeOrientation="RIGHT_TO_LEFT" style="-fx-background-color: #2B2B2B;" VBox.vgrow="NEVER">
-                     <items>
-                        <ImageView fx:id="add" fitHeight="36.0" fitWidth="36.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
-                           </image>
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                        </ImageView>
-                        <ImageView fx:id="settings" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                  <HBox fx:id="tool_bar" style="-fx-background-color: #3C3F41;">
+                     <children>
+                        <ImageView fx:id="settings" fitHeight="36.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../de/ott/ivy/images/material-design/png/settings-72px-white.png" />
                            </image>
                            <viewport>
                               <Rectangle2D />
                            </viewport>
+                           <HBox.margin>
+                              <Insets bottom="4.0" left="15.0" top="4.0" />
+                           </HBox.margin>
                         </ImageView>
-                     </items>
-                  </ToolBar>
+                        <Pane fx:id="pane_add" prefWidth="420.0">
+                           <children>
+                              <ImageView fx:id="add" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" x="344.0">
+                                 <image>
+                                    <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="4.0" top="4.0" />
+                           </HBox.margin>
+                        </Pane>
+                     </children>
+                  </HBox>
                   <BorderPane prefHeight="150.0" prefWidth="300.0" style="-fx-border-color: #000000;" GridPane.columnIndex="1" VBox.vgrow="SOMETIMES">
                      <top>
                         <Label fx:id="task_title_top_right" text="Titel" textAlignment="CENTER" BorderPane.alignment="top_left">

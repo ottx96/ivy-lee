@@ -8,19 +8,12 @@ import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.ui.event.IvyLeeEventHandler
 import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
-import javafx.scene.CacheHint
-import javafx.scene.control.*
-import javafx.scene.effect.Blend
-import javafx.scene.effect.BlendMode
-import javafx.scene.effect.ColorAdjust
-import javafx.scene.effect.ColorInput
-import javafx.scene.image.Image
+import javafx.scene.control.Label
+import javafx.scene.control.ProgressBar
+import javafx.scene.control.ProgressIndicator
+import javafx.scene.control.ScrollPane
 import javafx.scene.image.ImageView
-import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.HBox
-import javafx.scene.layout.VBox
-import javafx.scene.paint.Color
+import javafx.scene.layout.*
 import javafx.scene.web.WebView
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
@@ -59,8 +52,9 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     val anchorPane: AnchorPane by fxid("anchor_pane")
     val taskList: VBox by fxid("tasklist")
-    val toolBar: ToolBar by fxid("tool_bar")
+    val toolBar: HBox by fxid("tool_bar")
     val addButton: ImageView by fxid("add")
+    val addButtonPane: Pane by fxid("pane_add")
     val settingsButton: ImageView by fxid("settings")
 
     val eventHandler = IvyLeeEventHandler(anchorPane, taskList, toolBar, addButton)
@@ -71,6 +65,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
         root.content.onScroll = EventHandler {
             root.vvalue -= it.deltaY * SPEED
         }
+        addButtonPane.prefWidthProperty().bind( root.widthProperty() )
+        addButton.xProperty().bind(addButtonPane.widthProperty().minus( addButton.fitWidthProperty() ).minus(15))
 
         Thread.currentThread().name = MAIN_THREAD_NAME
         var oldTasks: List<IvyLeeTask>? = null
@@ -104,7 +100,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             bp.minWidthProperty().bind(root.widthProperty().minus(15))
             bp.minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())
                     .divide(min(4, max(1, oldTasks?.size?:1)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
-                    .minus(1.25))                                   //  border with is 2 px
+                    .minus(1.35))                                          //  border with is 2 px
 
             bp.onMouseEntered = EventHandler { eventHandler.mark(it) }
             bp.onMouseExited = EventHandler { eventHandler.unmark(it) }

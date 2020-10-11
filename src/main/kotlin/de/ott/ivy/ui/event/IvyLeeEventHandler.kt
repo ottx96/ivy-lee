@@ -13,12 +13,13 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
+import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import tornadofx.CssBox
 import tornadofx.style
 
-class IvyLeeEventHandler(val anchorPane: AnchorPane, val taskList: VBox, val toolBar: ToolBar, val addButton: ImageView) {
+class IvyLeeEventHandler(val anchorPane: AnchorPane, val taskList: VBox, val toolBar: HBox, val addButton: ImageView) {
 
     fun mark(event: MouseEvent) {
         (event.target as BorderPane).style {
