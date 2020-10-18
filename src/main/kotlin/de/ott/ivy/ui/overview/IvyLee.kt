@@ -14,6 +14,7 @@ import javafx.scene.layout.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
+import kotlinx.serialization.cbor.CborBuilder
 import tornadofx.View
 import tornadofx.minus
 import java.io.File
@@ -89,7 +90,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             println("downloading tasks from gdrive")
             gdrive.readTasks(tasksFile)
             println("loading tasks from file ${tasksFile.absolutePath ?: "NONE"}")
-            oldTasks = Cbor.decodeFromByteArray(ListSerializer(IvyLeeTask.serializer()), tasksFile.readBytes())
+            oldTasks = Cbor{ ignoreUnknownKeys = true }.decodeFromByteArray(ListSerializer(IvyLeeTask.serializer()), tasksFile.readBytes())
             oldTasks.forEach(::println)
         } catch (e: Exception) {
             e.printStackTrace()

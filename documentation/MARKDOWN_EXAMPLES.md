@@ -15,7 +15,7 @@ _Renders to:_
 
 ## Bold / Italic
 
-```markdown
+```text
 **Bold**  
 _Italic_  
 _**Bold Italic**_  
@@ -25,7 +25,7 @@ _Renders to:_
 
 ## Listings / Enumerations
 
-```markdown
+```text
 1. first item
 	- sub-item 1
 2. second item
@@ -41,7 +41,7 @@ _Renders to:_
 
 ## Checkboxes / TODOs
 
-```markdown
+```text
 - [ ] first item  
 - [x] second item  
 - [ ] third item  
@@ -53,11 +53,11 @@ _Renders to:_
 ## Custom Styles
 There are custom styles defined in [**style.css**](../src/main/resources/de/ott/ivy/css/style.css).
   
-```markdown
+```text
 ! This is an Information
-!! Warning!
-!v Success!
-!x ERROR!
+!! Warning
+!v Success
+!x ERROR
 ```
 _Renders to:_  
 ![custom styles](files/custom-syntax.png)
