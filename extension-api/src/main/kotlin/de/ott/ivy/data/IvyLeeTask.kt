@@ -17,23 +17,6 @@ import java.time.LocalDate
  *
  * UML: State diagram
  * @startuml
- *   [*] -> UNDONE: task creation
- *   UNDONE: edit
- *   UNDONE: delete
- *   UNDONE -> IN_WORK: right click
- *   IN_WORK --> DONE: right click
- *   IN_WORK: edit
- *   IN_WORK: delete
- *   DONE --> UNDONE: right click
- *   DONE: edit
- *   DONE: delete
- *   UNDONE -> [*]: deletion
- *   IN_WORK -> [*]: deletion
- *   DONE -> [*]: deletion
- * @enduml
- *
- * UML: State diagram
- * @startuml
  * State Setup {
  * State "user input" as aui
  *  aui: entry / open GUI screen
