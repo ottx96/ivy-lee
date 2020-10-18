@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -46,7 +47,7 @@
             <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#updateWebView" promptText="Task description (Markdown)" VBox.vgrow="ALWAYS" />
             <HBox alignment="TOP_CENTER" spacing="2.0" style="-fx-background-color: #dddddd;">
                <children>
-                  <DatePicker editable="false" prefHeight="32.0" prefWidth="150.0" promptText="due to" showWeekNumbers="true">
+                  <DatePicker fx:id="due_date" editable="false" prefHeight="32.0" prefWidth="150.0" promptText="due to" showWeekNumbers="true">
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin></DatePicker>
@@ -57,6 +58,9 @@
                      <HBox.margin>
                         <Insets bottom="4.0" left="150.0" top="4.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
                   <ImageView fx:id="priority_low" fitHeight="16.0" layoutX="420.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -65,6 +69,9 @@
                      <HBox.margin>
                         <Insets bottom="4.0" top="4.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
                   <ImageView fx:id="priority_medium" fitHeight="16.0" layoutX="406.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -73,6 +80,9 @@
                      <HBox.margin>
                         <Insets bottom="4.0" top="4.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
                   <ImageView fx:id="priority_high" fitHeight="16.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -81,6 +91,9 @@
                      <HBox.margin>
                         <Insets bottom="4.0" top="4.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
                   <ImageView fx:id="priority_highest" fitHeight="16.0" layoutX="534.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -89,6 +102,9 @@
                      <HBox.margin>
                         <Insets bottom="4.0" top="4.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
                   <ImageView fx:id="priority_critical" fitHeight="16.0" layoutX="548.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -97,10 +113,13 @@
                      <HBox.margin>
                         <Insets bottom="4.0" top="4.0" />
                      </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </ImageView>
-                  <Label prefHeight="32.0" text="Critical">
+                  <Label fx:id="lbl_priority" prefHeight="32.0" text="Lowest">
                      <font>
-                        <Font name="System Bold Italic" size="14.0" />
+                        <Font name="System Italic" size="14.0" />
                      </font>
                      <HBox.margin>
                         <Insets left="5.0" right="15.0" />

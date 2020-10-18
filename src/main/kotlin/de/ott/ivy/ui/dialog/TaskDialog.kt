@@ -9,13 +9,9 @@ import de.ott.ivy.data.enums.TaskStatus
 import de.ott.ivy.html.MarkdownParser
 import javafx.event.EventHandler
 import javafx.scene.Scene
-import javafx.scene.control.MenuItem
-import javafx.scene.control.SplitMenuButton
-import javafx.scene.control.TextArea
-import javafx.scene.control.TextField
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.image.PixelReader
 import javafx.scene.image.WritableImage
 import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
@@ -23,7 +19,10 @@ import javafx.scene.web.WebView
 import javafx.stage.Stage
 import kotlinx.serialization.ExperimentalSerializationApi
 import tornadofx.View
+import java.awt.event.MouseEvent
 import java.io.File
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 
 @ExperimentalSerializationApi
@@ -49,6 +48,8 @@ class TaskDialog : View("Task Dialog"){
     val webView: WebView by fxid("webview")
     val extensionsButton: SplitMenuButton by fxid("extensions")
     val extensionClassList = mutableMapOf<String, Class<*>>()
+    val labelPriority: Label by fxid("lbl_priority")
+    val dateChooser: DatePicker by fxid("due_date")
 
     val priorityLowest: ImageView by fxid("priority_lowest")
     val priorityLow: ImageView by fxid("priority_low")
@@ -57,15 +58,27 @@ class TaskDialog : View("Task Dialog"){
     val priorityHighest: ImageView by fxid("priority_highest")
     val priorityCritical: ImageView by fxid("priority_critical")
 
+    val prioritiesMapping =  listOf(priorityLowest, priorityLow, priorityMedium, priorityHigh, priorityHighest, priorityCritical )
+                              .zip(listOf(Priorities.LOWEST, Priorities.LOW, Priorities.MEDIUM, Priorities.HIGH, Priorities.HIGHEST, Priorities.CRITICAL ))
+
+    val priorityHover = EventHandler<javafx.scene.input.MouseEvent> { evt ->
+        var flag = false
+        prioritiesMapping.reversed().forEach {
+            if(evt.target == it.first){
+                flag = true
+                labelPriority.text = it.second.label
+            }
+            if(flag) it.first.image = colorize(it.first.image, Color.BLACK, it.second.color)
+            else it.first.image = Image("/de/ott/ivy/images/priority_element.png")
+        }
+    }
+
     init {
         initUIFromTask(currTask!!)
 
-        priorityLowest.image = colorize(priorityLowest.image, Color.BLACK, Priorities.LOWEST.color)
-        priorityLow.image = colorize(priorityLow.image, Color.BLACK, Priorities.LOW.color)
-        priorityMedium.image = colorize(priorityMedium.image, Color.BLACK, Priorities.MEDIUM.color)
-        priorityHigh.image = colorize(priorityHigh.image, Color.BLACK, Priorities.HIGH.color)
-        priorityHighest.image = colorize(priorityHighest.image, Color.BLACK, Priorities.HIGHEST.color)
-        priorityCritical.image = colorize(priorityCritical.image, Color.BLACK, Priorities.CRITICAL.color)
+        prioritiesMapping.forEach {
+            it.first.onMouseEntered = priorityHover
+        }
 
         File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt")!!.file).useLines { lines ->
             lines.filter(String::isNotBlank).forEach {
@@ -101,6 +114,8 @@ class TaskDialog : View("Task Dialog"){
             taskName.text = name
             updateHeader()
             taskDesc.text = descr
+            labelPriority.text = priority.label
+            dateChooser.editor.text = dueDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
             updateWebView()
         }
     }
