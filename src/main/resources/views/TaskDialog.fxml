@@ -117,7 +117,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <Label fx:id="lbl_priority" prefHeight="32.0" text="Lowest">
+                  <Label fx:id="lbl_priority" prefHeight="32.0" prefWidth="60.0" text="Lowest" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="System Italic" size="14.0" />
                      </font>

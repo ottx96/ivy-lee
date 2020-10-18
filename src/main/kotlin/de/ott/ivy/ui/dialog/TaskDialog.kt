@@ -19,7 +19,6 @@ import javafx.scene.web.WebView
 import javafx.stage.Stage
 import kotlinx.serialization.ExperimentalSerializationApi
 import tornadofx.View
-import java.awt.event.MouseEvent
 import java.io.File
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -31,13 +30,15 @@ class TaskDialog : View("Task Dialog"){
     companion object {
         private val COLOR_BORDER = Color.valueOf("#cc0000")
         var currTask: IvyLeeTask? = null
+        var nTask: IvyLeeTask? = null
 
         fun showDialog(task: IvyLeeTask): IvyLeeTask {
-            currTask = task
+            nTask = task
+            currTask = task.copy()
             Stage().apply {
                 scene = Scene(TaskDialog().root)
             }.showAndWait()
-            return currTask!!
+            return nTask!!
         }
     }
 
@@ -58,26 +59,23 @@ class TaskDialog : View("Task Dialog"){
     val priorityHighest: ImageView by fxid("priority_highest")
     val priorityCritical: ImageView by fxid("priority_critical")
 
-    val prioritiesMapping =  listOf(priorityLowest, priorityLow, priorityMedium, priorityHigh, priorityHighest, priorityCritical )
-                              .zip(listOf(Priorities.LOWEST, Priorities.LOW, Priorities.MEDIUM, Priorities.HIGH, Priorities.HIGHEST, Priorities.CRITICAL ))
 
-    val priorityHover = EventHandler<javafx.scene.input.MouseEvent> { evt ->
-        var flag = false
-        prioritiesMapping.reversed().forEach {
-            if(evt.target == it.first){
-                flag = true
-                labelPriority.text = it.second.label
-            }
-            if(flag) it.first.image = colorize(it.first.image, Color.BLACK, it.second.color)
-            else it.first.image = Image("/de/ott/ivy/images/priority_element.png")
-        }
-    }
+    val prioritiesMapping = listOf(priorityLowest, priorityLow, priorityMedium, priorityHigh, priorityHighest, priorityCritical )
+                              .zip(listOf(Priorities.LOWEST, Priorities.LOW, Priorities.MEDIUM, Priorities.HIGH, Priorities.HIGHEST, Priorities.CRITICAL )).toMap()
 
     init {
         initUIFromTask(currTask!!)
 
         prioritiesMapping.forEach {
-            it.first.onMouseEntered = priorityHover
+            it.component1().setOnMouseEntered { evt ->
+                updatePriorityIndicators(prioritiesMapping[evt.target]!!)
+            }
+            it.component1().onMouseClicked = EventHandler { evt ->
+                currTask!!.priority = prioritiesMapping[evt.target]!!
+            }
+            it.component1().setOnMouseExited {evt ->
+                updatePriorityIndicators(currTask!!.priority)
+            }
         }
 
         File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt")!!.file).useLines { lines ->
@@ -116,6 +114,7 @@ class TaskDialog : View("Task Dialog"){
             taskDesc.text = descr
             labelPriority.text = priority.label
             dateChooser.editor.text = dueDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+            updatePriorityIndicators(priority)
             updateWebView()
         }
     }
@@ -124,14 +123,18 @@ class TaskDialog : View("Task Dialog"){
         return task.apply {
             name = taskName.text
             descr = taskDesc.text
+
+            // TODO
             status = TaskStatus.UNDONE
+            priority = currTask!!.priority
+
             if(taskName.text.isBlank())
-                currTask!!.status = TaskStatus.EMPTY
+                status = TaskStatus.EMPTY
         }
     }
 
     fun ok() {
-        updateTask(currTask!!)
+        updateTask(nTask!!)
         close()
     }
 
@@ -160,6 +163,18 @@ class TaskDialog : View("Task Dialog"){
                         if(image.pixelReader.getColor(x, y) == old) new else image.pixelReader.getColor(x, y))
 
         return result
+    }
+
+    private fun updatePriorityIndicators(priority: Priorities){
+        var flag = false
+        prioritiesMapping.entries.reversed().forEach {
+            if(priority == it.component2()) {
+                flag = true
+                labelPriority.text = it.component2().label
+            }
+            if(flag) it.component1().image = colorize(it.component1().image, Color.BLACK, it.component2().color)
+            else it.component1().image = Image("/de/ott/ivy/images/priority_element.png")
+        }
     }
 
 }
