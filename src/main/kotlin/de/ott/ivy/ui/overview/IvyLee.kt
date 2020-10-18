@@ -14,7 +14,6 @@ import javafx.scene.layout.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
-import kotlinx.serialization.cbor.CborBuilder
 import tornadofx.View
 import tornadofx.minus
 import java.io.File
@@ -65,7 +64,10 @@ class IvyLee : View("Ivy-Lee Tracking") {
         addButton.xProperty().bind(addButtonPane.widthProperty().minus( addButton.fitWidthProperty() ).minus(15))
 
         addButton.setOnMouseClicked {
-            ComponentBuilder.createTaskContainer(IvyLeeTask(), taskList)
+            val task = IvyLeeTask()
+            val taskBuilt = ComponentBuilder.createTaskContainer(task)
+            taskList.children.add(taskBuilt.second)
+            tasks[taskBuilt.first] = task
 
             tasks.forEach { it.key.borderPane.apply {
                 minHeightProperty().unbind()
@@ -100,7 +102,11 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
         taskList.children.removeAll { it is BorderPane }
         oldTasks?.forEach { task ->
-            val bp = ComponentBuilder.createTaskContainer(task, taskList)
+            val built = ComponentBuilder.createTaskContainer(task)
+            val bp = built.second
+
+            taskList.children.add(bp)
+            tasks[built.first] = task
 
             bp.minWidthProperty().bind(root.widthProperty().minus(15))
             bp.minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())

@@ -7,6 +7,7 @@ import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.enums.Priorities
 import de.ott.ivy.data.enums.TaskStatus
 import de.ott.ivy.html.MarkdownParser
+import de.ott.ivy.ui.overview.impl.ComponentBuilder
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.*
@@ -14,6 +15,7 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.image.WritableImage
 import javafx.scene.layout.BorderPane
+import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.web.WebView
 import javafx.stage.Stage
@@ -44,13 +46,17 @@ class TaskDialog : View("Task Dialog"){
 
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
 
+    val vbox: VBox by fxid("vbox")
+
     val taskName: TextField by fxid("task_name")
     val taskDesc: TextArea by fxid("task_description")
-    val webView: WebView by fxid("webview")
     val extensionsButton: SplitMenuButton by fxid("extensions")
     val extensionClassList = mutableMapOf<String, Class<*>>()
     val labelPriority: Label by fxid("lbl_priority")
     val dateChooser: DatePicker by fxid("due_date")
+
+    val titleLabelUI: Label
+    val webView: WebView
 
     val priorityLowest: ImageView by fxid("priority_lowest")
     val priorityLow: ImageView by fxid("priority_low")
@@ -64,6 +70,17 @@ class TaskDialog : View("Task Dialog"){
                               .zip(listOf(Priorities.LOWEST, Priorities.LOW, Priorities.MEDIUM, Priorities.HIGH, Priorities.HIGHEST, Priorities.CRITICAL )).toMap()
 
     init {
+        // TODO: BorderPane (ganzen Task) einlesen!
+        val taskBuilt = ComponentBuilder.createTaskContainer(currTask!!)
+
+        with(taskBuilt.first){
+            webView = descLabel
+            titleLabelUI = titleLabel
+        }
+
+        vbox.children.add(0, taskBuilt.second)
+        taskBuilt.second.prefHeightProperty().bind( vbox.heightProperty().divide(2) )
+
         initUIFromTask(currTask!!)
 
         prioritiesMapping.forEach {
@@ -110,6 +127,7 @@ class TaskDialog : View("Task Dialog"){
     private fun initUIFromTask(task: IvyLeeTask) {
         with(task) {
             taskName.text = name
+            titleLabelUI.text = name
             updateHeader()
             taskDesc.text = descr
             labelPriority.text = priority.label
@@ -143,7 +161,7 @@ class TaskDialog : View("Task Dialog"){
     }
 
     fun updateHeader() {
-//        header.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
+        titleLabelUI.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
     }
 
     fun updateWebView(){

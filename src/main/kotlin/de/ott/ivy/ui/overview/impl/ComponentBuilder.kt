@@ -14,7 +14,7 @@ import javafx.scene.web.WebView
 
 object ComponentBuilder {
 
-    fun createTaskContainer(task: IvyLeeTask, taskList: VBox): BorderPane {
+    fun createTaskContainer(task: IvyLeeTask): Pair<TaskCellContainer, BorderPane> {
         println("Create borderPane for task: $task")
         val bp = FXMLLoader().apply {
             location = classLoader.getResource("views/TaskCell.fxml")
@@ -46,10 +46,8 @@ object ComponentBuilder {
                 }
             }
         }
-        taskList.children.add(bp)
-        IvyLee.tasks[TaskCellContainer(bp, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!)] = task
 
-        return bp
+        return TaskCellContainer(bp, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!) to bp
     }
 
 }
