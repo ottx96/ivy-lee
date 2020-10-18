@@ -38,50 +38,65 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <WebView id="webview" fx:id="webview" minHeight="125.0" minWidth="-1.0" opacity="0.73" prefHeight="-1.0" prefWidth="-1.0" />
-            <TextField fx:id="task_name" onKeyTyped="#updateHeader" promptText="Task name">
+            <WebView id="webview" fx:id="webview" minHeight="150.0" minWidth="-1.0" opacity="0.73" prefHeight="-1.0" prefWidth="-1.0" />
+            <TextField fx:id="task_name" onKeyTyped="#updateHeader" promptText="Title">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></TextField>
-            <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#updateWebView" promptText="Task description" VBox.vgrow="ALWAYS" />
-            <HBox prefWidth="200.0" spacing="2.0" style="-fx-background-color: #dddddd;">
+            <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#updateWebView" promptText="Task description (Markdown)" VBox.vgrow="ALWAYS" />
+            <HBox alignment="TOP_CENTER" spacing="2.0" style="-fx-background-color: #dddddd;">
                <children>
                   <DatePicker editable="false" prefHeight="32.0" prefWidth="150.0" promptText="due to" showWeekNumbers="true">
                      <HBox.margin>
                         <Insets left="15.0" />
                      </HBox.margin></DatePicker>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="314.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="priority_lowest" fitHeight="16.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                        <Image url="@../de/ott/ivy/images/priority_element.png" />
                      </image>
                      <HBox.margin>
-                        <Insets left="150.0" />
+                        <Insets bottom="4.0" left="150.0" top="4.0" />
                      </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="196.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="priority_low" fitHeight="16.0" layoutX="420.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                        <Image url="@../de/ott/ivy/images/priority_element.png" />
                      </image>
+                     <HBox.margin>
+                        <Insets bottom="4.0" top="4.0" />
+                     </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="285.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="priority_medium" fitHeight="16.0" layoutX="406.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                        <Image url="@../de/ott/ivy/images/priority_element.png" />
                      </image>
+                     <HBox.margin>
+                        <Insets bottom="4.0" top="4.0" />
+                     </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="327.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="priority_high" fitHeight="16.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                        <Image url="@../de/ott/ivy/images/priority_element.png" />
                      </image>
+                     <HBox.margin>
+                        <Insets bottom="4.0" top="4.0" />
+                     </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="369.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="priority_highest" fitHeight="16.0" layoutX="534.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                        <Image url="@../de/ott/ivy/images/priority_element.png" />
                      </image>
+                     <HBox.margin>
+                        <Insets bottom="4.0" top="4.0" />
+                     </HBox.margin>
                   </ImageView>
-                  <ImageView fitHeight="32.0" fitWidth="32.0" layoutX="411.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="priority_critical" fitHeight="16.0" layoutX="548.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                        <Image url="@../de/ott/ivy/images/priority_element.png" />
                      </image>
+                     <HBox.margin>
+                        <Insets bottom="4.0" top="4.0" />
+                     </HBox.margin>
                   </ImageView>
                   <Label prefHeight="32.0" text="Critical">
                      <font>

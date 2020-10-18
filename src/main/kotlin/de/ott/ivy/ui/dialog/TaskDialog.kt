@@ -4,21 +4,26 @@ import de.ott.ivy.Entrypoint
 import de.ott.ivy.TaskExtension
 import de.ott.ivy.annotation.Extension
 import de.ott.ivy.data.IvyLeeTask
+import de.ott.ivy.data.enums.Priorities
 import de.ott.ivy.data.enums.TaskStatus
 import de.ott.ivy.html.MarkdownParser
 import javafx.event.EventHandler
 import javafx.scene.Scene
-import javafx.scene.control.*
+import javafx.scene.control.MenuItem
+import javafx.scene.control.SplitMenuButton
+import javafx.scene.control.TextArea
+import javafx.scene.control.TextField
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.image.PixelReader
+import javafx.scene.image.WritableImage
 import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import javafx.scene.web.WebView
 import javafx.stage.Stage
 import kotlinx.serialization.ExperimentalSerializationApi
-import tornadofx.CssBox
 import tornadofx.View
-import tornadofx.style
 import java.io.File
-import java.lang.Exception
 
 
 @ExperimentalSerializationApi
@@ -40,54 +45,42 @@ class TaskDialog : View("Task Dialog"){
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
 
     val taskName: TextField by fxid("task_name")
-//    val header: Label by fxid("dialog_header")
-
     val taskDesc: TextArea by fxid("task_description")
     val webView: WebView by fxid("webview")
-
-//    val time: Slider by fxid("time")
-//    val lbl_time: Label by fxid("lbl_time")
-//    val tb_frog: ToggleButton by fxid("frog")
-//    val progress: ProgressIndicator by fxid("progress")
-
     val extensionsButton: SplitMenuButton by fxid("extensions")
-//    val delete: Button by fxid("delete")
-    val COLOR_DELETE = Color.valueOf("#e3736b")
-
     val extensionClassList = mutableMapOf<String, Class<*>>()
 
+    val priorityLowest: ImageView by fxid("priority_lowest")
+    val priorityLow: ImageView by fxid("priority_low")
+    val priorityMedium: ImageView by fxid("priority_medium")
+    val priorityHigh: ImageView by fxid("priority_high")
+    val priorityHighest: ImageView by fxid("priority_highest")
+    val priorityCritical: ImageView by fxid("priority_critical")
+
     init {
-//        delete.onMouseEntered = EventHandler{
-//            delete.style {
-//                backgroundColor += COLOR_DELETE.desaturate()
-//                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
-//            }
-//        }
-//        delete.onMouseExited = EventHandler {
-//            delete.style {
-//                backgroundColor += COLOR_DELETE
-//                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
-//            }
-//        }
-
-//        lbl_time.textProperty().bind(time.valueProperty().asString("%.0f m"))
-
         initUIFromTask(currTask!!)
+
+        priorityLowest.image = colorize(priorityLowest.image, Color.BLACK, Priorities.LOWEST.color)
+        priorityLow.image = colorize(priorityLow.image, Color.BLACK, Priorities.LOW.color)
+        priorityMedium.image = colorize(priorityMedium.image, Color.BLACK, Priorities.MEDIUM.color)
+        priorityHigh.image = colorize(priorityHigh.image, Color.BLACK, Priorities.HIGH.color)
+        priorityHighest.image = colorize(priorityHighest.image, Color.BLACK, Priorities.HIGHEST.color)
+        priorityCritical.image = colorize(priorityCritical.image, Color.BLACK, Priorities.CRITICAL.color)
 
         File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt")!!.file).useLines { lines ->
             lines.filter(String::isNotBlank).forEach {
                 try{
                     val cl = Class.forName(it)
                     if(!cl.interfaces.any { it == TaskExtension::class.java }) return@forEach
-                    extensionClassList[cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName] = cl
+                    extensionClassList[cl.getAnnotation(Extension::class.java)?.displayString ?: cl.simpleName] = cl
                     extensionsButton.items.add(
-                        MenuItem( cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName ).apply {
-                            onAction = EventHandler {event ->
-                                extensionsButton.text = (event.target as MenuItem).text
+                            MenuItem(cl.getAnnotation(Extension::class.java)?.displayString ?: cl.simpleName).apply {
+                                onAction = EventHandler { event ->
+                                    extensionsButton.text = (event.target as MenuItem).text
+                                }
                             }
-                        }
                     )
-                }catch(e: Exception){
+                }catch (e: Exception){
                     e.printStackTrace()
                 }
             }
@@ -109,9 +102,6 @@ class TaskDialog : View("Task Dialog"){
             updateHeader()
             taskDesc.text = descr
             updateWebView()
-//            time.value = estTimeSeconds.toDouble() / 60.0
-//            tb_frog.isSelected = favorite
-//            progress.progress = if (estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
         }
     }
 
@@ -119,8 +109,6 @@ class TaskDialog : View("Task Dialog"){
         return task.apply {
             name = taskName.text
             descr = taskDesc.text
-//            estTimeSeconds = time.value.toInt() * 60
-//            favorite = tb_frog.isSelected
             status = TaskStatus.UNDONE
             if(taskName.text.isBlank())
                 currTask!!.status = TaskStatus.EMPTY
@@ -145,6 +133,18 @@ class TaskDialog : View("Task Dialog"){
             webView.engine.userStyleSheetLocation = javaClass.getResource("/de/ott/ivy/css/style.css").toString()
 
         webView.engine.loadContent(MarkdownParser.convertHtml(taskDesc.text), "text/html")
+    }
+
+    private fun colorize(image: Image, old: Color, new: Color): Image {
+        val result = WritableImage(image.width.toInt(), image.height.toInt())
+        val writer = result.pixelWriter
+
+        for(x in 0 until image.width.toInt())
+            for(y in 0 until image.height.toInt())
+                writer.setColor(x, y,
+                        if(image.pixelReader.getColor(x, y) == old) new else image.pixelReader.getColor(x, y))
+
+        return result
     }
 
 }
