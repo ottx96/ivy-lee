@@ -148,12 +148,7 @@ class TaskDialog : View("Task Dialog"){
         close()
     }
 
-    fun updateHeader() {
-        updateTask(currTask!!)
-        TaskCellUpdater.updateTaskCell(currTask!!, taskComponents)
-    }
-
-    fun updateWebView(){
+    fun updateDisplayedTask() {
         updateTask(currTask!!)
         TaskCellUpdater.updateTaskCell(currTask!!, taskComponents)
     }

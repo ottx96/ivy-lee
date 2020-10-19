@@ -38,11 +38,11 @@
    <center>
       <VBox fx:id="vbox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <TextField fx:id="task_name" onKeyTyped="#updateHeader" promptText="Title">
+            <TextField fx:id="task_name" onKeyTyped="#updateDisplayedTask" promptText="Title">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></TextField>
-            <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#updateWebView" promptText="Task description (Markdown)" VBox.vgrow="ALWAYS" />
+            <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#updateDisplayedTask" promptText="Task description (Markdown)" VBox.vgrow="ALWAYS" />
             <HBox alignment="TOP_CENTER" spacing="2.0" style="-fx-background-color: #dddddd;">
                <children>
                   <DatePicker fx:id="due_date" editable="false" prefHeight="32.0" prefWidth="150.0" promptText="due to" showWeekNumbers="true">
