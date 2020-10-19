@@ -7,6 +7,7 @@ import de.ott.ivy.gdrive.ConnectionProvider
 import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.ui.overview.event.IvyLeeEventHandler
 import de.ott.ivy.ui.overview.impl.ComponentBuilder
+import de.ott.ivy.ui.overview.impl.TaskCellUpdater
 import javafx.event.EventHandler
 import javafx.scene.control.ScrollPane
 import javafx.scene.image.ImageView
@@ -82,7 +83,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 onMousePressed = EventHandler { eventHandler.onClick(it) }
             }}
 
-            tasks.forEach(eventHandler::updateCell)
+            TaskCellUpdater.updateTaskCell(task, taskBuilt.first)
         }
 
         Thread.currentThread().name = MAIN_THREAD_NAME
@@ -118,7 +119,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             bp.onMousePressed = EventHandler { eventHandler.onClick(it) }
 
             tasks.forEach(::println)
-            tasks.forEach(eventHandler::updateCell)
+            TaskCellUpdater.updateTaskCell(task, built.first)
         }
         when {
             tasks.isEmpty() -> root.prefHeight = 200.0
@@ -150,8 +151,5 @@ class IvyLee : View("Ivy-Lee Tracking") {
             start()
         }
     }
-
-
-
 
 }
