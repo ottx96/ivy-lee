@@ -4,21 +4,25 @@ import de.ott.ivy.Entrypoint
 import de.ott.ivy.TaskExtension
 import de.ott.ivy.annotation.Extension
 import de.ott.ivy.data.IvyLeeTask
+import de.ott.ivy.data.TaskCellContainer
+import de.ott.ivy.data.enums.Priorities
 import de.ott.ivy.data.enums.TaskStatus
-import de.ott.ivy.html.MarkdownParser
+import de.ott.ivy.ui.dialog.impl.TimeParser
+import de.ott.ivy.ui.overview.impl.ComponentBuilder
+import de.ott.ivy.ui.overview.impl.TaskCellUpdater
 import javafx.event.EventHandler
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
+import javafx.scene.image.WritableImage
 import javafx.scene.layout.BorderPane
+import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
-import javafx.scene.web.WebView
 import javafx.stage.Stage
 import kotlinx.serialization.ExperimentalSerializationApi
-import tornadofx.CssBox
 import tornadofx.View
-import tornadofx.style
 import java.io.File
-import java.lang.Exception
 
 
 @ExperimentalSerializationApi
@@ -27,67 +31,76 @@ class TaskDialog : View("Task Dialog"){
     companion object {
         private val COLOR_BORDER = Color.valueOf("#cc0000")
         var currTask: IvyLeeTask? = null
+        var nTask: IvyLeeTask? = null
 
         fun showDialog(task: IvyLeeTask): IvyLeeTask {
-            currTask = task
+            nTask = task
+            currTask = task.copy()
             Stage().apply {
                 scene = Scene(TaskDialog().root)
             }.showAndWait()
-            return currTask!!
+            return nTask!!
         }
     }
 
     override val root: BorderPane by fxml("/views/TaskDialog.fxml")
 
+    val vbox: VBox by fxid("vbox")
     val taskName: TextField by fxid("task_name")
-    val header: Label by fxid("dialog_header")
-
     val taskDesc: TextArea by fxid("task_description")
-    val webView: WebView by fxid("webview")
-
-    val time: Slider by fxid("time")
-    val lbl_time: Label by fxid("lbl_time")
-    val tb_frog: ToggleButton by fxid("frog")
-    val progress: ProgressIndicator by fxid("progress")
-
     val extensionsButton: SplitMenuButton by fxid("extensions")
-    val delete: Button by fxid("delete")
-    val COLOR_DELETE = Color.valueOf("#e3736b")
-
     val extensionClassList = mutableMapOf<String, Class<*>>()
+    val labelPriority: Label by fxid("lbl_priority")
+    val dateChooser: DatePicker by fxid("due_date")
+    val estTimePicker: TextField by fxid("est_time")
+
+    val priorityLowest: ImageView by fxid("priority_lowest")
+    val priorityLow: ImageView by fxid("priority_low")
+    val priorityMedium: ImageView by fxid("priority_medium")
+    val priorityHigh: ImageView by fxid("priority_high")
+    val priorityHighest: ImageView by fxid("priority_highest")
+    val priorityCritical: ImageView by fxid("priority_critical")
+
+    val prioritiesMapping = listOf(priorityLowest, priorityLow, priorityMedium, priorityHigh, priorityHighest, priorityCritical )
+                              .zip(listOf(Priorities.LOWEST, Priorities.LOW, Priorities.MEDIUM, Priorities.HIGH, Priorities.HIGHEST, Priorities.CRITICAL )).toMap()
+
+    val taskComponents: TaskCellContainer
 
     init {
-        delete.onMouseEntered = EventHandler{
-            delete.style {
-                backgroundColor += COLOR_DELETE.desaturate()
-                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
-            }
-        }
-        delete.onMouseExited = EventHandler {
-            delete.style {
-                backgroundColor += COLOR_DELETE
-                borderColor += CssBox(COLOR_BORDER, COLOR_BORDER, COLOR_BORDER, COLOR_BORDER)
-            }
-        }
-
-        lbl_time.textProperty().bind(time.valueProperty().asString("%.0f m"))
-
+        val taskBuilt = ComponentBuilder.createTaskContainer(currTask!!)
+        taskComponents = taskBuilt.first
         initUIFromTask(currTask!!)
+        TaskCellUpdater.updateTaskCell(currTask!!, taskComponents)
+
+        vbox.children.add(0, taskBuilt.second)
+        taskBuilt.second.prefHeightProperty().bind( vbox.heightProperty().divide(2) )
+
+        prioritiesMapping.forEach {
+            it.component1().setOnMouseEntered { evt ->
+                updatePriorityIndicators(prioritiesMapping[evt.target]!!)
+            }
+            it.component1().onMouseClicked = EventHandler { evt ->
+                currTask!!.priority = prioritiesMapping[evt.target]!!
+            }
+            it.component1().setOnMouseExited {
+                updatePriorityIndicators(currTask!!.priority)
+            }
+        }
 
         File(Entrypoint::class.java.classLoader.getResource("de/ott/ivy/extension/extensions.txt")!!.file).useLines { lines ->
             lines.filter(String::isNotBlank).forEach {
                 try{
                     val cl = Class.forName(it)
                     if(!cl.interfaces.any { it == TaskExtension::class.java }) return@forEach
-                    extensionClassList[cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName] = cl
+                    extensionClassList[cl.getAnnotation(Extension::class.java)?.displayString ?: cl.simpleName] = cl
                     extensionsButton.items.add(
-                        MenuItem( cl.getAnnotation(Extension::class.java)?.displayString?: cl.simpleName ).apply {
-                            onAction = EventHandler {event ->
-                                extensionsButton.text = (event.target as MenuItem).text
+                            MenuItem(cl.getAnnotation(Extension::class.java)?.displayString ?: cl.simpleName).apply {
+                                onAction = EventHandler { event ->
+                                    extensionsButton.text = (event.target as MenuItem).text
+                                }
                             }
-                        }
                     )
-                }catch(e: Exception){
+                }catch (e: Exception){
                     e.printStackTrace()
                 }
             }
@@ -100,18 +113,18 @@ class TaskDialog : View("Task Dialog"){
             val newTask = currTask!!.copy()  // create copy of the task
             inst.execute(newTask)  // execute the extension
             initUIFromTask(newTask)  // refresh UI with new task
+            TaskCellUpdater.updateTaskCell(newTask, taskComponents)
         }
     }
 
     private fun initUIFromTask(task: IvyLeeTask) {
         with(task) {
             taskName.text = name
-            updateHeader()
             taskDesc.text = descr
-            updateWebView()
-            time.value = estTimeSeconds.toDouble() / 60.0
-            tb_frog.isSelected = favorite
-            progress.progress = if (estTimeSeconds > 0) timeInvestedSeconds.toDouble() / estTimeSeconds.toDouble() else 0.0
+            labelPriority.text = priority.label
+            dateChooser.value = dueDate
+            estTimePicker.text = TimeParser.parseString(estTimeSeconds)
+            updatePriorityIndicators(priority)
         }
     }
 
@@ -119,16 +132,43 @@ class TaskDialog : View("Task Dialog"){
         return task.apply {
             name = taskName.text
             descr = taskDesc.text
-            estTimeSeconds = time.value.toInt() * 60
-            favorite = tb_frog.isSelected
+
+            dueDate = dateChooser.value
             status = TaskStatus.UNDONE
+            priority = currTask!!.priority
+            estTimeSeconds = TimeParser.parseSeconds(estTimePicker.text)
+
             if(taskName.text.isBlank())
-                currTask!!.status = TaskStatus.EMPTY
+                status = TaskStatus.EMPTY
+        }
+    }
+
+    private fun colorize(image: Image, old: Color, new: Color): Image {
+        val result = WritableImage(image.width.toInt(), image.height.toInt())
+        val writer = result.pixelWriter
+
+        for(x in 0 until image.width.toInt())
+            for(y in 0 until image.height.toInt())
+                writer.setColor(x, y,
+                        if(image.pixelReader.getColor(x, y) == old) new else image.pixelReader.getColor(x, y))
+
+        return result
+    }
+
+    private fun updatePriorityIndicators(priority: Priorities){
+        var flag = false
+        prioritiesMapping.entries.reversed().forEach {
+            if(priority == it.component2()) {
+                flag = true
+                labelPriority.text = it.component2().label
+            }
+            if(flag) it.component1().image = colorize(it.component1().image, Color.BLACK, it.component2().color)
+            else it.component1().image = Image("/de/ott/ivy/images/priority_element.png")
         }
     }
 
     fun ok() {
-        updateTask(currTask!!)
+        updateTask(nTask!!)
         close()
     }
 
@@ -136,21 +176,9 @@ class TaskDialog : View("Task Dialog"){
         close()
     }
 
-    fun delete(){
-        currTask!!.status = TaskStatus.UNDONE
-        currTask = IvyLeeTask()
-        close()
-    }
-
-    fun updateHeader() {
-        header.text = if(taskName.text.isBlank()) "Create Task" else taskName.text
-    }
-
-    fun updateWebView(){
-        if(webView.engine.userStyleSheetLocation.isNullOrBlank())
-            webView.engine.userStyleSheetLocation = javaClass.getResource("/de/ott/ivy/css/style.css").toString()
-
-        webView.engine.loadContent(MarkdownParser.convertHtml(taskDesc.text), "text/html")
+    fun updateDisplayedTask() {
+        updateTask(currTask!!)
+        TaskCellUpdater.updateTaskCell(currTask!!, taskComponents)
     }
 
 }

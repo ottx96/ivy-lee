@@ -7,6 +7,7 @@ import de.ott.ivy.gdrive.ConnectionProvider
 import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.ui.overview.event.IvyLeeEventHandler
 import de.ott.ivy.ui.overview.impl.ComponentBuilder
+import de.ott.ivy.ui.overview.impl.TaskCellUpdater
 import javafx.event.EventHandler
 import javafx.scene.control.ScrollPane
 import javafx.scene.image.ImageView
@@ -14,7 +15,6 @@ import javafx.scene.layout.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
-import kotlinx.serialization.cbor.CborBuilder
 import tornadofx.View
 import tornadofx.minus
 import java.io.File
@@ -65,7 +65,10 @@ class IvyLee : View("Ivy-Lee Tracking") {
         addButton.xProperty().bind(addButtonPane.widthProperty().minus( addButton.fitWidthProperty() ).minus(15))
 
         addButton.setOnMouseClicked {
-            ComponentBuilder.createTaskContainer(IvyLeeTask(), taskList)
+            val task = IvyLeeTask()
+            val taskBuilt = ComponentBuilder.createTaskContainer(task)
+            taskList.children.add(taskBuilt.second)
+            tasks[taskBuilt.first] = task
 
             tasks.forEach { it.key.borderPane.apply {
                 minHeightProperty().unbind()
@@ -80,7 +83,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
                 onMousePressed = EventHandler { eventHandler.onClick(it) }
             }}
 
-            tasks.forEach(eventHandler::updateCell)
+            TaskCellUpdater.updateTaskCell(task, taskBuilt.first)
         }
 
         Thread.currentThread().name = MAIN_THREAD_NAME
@@ -100,7 +103,11 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
         taskList.children.removeAll { it is BorderPane }
         oldTasks?.forEach { task ->
-            val bp = ComponentBuilder.createTaskContainer(task, taskList)
+            val built = ComponentBuilder.createTaskContainer(task)
+            val bp = built.second
+
+            taskList.children.add(bp)
+            tasks[built.first] = task
 
             bp.minWidthProperty().bind(root.widthProperty().minus(15))
             bp.minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())
@@ -112,7 +119,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
             bp.onMousePressed = EventHandler { eventHandler.onClick(it) }
 
             tasks.forEach(::println)
-            tasks.forEach(eventHandler::updateCell)
+            TaskCellUpdater.updateTaskCell(task, built.first)
         }
         when {
             tasks.isEmpty() -> root.prefHeight = 200.0
@@ -144,8 +151,5 @@ class IvyLee : View("Ivy-Lee Tracking") {
             start()
         }
     }
-
-
-
 
 }
