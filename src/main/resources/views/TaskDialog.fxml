@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="650.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <bottom>
        <ButtonBar GridPane.rowIndex="1">
            <buttons>
@@ -43,88 +43,104 @@
                   <Font name="System Bold" size="14.0" />
                </font></TextField>
             <TextArea fx:id="task_description" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyTyped="#updateDisplayedTask" promptText="Task description (Markdown)" VBox.vgrow="ALWAYS" />
-            <HBox alignment="TOP_CENTER" spacing="2.0" style="-fx-background-color: #dddddd;">
-               <children>
-                  <DatePicker fx:id="due_date" editable="false" prefHeight="32.0" prefWidth="150.0" promptText="due to" showWeekNumbers="true">
-                     <HBox.margin>
-                        <Insets left="15.0" />
-                     </HBox.margin></DatePicker>
-                  <ImageView fx:id="priority_lowest" fitHeight="16.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../de/ott/ivy/images/priority_element.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets bottom="4.0" left="150.0" top="4.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fx:id="priority_low" fitHeight="16.0" layoutX="420.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../de/ott/ivy/images/priority_element.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets bottom="4.0" top="4.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fx:id="priority_medium" fitHeight="16.0" layoutX="406.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../de/ott/ivy/images/priority_element.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets bottom="4.0" top="4.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fx:id="priority_high" fitHeight="16.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../de/ott/ivy/images/priority_element.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets bottom="4.0" top="4.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fx:id="priority_highest" fitHeight="16.0" layoutX="534.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../de/ott/ivy/images/priority_element.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets bottom="4.0" top="4.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fx:id="priority_critical" fitHeight="16.0" layoutX="548.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../de/ott/ivy/images/priority_element.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets bottom="4.0" top="4.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <Label fx:id="lbl_priority" prefHeight="32.0" prefWidth="60.0" text="Lowest" textAlignment="CENTER" wrapText="true">
-                     <font>
-                        <Font name="System Italic" size="14.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="5.0" right="15.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
+            <BorderPane maxHeight="28.0" minHeight="28.0">
+               <right>
+                  <HBox alignment="TOP_CENTER" spacing="2.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fx:id="priority_lowest" fitHeight="16.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="6.0" left="6.0" top="6.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fx:id="priority_low" fitHeight="16.0" layoutX="420.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="6.0" top="6.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fx:id="priority_medium" fitHeight="16.0" layoutX="406.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="6.0" top="6.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fx:id="priority_high" fitHeight="16.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="6.0" top="6.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fx:id="priority_highest" fitHeight="16.0" layoutX="534.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="6.0" top="6.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fx:id="priority_critical" fitHeight="16.0" layoutX="548.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets bottom="6.0" top="6.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <Label fx:id="lbl_priority" prefHeight="32.0" prefWidth="60.0" text="Lowest" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Italic" size="14.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                  </HBox>
+               </right>
+               <left>
+                  <HBox prefHeight="100.0" prefWidth="250.0" spacing="5.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <DatePicker fx:id="due_date" editable="false" minWidth="15.0" prefHeight="16.0" prefWidth="150.0" promptText="due to" showWeekNumbers="true" snapToPixel="false">
+                           <HBox.margin>
+                              <Insets bottom="6.0" left="5.0" top="6.0" />
+                           </HBox.margin>
+                        </DatePicker>
+                        <TextField prefWidth="100.0" promptText="3h 30m 20s">
+                           <HBox.margin>
+                              <Insets bottom="6.0" top="6.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                  </HBox>
+               </left>
+            </BorderPane>
             <Separator prefWidth="200.0" />
          </children>
       </VBox>
