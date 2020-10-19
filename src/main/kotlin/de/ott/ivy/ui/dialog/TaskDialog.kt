@@ -7,6 +7,7 @@ import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.TaskCellContainer
 import de.ott.ivy.data.enums.Priorities
 import de.ott.ivy.data.enums.TaskStatus
+import de.ott.ivy.ui.dialog.impl.TimeParser
 import de.ott.ivy.ui.overview.impl.ComponentBuilder
 import de.ott.ivy.ui.overview.impl.TaskCellUpdater
 import javafx.event.EventHandler
@@ -51,6 +52,7 @@ class TaskDialog : View("Task Dialog"){
     val extensionClassList = mutableMapOf<String, Class<*>>()
     val labelPriority: Label by fxid("lbl_priority")
     val dateChooser: DatePicker by fxid("due_date")
+    val estTimePicker: TextField by fxid("est_time")
 
     val priorityLowest: ImageView by fxid("priority_lowest")
     val priorityLow: ImageView by fxid("priority_low")
@@ -80,7 +82,7 @@ class TaskDialog : View("Task Dialog"){
             it.component1().onMouseClicked = EventHandler { evt ->
                 currTask!!.priority = prioritiesMapping[evt.target]!!
             }
-            it.component1().setOnMouseExited {evt ->
+            it.component1().setOnMouseExited {
                 updatePriorityIndicators(currTask!!.priority)
             }
         }
@@ -121,6 +123,7 @@ class TaskDialog : View("Task Dialog"){
             taskDesc.text = descr
             labelPriority.text = priority.label
             dateChooser.value = dueDate
+            estTimePicker.text = TimeParser.parseString(estTimeSeconds)
             updatePriorityIndicators(priority)
         }
     }
@@ -133,24 +136,11 @@ class TaskDialog : View("Task Dialog"){
             dueDate = dateChooser.value
             status = TaskStatus.UNDONE
             priority = currTask!!.priority
+            estTimeSeconds = TimeParser.parseSeconds(estTimePicker.text)
 
             if(taskName.text.isBlank())
                 status = TaskStatus.EMPTY
         }
-    }
-
-    fun ok() {
-        updateTask(nTask!!)
-        close()
-    }
-
-    fun cancel() {
-        close()
-    }
-
-    fun updateDisplayedTask() {
-        updateTask(currTask!!)
-        TaskCellUpdater.updateTaskCell(currTask!!, taskComponents)
     }
 
     private fun colorize(image: Image, old: Color, new: Color): Image {
@@ -175,6 +165,20 @@ class TaskDialog : View("Task Dialog"){
             if(flag) it.component1().image = colorize(it.component1().image, Color.BLACK, it.component2().color)
             else it.component1().image = Image("/de/ott/ivy/images/priority_element.png")
         }
+    }
+
+    fun ok() {
+        updateTask(nTask!!)
+        close()
+    }
+
+    fun cancel() {
+        close()
+    }
+
+    fun updateDisplayedTask() {
+        updateTask(currTask!!)
+        TaskCellUpdater.updateTaskCell(currTask!!, taskComponents)
     }
 
 }
