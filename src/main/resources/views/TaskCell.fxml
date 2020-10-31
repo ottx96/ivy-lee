@@ -2,11 +2,12 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
 
-<BorderPane prefHeight="100.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="150.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <WebView disable="true" opacity="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
@@ -43,10 +44,39 @@
       </HBox>
    </bottom>
    <top>
-      <Label fx:id="task_title_middle_right1" alignment="TOP_CENTER" contentDisplay="CENTER" text="Titel" textAlignment="CENTER" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="Calibri Light" size="18.0" />
-         </font>
-      </Label>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <Label fx:id="task_title_middle_right1" alignment="TOP_CENTER" contentDisplay="CENTER" text="Titel" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Calibri Light" size="18.0" />
+               </font>
+            </Label>
+         </center>
+         <left>
+            <HBox BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/delete-72px-light_red.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+         </left>
+         <right>
+            <HBox BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+         </right>
+      </BorderPane>
    </top>
 </BorderPane>
