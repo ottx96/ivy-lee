@@ -52,7 +52,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val addButtonPane: Pane by fxid("pane_add")
     val settingsButton: ImageView by fxid("settings")
 
-    val eventHandler = IvyLeeEventHandler(taskList)
+    private val eventHandler = IvyLeeEventHandler(taskList)
 
     init {
         // set scroll speed
