@@ -10,9 +10,11 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
+import kotlinx.serialization.ExperimentalSerializationApi
 import tornadofx.CssBox
 import tornadofx.style
 
+@ExperimentalSerializationApi
 class IvyLeeEventHandler(private val taskList: VBox) {
 
     fun mark(event: MouseEvent) {

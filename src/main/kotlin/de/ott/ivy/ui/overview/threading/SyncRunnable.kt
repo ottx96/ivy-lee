@@ -4,11 +4,13 @@ import de.ott.ivy.config.Configuration
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.ui.overview.IvyLee
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
 import java.io.File
 
-class SyncRunnable(val gdrive: RemoteFilesHandler): Runnable {
+@ExperimentalSerializationApi
+class SyncRunnable(private val gdrive: RemoteFilesHandler): Runnable {
     override fun run() {
         while (true) {
             var ct = 0

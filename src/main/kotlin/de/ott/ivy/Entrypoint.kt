@@ -89,7 +89,7 @@ class Entrypoint: App(IvyLee::class){
         if(!CONFIG_FILE.exists())
             // run setup!
             if(!SetupDialog.showDialog()){
-                // Setup was cancelled!
+                // setup was cancelled!
                 Platform.exit()
                 exitProcess(0)
             }
@@ -98,7 +98,7 @@ class Entrypoint: App(IvyLee::class){
         stage.onCloseRequest = EventHandler {
             val tasksFile = File("tasks.db")
 
-            //Speichern auf nFile
+            // save to file
             println("Exit..")
             IvyLee.tasks.values.filter { it.status == TaskStatus.IN_WORK }.forEach {
                 it.status = TaskStatus.UNDONE

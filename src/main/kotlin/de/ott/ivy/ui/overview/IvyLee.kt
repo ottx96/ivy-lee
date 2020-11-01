@@ -40,10 +40,10 @@ class IvyLee : View("Ivy-Lee Tracking") {
         const val MAIN_THREAD_NAME = "UI_THREAD"
         val tasks = mapOf<TaskCellContainer, IvyLeeTask>().toMutableMap()
 
-        private val gdrive = RemoteFilesHandler(ConnectionProvider.connect())
+        val gdrive = RemoteFilesHandler(ConnectionProvider.connect())
 
-        private fun Map<TaskCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
-        private fun Map<TaskCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
+        fun Map<TaskCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
+        fun Map<TaskCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
     }
 
     val anchorPane: AnchorPane by fxid("anchor_pane")
