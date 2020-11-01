@@ -1,12 +1,9 @@
 package de.ott.ivy.ui.overview.event
 
-import de.ott.ivy.ui.dialog.TaskDialog
 import de.ott.ivy.ui.overview.IvyLee
-import de.ott.ivy.ui.overview.IvyLee.Companion.getCellByBorderPane
 import de.ott.ivy.ui.overview.IvyLee.Companion.getTaskByBorderPane
 import de.ott.ivy.ui.overview.event.impl.BrowserHandler
 import de.ott.ivy.ui.overview.event.impl.DeleteButtonHandler
-import de.ott.ivy.ui.overview.impl.TaskCellUpdater
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane

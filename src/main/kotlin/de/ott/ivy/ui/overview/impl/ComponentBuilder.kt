@@ -24,6 +24,13 @@ object ComponentBuilder {
 
         val title: Label = (bp.top as BorderPane).center as Label
         val buttonDelete: ImageView = ((bp.top as BorderPane).left as HBox).children.first { it.id == "delete" } as ImageView
+        val deletionOk: ImageView = ((bp.top as BorderPane).left as HBox).children.first { it.id == "delete_ok" } as ImageView
+        val deletionCancel: ImageView = ((bp.top as BorderPane).left as HBox).children.first { it.id == "delete_cancel" } as ImageView
+
+        // set invisible, show when pressing delete
+        deletionOk.isVisible = false
+        deletionCancel.isVisible = false
+
         val buttonExpand: ImageView = ((bp.top as BorderPane).right as HBox).children.first { it.id == "expand" } as ImageView
         val desc: WebView = bp.center as WebView
         val time: Label = (bp.bottom as HBox).children.first { it is Label } as Label

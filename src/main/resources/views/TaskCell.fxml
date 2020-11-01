@@ -67,6 +67,16 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
+                  <ImageView fx:id="delete_cancel" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/clear-72px-black.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="delete_ok" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/done-72px-black.png" />
+                     </image>
+                  </ImageView>
                </children>
             </HBox>
          </left>
