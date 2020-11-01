@@ -8,6 +8,7 @@ import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.ui.overview.event.IvyLeeEventHandler
 import de.ott.ivy.ui.overview.impl.ComponentBuilder
 import de.ott.ivy.ui.overview.impl.TaskCellUpdater
+import de.ott.ivy.ui.overview.threading.SyncRunnable
 import javafx.event.EventHandler
 import javafx.scene.control.ScrollPane
 import javafx.scene.image.ImageView
@@ -37,8 +38,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     companion object {
         const val MAIN_THREAD_NAME = "UI_THREAD"
-
         val tasks = mapOf<TaskCellContainer, IvyLeeTask>().toMutableMap()
+
         val gdrive = RemoteFilesHandler(ConnectionProvider.connect())
 
         fun Map<TaskCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
@@ -52,7 +53,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
     val addButtonPane: Pane by fxid("pane_add")
     val settingsButton: ImageView by fxid("settings")
 
-    val eventHandler = IvyLeeEventHandler(taskList)
+    private val eventHandler = IvyLeeEventHandler(taskList)
 
     init {
         // set scroll speed
@@ -130,23 +131,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     init {
         // auto-sync tasks to gdrive
-        Thread {
-            while (true) {
-                var ct = 0
-                try {
-                    sleep(1000 * 60 * 15) // 15 Minuten
-                    if (++ct % 10 == 0) // 150 Minuten
-                        gdrive.cleanupFilesOlderThan(Configuration.instance.cleanInterval, Configuration.instance.timeUnit)
-                    // write file
-                    println("syncing tasks to gdrive..")
-                    val tasks = File("tasks-auto-sync.db")
-                    tasks.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), Companion.tasks.values.toList()))
-                    gdrive.saveTasks(tasks)
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }.apply {
+        Thread(SyncRunnable(gdrive)).apply {
             isDaemon = true
             start()
         }

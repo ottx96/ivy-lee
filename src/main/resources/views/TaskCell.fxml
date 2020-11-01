@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.web.*?>
 
-<BorderPane prefHeight="100.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="150.0" prefWidth="450.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <WebView disable="true" opacity="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <WebView fx:id="browser" disable="true" opacity="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mouseTransparent="true" BorderPane.alignment="CENTER">
@@ -21,12 +23,12 @@
                   <Insets bottom="2.0" left="4.0" right="2.0" top="2.0" />
                </HBox.margin>
             </Label>
-            <ProgressBar fx:id="progress_middle_right1" maxWidth="1.7976931348623157E308" progress="1.0" HBox.hgrow="ALWAYS">
+            <ProgressBar fx:id="progress_middle_right" maxWidth="1.7976931348623157E308" progress="1.0" HBox.hgrow="ALWAYS">
                <HBox.margin>
                   <Insets bottom="2.0" top="2.0" />
                </HBox.margin>
             </ProgressBar>
-            <ProgressBar fx:id="progress_additional_middle_right1" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
+            <ProgressBar fx:id="progress_additional_middle_right" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
                <HBox.margin>
                   <Insets bottom="2.0" top="2.0" />
                </HBox.margin>
@@ -43,10 +45,55 @@
       </HBox>
    </bottom>
    <top>
-      <Label fx:id="task_title_middle_right1" alignment="TOP_CENTER" contentDisplay="CENTER" text="Titel" textAlignment="CENTER" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="Calibri Light" size="18.0" />
-         </font>
-      </Label>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <Label fx:id="task_title_middle_right1" alignment="TOP_CENTER" contentDisplay="CENTER" text="Titel" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <font>
+                  <Font name="Calibri Light" size="18.0" />
+               </font>
+            </Label>
+         </center>
+         <left>
+            <HBox fx:id="delete" BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="delete" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/delete-72px-light_red.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="delete_cancel" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/clear-72px-black.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="delete_ok" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/done-72px-black.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </left>
+         <right>
+            <HBox BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fx:id="expand" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@../de/ott/ivy/images/material-design/png/north-east-72px-black.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+         </right>
+      </BorderPane>
    </top>
 </BorderPane>

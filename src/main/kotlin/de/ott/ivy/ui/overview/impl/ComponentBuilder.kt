@@ -3,10 +3,12 @@ package de.ott.ivy.ui.overview.impl
 import de.ott.ivy.data.IvyLeeTask
 import de.ott.ivy.data.TaskCellContainer
 import de.ott.ivy.ui.overview.IvyLee
+import io.opencensus.common.Functions
 import javafx.fxml.FXMLLoader
 import javafx.scene.control.Label
 import javafx.scene.control.ProgressBar
 import javafx.scene.control.ProgressIndicator
+import javafx.scene.image.ImageView
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
@@ -20,34 +22,23 @@ object ComponentBuilder {
             location = classLoader.getResource("views/TaskCell.fxml")
         }.load<BorderPane>()
 
-        var title: Label? = null
-        var desc: WebView? = null
-        var time: Label? = null
-        var status: ProgressIndicator? = null
-        var progress: ProgressBar? = null
-        var progressAdditional: ProgressBar? = null
-        bp.children.forEach { bpChild ->
-            println("curr child: $bpChild")
-            when (bpChild) {
-                is Label -> title = bpChild
-                is WebView -> desc = bpChild
-                is HBox -> {
-                    bpChild.children.forEach { hbChild ->
-                        when (hbChild) {
-                            is ProgressBar -> {
-                                if (hbChild.id.matches(Regex(""".*additional.*""")))
-                                    progressAdditional = hbChild
-                                else progress = hbChild
-                            }
-                            is Label -> time = hbChild
-                            is ProgressIndicator -> status = hbChild
-                        }
-                    }
-                }
-            }
-        }
+        val title: Label = (bp.top as BorderPane).center as Label
+        val buttonDelete: ImageView = ((bp.top as BorderPane).left as HBox).children.first { it.id == "delete" } as ImageView
+        val deletionOk: ImageView = ((bp.top as BorderPane).left as HBox).children.first { it.id == "delete_ok" } as ImageView
+        val deletionCancel: ImageView = ((bp.top as BorderPane).left as HBox).children.first { it.id == "delete_cancel" } as ImageView
 
-        return TaskCellContainer(bp, title!!, desc!!, time!!, progress!!, progressAdditional!!, status!!) to bp
+        // set invisible, show when pressing delete
+        deletionOk.isVisible = false
+        deletionCancel.isVisible = false
+
+        val buttonExpand: ImageView = ((bp.top as BorderPane).right as HBox).children.first { it.id == "expand" } as ImageView
+        val desc: WebView = bp.center as WebView
+        val time: Label = (bp.bottom as HBox).children.first { it is Label } as Label
+        val status: ProgressIndicator = (bp.bottom as HBox).children.first {  it is ProgressIndicator } as ProgressIndicator
+        val progress: ProgressBar = (bp.bottom as HBox).children.first { it.id == "progress_middle_right" } as ProgressBar
+        val progressAdditional: ProgressBar = (bp.bottom as HBox).children.first { it.id == "progress_additional_middle_right" } as ProgressBar
+
+        return TaskCellContainer(bp, title, buttonDelete, buttonExpand, desc, time, progress, progressAdditional, status) to bp
     }
 
 }
