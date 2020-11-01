@@ -42,8 +42,9 @@ class IvyLeeEventHandler(private val taskList: VBox) {
                     BrowserHandler.onRightClick(element)
             }
             is ImageView -> {
-                if(event.isPrimaryButtonDown && element.id == "delete")
-                    DeleteButtonHandler.onLeftClick()
+                if (event.isPrimaryButtonDown && element.id == "delete")
+                    // ImageView > HBox (left) > BorderPane (top) > BorderPane (main frame)
+                    DeleteButtonHandler.onLeftClick((element.parent.parent.parent as BorderPane), taskList)
             }
         }
     }
