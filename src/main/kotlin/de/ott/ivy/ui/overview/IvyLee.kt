@@ -8,6 +8,7 @@ import de.ott.ivy.gdrive.RemoteFilesHandler
 import de.ott.ivy.ui.overview.event.IvyLeeEventHandler
 import de.ott.ivy.ui.overview.impl.ComponentBuilder
 import de.ott.ivy.ui.overview.impl.TaskCellUpdater
+import de.ott.ivy.ui.overview.threading.SyncRunnable
 import javafx.event.EventHandler
 import javafx.scene.control.ScrollPane
 import javafx.scene.image.ImageView
@@ -37,12 +38,12 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     companion object {
         const val MAIN_THREAD_NAME = "UI_THREAD"
-
         val tasks = mapOf<TaskCellContainer, IvyLeeTask>().toMutableMap()
-        val gdrive = RemoteFilesHandler(ConnectionProvider.connect())
 
-        fun Map<TaskCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
-        fun Map<TaskCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
+        private val gdrive = RemoteFilesHandler(ConnectionProvider.connect())
+
+        private fun Map<TaskCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
+        private fun Map<TaskCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
     }
 
     val anchorPane: AnchorPane by fxid("anchor_pane")
@@ -130,23 +131,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     init {
         // auto-sync tasks to gdrive
-        Thread {
-            while (true) {
-                var ct = 0
-                try {
-                    sleep(1000 * 60 * 15) // 15 Minuten
-                    if (++ct % 10 == 0) // 150 Minuten
-                        gdrive.cleanupFilesOlderThan(Configuration.instance.cleanInterval, Configuration.instance.timeUnit)
-                    // write file
-                    println("syncing tasks to gdrive..")
-                    val tasks = File("tasks-auto-sync.db")
-                    tasks.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), Companion.tasks.values.toList()))
-                    gdrive.saveTasks(tasks)
-                } catch (e: java.lang.Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }.apply {
+        Thread(SyncRunnable(gdrive)).apply {
             isDaemon = true
             start()
         }
