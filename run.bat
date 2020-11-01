@@ -1,1 +1,2 @@
+git pull
 .\gradlew run
