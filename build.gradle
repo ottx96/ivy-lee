@@ -43,7 +43,7 @@ dependencies {
     implementation group: 'com.atlassian.commonmark', name: 'commonmark-ext-task-list-items', version: '0.15.2' // Task items
 
     // GDrive API
-    compile 'com.google.api-client:google-api-client:1.31.0'
+    compile 'com.google.api-client:google-api-client:1.31.1'
     compile group: 'com.google.apis', name: 'google-api-services-drive', version: 'v3-rev20201108-1.30.10'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.31.2'
 
