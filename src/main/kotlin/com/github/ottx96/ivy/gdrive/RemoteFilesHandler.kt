@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class RemoteFilesHandler(val service: Drive) {
+class RemoteFilesHandler(private val service: Drive) {
 
     fun cleanupFilesOlderThan(time: Long, chronoUnit: ChronoUnit) {
         println("cleaning outdated gdrive files..")

@@ -37,7 +37,7 @@ class NotificationBlockParser(private val type: Notification) : AbstractBlockPar
         val fullLine = state.line.content
         val currentLine = fullLine.subSequence(state.column + state.indent, fullLine.length)
         val matcher = NOTIFICATIONS_LINE.matcher(currentLine)
-        return if (!matcher.matches() || type != Notification.Companion.fromString(
+        return if (!matcher.matches() || type != Notification.fromString(
                 matcher.group(1)
             )
         ) BlockContinue.none() else BlockContinue.atColumn(state.column + state.indent + matcher.start(2))

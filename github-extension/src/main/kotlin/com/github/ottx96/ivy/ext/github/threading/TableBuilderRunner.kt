@@ -6,7 +6,7 @@ import javafx.scene.control.TreeItem
 import javafx.scene.control.TreeTableView
 import java.util.concurrent.atomic.AtomicBoolean
 
-class TableBuilderRunner(val table: TreeTableView<GitHubIssue>, val query: String): Runnable {
+class TableBuilderRunner(private val table: TreeTableView<GitHubIssue>, private val query: String): Runnable {
 
     companion object{
         val running = AtomicBoolean(false)
@@ -16,7 +16,7 @@ class TableBuilderRunner(val table: TreeTableView<GitHubIssue>, val query: Strin
         if(running.get()) return
         running.set(true)
         IssueDialog.github.searchRepositories().q("user:${IssueDialog.github.myself.login}").list().forEach { repo ->
-            val header = TreeItem(GitHubIssue(null, "", "", "${repo.fullName}"))
+            val header = TreeItem(GitHubIssue(null, "", "", repo.fullName))
             header.isExpanded = true
             table.root.children.add(header)
 

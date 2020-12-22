@@ -1,6 +1,5 @@
 package com.github.ottx96.ivy.ext.github.ui
 
-import com.google.gson.GsonBuilder
 import com.github.ottx96.ivy.ext.github.GithubExtension
 import com.github.ottx96.ivy.ext.github.config.Credentials
 import javafx.event.EventHandler
@@ -54,7 +53,7 @@ class SetupDialog: View("") {
                 close()
             }
 
-            if(!(g?.isCredentialValid?:false)){
+            if(g?.isCredentialValid != true){
                 buttonOk.isDisable = true
                 g = GitHub.connect(username.text, token.text)
                 buttonOk.isDisable = false

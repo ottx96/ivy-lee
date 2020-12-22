@@ -41,7 +41,7 @@ class IssueDialog: View("GitHub Issues") {
     var task: IvyLeeTask? = null
 
     companion object {
-        val github by lazy {
+        val github: GitHub by lazy {
             with(Credentials.fromJson(GithubExtension.CREDENTIALS_FILE)!!) {
                 return@lazy GitHub.connect(user, oAuthToken)
             }

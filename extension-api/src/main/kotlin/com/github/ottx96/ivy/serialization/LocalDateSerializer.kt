@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter
 
 @Serializer(forClass = LocalDate::class)
 object LocalDateSerializer : KSerializer<LocalDate> {
-    val DATE_FORMAT: DateTimeFormatter = DateTimeFormatter.BASIC_ISO_DATE
+    private val DATE_FORMAT: DateTimeFormatter = DateTimeFormatter.BASIC_ISO_DATE
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LOCAL_DATE_SERIALIZER", PrimitiveKind.STRING)
 

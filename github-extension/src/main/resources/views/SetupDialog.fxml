@@ -18,35 +18,33 @@
       </Label>
    </header>
    <content>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="12.0">
-         <children>
-            <TextField fx:id="username" promptText="Username" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <TextField fx:id="token" prefWidth="225.0" promptText="Personal access token" />
-                  <Hyperlink fx:id="create" alignment="CENTER_RIGHT" text="create" textAlignment="RIGHT" wrapText="true">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                     <padding>
-                        <Insets bottom="2.0" />
-                     </padding>
-                  </Hyperlink>
-               </children>
-            </HBox>
-            <ButtonBar prefHeight="40.0" prefWidth="200.0">
-              <buttons>
-                 <Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" text="Cancel" />
-                 <Button fx:id="ok" defaultButton="true" mnemonicParsing="false" text="Connect">
-                     <graphic>
-                        <ImageView fx:id="imageview" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" />
-                     </graphic></Button>
-              </buttons>
-            </ButtonBar>
-         </children>
-      </VBox>
+       <VBox prefHeight="200.0" prefWidth="100.0" spacing="12.0">
+           <TextField fx:id="username" promptText="Username"/>
+           <HBox prefHeight="100.0" prefWidth="200.0">
+               <TextField fx:id="token" prefWidth="225.0" promptText="Personal access token"/>
+               <Hyperlink fx:id="create" alignment="CENTER_RIGHT" text="create" textAlignment="RIGHT" wrapText="true">
+                   <font>
+                       <Font size="14.0"/>
+                   </font>
+                   <HBox.margin>
+                       <Insets left="5.0"/>
+                   </HBox.margin>
+                   <padding>
+                       <Insets bottom="2.0"/>
+                   </padding>
+               </Hyperlink>
+           </HBox>
+           <ButtonBar prefHeight="40.0" prefWidth="200.0">
+               <buttons>
+                   <Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" text="Cancel"/>
+                   <Button fx:id="ok" defaultButton="true" mnemonicParsing="false" text="Connect">
+                       <graphic>
+                           <ImageView fx:id="imageview" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true"
+                                      preserveRatio="true"/>
+                       </graphic>
+                   </Button>
+               </buttons>
+           </ButtonBar>
+       </VBox>
    </content>
 </DialogPane>

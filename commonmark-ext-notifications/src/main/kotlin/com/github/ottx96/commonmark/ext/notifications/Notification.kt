@@ -36,7 +36,7 @@ enum class Notification {
 
     companion object {
         fun fromString(s: String?): Notification {
-            return if (s == null || s.trim { it <= ' ' }.length == 0) {
+            return if (s == null || s.trim { it <= ' ' }.isEmpty()) {
                 INFO
             } else when (s) {
                 "v" -> SUCCESS

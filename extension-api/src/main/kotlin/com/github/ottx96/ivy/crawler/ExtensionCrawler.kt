@@ -29,7 +29,7 @@ object ExtensionCrawler {
                     // Try to create an instance of the object
                     try{
                         val c = Class.forName(fullyQualifiedClassName)
-                        if(c.getAnnotation(com.github.ottx96.ivy.annotation.Extension::class.java) != null){
+                        if(c.getAnnotation(Extension::class.java) != null){
                             println("Extension found in class: $c")
                         }
                     }catch(e: ClassNotFoundException){

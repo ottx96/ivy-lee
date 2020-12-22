@@ -13,36 +13,37 @@
       <WebView fx:id="browser" disable="true" opacity="0.8" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mouseTransparent="true" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="time_middle_right1" alignment="top_left" text="120 m">
-               <font>
-                  <Font size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="2.0" left="4.0" right="2.0" top="2.0" />
-               </HBox.margin>
-            </Label>
-            <ProgressBar fx:id="progress_middle_right" maxWidth="1.7976931348623157E308" progress="1.0" HBox.hgrow="ALWAYS">
-               <HBox.margin>
-                  <Insets bottom="2.0" top="2.0" />
-               </HBox.margin>
-            </ProgressBar>
-            <ProgressBar fx:id="progress_additional_middle_right" maxWidth="1.7976931348623157E308" prefHeight="18.0" prefWidth="71.0" progress="0.38">
-               <HBox.margin>
-                  <Insets bottom="2.0" top="2.0" />
-               </HBox.margin>
-            </ProgressBar>
-            <ProgressIndicator fx:id="status_middle_right1" progress="1.0">
-               <padding>
-                  <Insets bottom="-18.0" />
-               </padding>
-               <HBox.margin>
-                  <Insets bottom="2.0" right="4.0" top="2.0" />
-               </HBox.margin>
-            </ProgressIndicator>
-         </children>
-      </HBox>
+       <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+             mouseTransparent="true" BorderPane.alignment="CENTER">
+           <Label fx:id="time_middle_right1" alignment="top_left" text="120 m">
+              <font>
+                  <Font size="14.0"/>
+              </font>
+              <HBox.margin>
+                  <Insets bottom="2.0" left="4.0" right="2.0" top="2.0"/>
+              </HBox.margin>
+           </Label>
+           <ProgressBar fx:id="progress_middle_right" maxWidth="1.7976931348623157E308" progress="1.0"
+                        HBox.hgrow="ALWAYS">
+              <HBox.margin>
+                  <Insets bottom="2.0" top="2.0"/>
+              </HBox.margin>
+           </ProgressBar>
+           <ProgressBar fx:id="progress_additional_middle_right" maxWidth="1.7976931348623157E308" prefHeight="18.0"
+                        prefWidth="71.0" progress="0.38">
+              <HBox.margin>
+                  <Insets bottom="2.0" top="2.0"/>
+              </HBox.margin>
+           </ProgressBar>
+           <ProgressIndicator fx:id="status_middle_right1" progress="1.0">
+              <padding>
+                  <Insets bottom="-18.0"/>
+              </padding>
+              <HBox.margin>
+                  <Insets bottom="2.0" right="4.0" top="2.0"/>
+              </HBox.margin>
+           </ProgressIndicator>
+       </HBox>
    </bottom>
    <top>
       <BorderPane BorderPane.alignment="CENTER">
@@ -54,45 +55,35 @@
             </Label>
          </center>
          <left>
-            <HBox fx:id="delete" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fx:id="delete" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/material-design/png/delete-72px-light_red.png" />
-                     </image>
+             <HBox fx:id="delete" BorderPane.alignment="CENTER">
+                 <ImageView fx:id="delete" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets left="5.0" />
+                         <Insets left="5.0"/>
                      </HBox.margin>
                      <cursor>
-                        <Cursor fx:constant="HAND" />
+                         <Cursor fx:constant="HAND"/>
                      </cursor>
-                  </ImageView>
-                  <ImageView fx:id="delete_cancel" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/material-design/png/clear-72px-black.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="delete_ok" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/material-design/png/done-72px-black.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
+                     <Image url="@../images/material-design/png/delete-72px-light_red.png"/>
+                 </ImageView>
+                 <ImageView fx:id="delete_cancel" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+                            preserveRatio="true">
+                     <Image url="@../images/material-design/png/clear-72px-black.png"/>
+                 </ImageView>
+                 <ImageView fx:id="delete_ok" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true"
+                            preserveRatio="true">
+                     <Image url="@../images/material-design/png/done-72px-black.png"/>
+                 </ImageView>
+             </HBox>
          </left>
          <right>
-            <HBox BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fx:id="expand" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+             <HBox BorderPane.alignment="CENTER">
+                 <ImageView fx:id="expand" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets right="5.0" />
+                         <Insets right="5.0"/>
                      </HBox.margin>
-                     <image>
-                        <Image url="@../images/material-design/png/north-east-72px-black.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </HBox>
+                     <Image url="@../images/material-design/png/north-east-72px-black.png"/>
+                 </ImageView>
+             </HBox>
          </right>
       </BorderPane>
    </top>
