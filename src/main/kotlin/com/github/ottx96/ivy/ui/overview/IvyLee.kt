@@ -25,7 +25,7 @@ import tornadofx.View
 class IvyLee : View("Ivy-Lee Tracking") {
     override val root: ScrollPane by fxml("/views/IvyLee.fxml")
 
-    private val decorator = IvyLeeDecorator(this)
+    private val ivyLeeDecorator = IvyLeeDecorator(this)
 
     companion object {
         const val MAIN_THREAD_NAME = "UI_THREAD"
@@ -48,8 +48,8 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     init {
         Thread.currentThread().name = MAIN_THREAD_NAME
-        decorator.initializeUI()
-        decorator.startBackgroundTasks()
+        ivyLeeDecorator.initializeUI()
+        ivyLeeDecorator.startBackgroundTasks()
     }
 
 }

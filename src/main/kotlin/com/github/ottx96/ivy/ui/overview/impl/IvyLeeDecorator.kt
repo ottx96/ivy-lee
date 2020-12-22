@@ -7,7 +7,7 @@ import com.github.ottx96.ivy.ui.overview.threading.SyncRunnable
 import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
-open class IvyLeeDecorator(private val base: IvyLee): IvyLeeDecoratorBase(base), IvyLeeDecorable {
+open class IvyLeeDecorator(base: IvyLee): IvyLeeDecoratorBase(base), IvyLeeDecorable {
 
     override fun initializeUI() {
         setInitialSize()
