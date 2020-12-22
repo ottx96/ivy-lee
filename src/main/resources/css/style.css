@@ -24,6 +24,7 @@ input {
 }
 
 /* Notifications Extension */
+/*noinspection ALL*/
 .notification_info, .notification_success, .notification_warning, .notification_error {
     padding:0 15px;
     border-radius:.5em;
@@ -31,18 +32,26 @@ input {
     box-shadow:1px 1px 3px #888;
     margin: 3px 0 0;
 }
+
+/*noinspection ALL*/
 .notification_info {
     color: #00529B;
     background-color: #BDE5F8;
 }
+
+/*noinspection ALL*/
 .notification_success {
     color: #4F8A10;
     background-color: #DFF2BF;
 }
+
+/*noinspection ALL*/
 .notification_warning {
     color: #9F6000;
     background-color: #FEEFB3;
 }
+
+/*noinspection ALL*/
 .notification_error {
     color: #D8000C;
     background-color: #FFD2D2;
