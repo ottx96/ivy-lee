@@ -1,6 +1,5 @@
 package com.github.ottx96.ivy.ui.overview
 
-import com.github.ottx96.ivy.config.Configuration
 import com.github.ottx96.ivy.data.IvyLeeTask
 import com.github.ottx96.ivy.data.TaskCellContainer
 import com.github.ottx96.ivy.gdrive.ConnectionProvider
@@ -19,7 +18,6 @@ import kotlinx.serialization.cbor.Cbor
 import tornadofx.View
 import tornadofx.minus
 import java.io.File
-import java.lang.Thread.sleep
 import kotlin.math.max
 import kotlin.math.min
 
@@ -112,7 +110,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
             bp.minWidthProperty().bind(root.widthProperty().minus(15))
             bp.minHeightProperty().bind(root.heightProperty().minus(toolBar.heightProperty())
-                    .divide(min(4, max(1, oldTasks?.size?:1)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
+                    .divide(min(4, max(1, oldTasks.size)))          //  if less than 4 tasks, scale - scale for 4 tasks max, then scroll for other tasks
                     .minus(1.35))                                          //  border with is 2 px
 
             bp.onMouseEntered = EventHandler { eventHandler.mark(it) }

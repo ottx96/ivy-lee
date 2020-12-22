@@ -15,22 +15,11 @@
  */
 package com.github.ottx96.commonmark.ext.notifications
 
-import java.lang.IllegalStateException
-import org.commonmark.node.CustomBlock
-import org.commonmark.parser.block.AbstractBlockParser
-import com.github.ottx96.commonmark.ext.notifications.NotificationBlock
-import org.commonmark.parser.block.BlockContinue
-import com.github.ottx96.commonmark.ext.notifications.NotificationBlockParser
-import org.commonmark.parser.block.AbstractBlockParserFactory
-import org.commonmark.parser.block.MatchedBlockParser
-import org.commonmark.parser.block.BlockStart
-import org.commonmark.renderer.html.HtmlNodeRendererContext
-import org.commonmark.renderer.NodeRenderer
-import org.commonmark.renderer.html.HtmlWriter
-import java.util.Collections
-import com.github.ottx96.commonmark.ext.notifications.NotificationNodeRenderer
 import org.commonmark.node.Node
-import java.util.Locale
+import org.commonmark.renderer.NodeRenderer
+import org.commonmark.renderer.html.HtmlNodeRendererContext
+import org.commonmark.renderer.html.HtmlWriter
+import java.util.*
 
 class NotificationNodeRenderer(private val context: HtmlNodeRendererContext) : NodeRenderer {
     private val htmlWriter: HtmlWriter
@@ -58,7 +47,7 @@ class NotificationNodeRenderer(private val context: HtmlNodeRendererContext) : N
 
     companion object {
         private fun classOf(n: Notification): String {
-            return "notification_" + n!!.name.toLowerCase(Locale.ENGLISH)
+            return "notification_" + n.name.toLowerCase(Locale.ENGLISH)
         }
     }
 
