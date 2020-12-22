@@ -35,14 +35,14 @@ open class IvyLeeDecorator(private val base: IvyLee): IvyLeeDecorable {
         }
     }
 
-    override fun initializeUIElements() {
+    private fun initializeUIElements() {
         setScrollSpeed()
         base.addButton.onMouseClicked = createAdderHandler()
         base.addButtonPane.prefWidthProperty().bind(base.root.widthProperty())
         base.addButton.xProperty().bind(base.addButtonPane.widthProperty().minus(base.addButton.fitWidthProperty()).minus(15))
     }
 
-    override fun setInitialSize() {
+    private fun setInitialSize() {
         when {
             IvyLee.tasks.isEmpty() -> base.root.prefHeight = 200.0
             IvyLee.tasks.size > 4 -> base.root.prefHeight = 800.0
@@ -50,7 +50,7 @@ open class IvyLeeDecorator(private val base: IvyLee): IvyLeeDecorable {
         }
     }
 
-    override fun createTaskCell(loadedTasks: List<IvyLeeTask>, task: IvyLeeTask) {
+    private fun createTaskCell(loadedTasks: List<IvyLeeTask>, task: IvyLeeTask) {
         val built = ComponentBuilder.createTaskContainer(task)
         val bp = built.second
 
@@ -70,7 +70,7 @@ open class IvyLeeDecorator(private val base: IvyLee): IvyLeeDecorable {
         TaskCellUpdater.updateTaskCell(task, built.first)
     }
 
-    override fun populateTasks(): List<IvyLeeTask> {
+    private fun populateTasks(): List<IvyLeeTask> {
         val tasksFile = File("tasks.db")
         try {
             println("downloading tasks from gdrive")
@@ -87,7 +87,7 @@ open class IvyLeeDecorator(private val base: IvyLee): IvyLeeDecorable {
         return Collections.emptyList()
     }
 
-    override fun createAdderHandler(): EventHandler<MouseEvent> = EventHandler {
+    private fun createAdderHandler(): EventHandler<MouseEvent> = EventHandler {
         val newTask = IvyLeeTask()
         val taskBuilt = ComponentBuilder.createTaskContainer(newTask)
         base.taskList.children.add(taskBuilt.second)
@@ -111,7 +111,7 @@ open class IvyLeeDecorator(private val base: IvyLee): IvyLeeDecorable {
         TaskCellUpdater.updateTaskCell(newTask, taskBuilt.first)
     }
 
-    override fun setScrollSpeed() {
+    private fun setScrollSpeed() {
         // set scroll speed
         val scrollSpeed = 0.00175
         base.root.content.onScroll = EventHandler {
