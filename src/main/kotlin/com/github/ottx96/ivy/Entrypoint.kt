@@ -1,13 +1,14 @@
 package com.github.ottx96.ivy
 
-import com.github.ottx96.ivy.ui.overview.IvyLee
 import com.github.ottx96.ivy.data.IvyLeeTask
 import com.github.ottx96.ivy.data.enums.TaskStatus
 import com.github.ottx96.ivy.ui.dialog.SetupDialog
+import com.github.ottx96.ivy.ui.overview.IvyLee
 import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.scene.image.Image
 import javafx.stage.Stage
+import javafx.stage.WindowEvent
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
@@ -85,30 +86,38 @@ class Entrypoint: App(IvyLee::class){
     }
 
     override fun start(stage: Stage) {
-        // check, if initial run
-        if(!CONFIG_FILE.exists())
-            // run setup!
-            if(!SetupDialog.showDialog()){
-                // setup was cancelled!
-                Platform.exit()
-                exitProcess(0)
-            }
-
-        stage.icons.add(Image(Entrypoint::class.java.getResourceAsStream("/images/frog-hq.png")))
-        stage.onCloseRequest = EventHandler {
-            val tasksFile = File("tasks.db")
-
-            // save to file
-            println("Exit..")
-            IvyLee.tasks.values.filter { it.status == TaskStatus.IN_WORK }.forEach {
-                it.status = TaskStatus.UNDONE
-            }
-            println("dumping tasks..")
-            tasksFile.writeBytes(Cbor.encodeToByteArray(ListSerializer(IvyLeeTask.serializer()), IvyLee.tasks.values.toList()))
-            println("uploading tasks to gdrive..")
-            IvyLee.gdrive.saveTasks(tasksFile)
+        if(!CONFIG_FILE.exists()){
+            startSetup()
         }
 
+        stage.icons.add(Image(Entrypoint::class.java.getResourceAsStream("/images/frog-hq.png")))
+        stage.onCloseRequest = createExitHandler()
+
         super.start(stage)
+    }
+
+    private fun startSetup() {
+        val setupSucceeded = SetupDialog.showDialog()
+        if (!setupSucceeded) {
+            Platform.exit()
+            exitProcess(0)
+        }
+    }
+
+    private fun createExitHandler(): EventHandler<WindowEvent> = EventHandler {
+        val tasksFile = File("tasks.db")
+
+        // save to file
+        println("Exiting application..")
+        IvyLee.tasks.values.filter { it.status == TaskStatus.IN_WORK }.forEach {
+            it.status = TaskStatus.UNDONE
+        }
+        println("Dumping tasks to file..")
+        tasksFile.writeBytes(Cbor.encodeToByteArray(
+                ListSerializer(IvyLeeTask.serializer()),
+                IvyLee.tasks.values.toList()
+            ))
+        println("Uploading tasks to Google Drive..")
+        IvyLee.remoteFilesHandler.saveTasks(tasksFile)
     }
 }

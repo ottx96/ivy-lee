@@ -38,7 +38,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         const val MAIN_THREAD_NAME = "UI_THREAD"
         val tasks = mapOf<TaskCellContainer, IvyLeeTask>().toMutableMap()
 
-        val gdrive = RemoteFilesHandler(ConnectionProvider.connect())
+        val remoteFilesHandler = RemoteFilesHandler(ConnectionProvider.connect())
 
         fun Map<TaskCellContainer, IvyLeeTask>.getCellByBorderPane(bp: BorderPane?) = keys.first { it.borderPane == bp!! }
         fun Map<TaskCellContainer, IvyLeeTask>.getTaskByBorderPane(bp: BorderPane?) = tasks[keys.first { it.borderPane == bp!! }]
@@ -90,7 +90,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
         try {
             val tasksFile = File("tasks.db")
             println("downloading tasks from gdrive")
-            gdrive.readTasks(tasksFile)
+            remoteFilesHandler.readTasks(tasksFile)
             println("loading tasks from file ${tasksFile.absolutePath ?: "NONE"}")
             oldTasks = Cbor{ ignoreUnknownKeys = true }.decodeFromByteArray(ListSerializer(IvyLeeTask.serializer()), tasksFile.readBytes())
             oldTasks.forEach(::println)
@@ -129,7 +129,7 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     init {
         // auto-sync tasks to gdrive
-        Thread(SyncRunnable(gdrive)).apply {
+        Thread(SyncRunnable(remoteFilesHandler)).apply {
             isDaemon = true
             start()
         }
