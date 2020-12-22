@@ -6,6 +6,7 @@ import com.github.ottx96.ivy.ui.overview.impl.ComponentBuilder
 import com.github.ottx96.ivy.ui.overview.impl.TaskCellUpdater
 import javafx.event.EventHandler
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.BorderPane
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.cbor.Cbor
@@ -33,7 +34,13 @@ open class IvyLeeDecoratorBase(private val base: IvyLee) {
         }
     }
 
-    protected fun createTaskCell(loadedTasks: List<IvyLeeTask>, task: IvyLeeTask) {
+    protected fun populateTaskCells() {
+        val oldTasks: List<IvyLeeTask> = populateTasks()
+        base.taskList.children.removeAll { it is BorderPane }
+        oldTasks.forEach { createTaskCell(oldTasks, it) }
+    }
+
+    private fun createTaskCell(loadedTasks: List<IvyLeeTask>, task: IvyLeeTask) {
         val built = ComponentBuilder.createTaskContainer(task)
         val bp = built.second
 
@@ -53,7 +60,7 @@ open class IvyLeeDecoratorBase(private val base: IvyLee) {
         TaskCellUpdater.updateTaskCell(task, built.first)
     }
 
-    protected fun populateTasks(): List<IvyLeeTask> {
+    private fun populateTasks(): List<IvyLeeTask> {
         val tasksFile = File("tasks.db")
         try {
             println("downloading tasks from gdrive")
