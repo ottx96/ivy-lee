@@ -6,53 +6,53 @@ body{
 
 /* Checkbox Redesign */
 label {
-  display: block;
-  padding-left: 15px;
-  margin-top: 6px;
-  text-indent: -15px;
+    display: block;
+    margin-top: 6px;
+    padding-left: 15px;
+    text-indent: -15px;
 }
 
 input {
-  width: 13px;
-  height: 13px;
-  padding:0;
-  margin: 6px 0 0;
-  vertical-align: bottom;
-  position: relative;
-  top: -1px;
-  *overflow: hidden;
+    *overflow: hidden;
+    height: 13px;
+    margin: 6px 0 0;
+    padding:0;
+    position: relative;
+    top: -1px;
+    vertical-align: bottom;
+    width: 13px;
 }
 
 /* Notifications Extension */
 /*noinspection ALL*/
 .notification_info, .notification_success, .notification_warning, .notification_error {
-    padding:0 15px;
     border-radius:.5em;
     border: 1px solid;
     box-shadow:1px 1px 3px #888;
     margin: 3px 0 0;
+    padding:0 15px;
 }
 
 /*noinspection ALL*/
 .notification_info {
-    color: #00529B;
     background-color: #BDE5F8;
+    color: #00529B;
 }
 
 /*noinspection ALL*/
 .notification_success {
-    color: #4F8A10;
     background-color: #DFF2BF;
+    color: #4F8A10;
 }
 
 /*noinspection ALL*/
 .notification_warning {
-    color: #9F6000;
     background-color: #FEEFB3;
+    color: #9F6000;
 }
 
 /*noinspection ALL*/
 .notification_error {
-    color: #D8000C;
     background-color: #FFD2D2;
+    color: #D8000C;
 }
