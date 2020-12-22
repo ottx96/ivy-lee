@@ -22,7 +22,7 @@ import org.commonmark.renderer.html.HtmlWriter
 import java.util.*
 
 class NotificationNodeRenderer(private val context: HtmlNodeRendererContext) : NodeRenderer {
-    private val htmlWriter: HtmlWriter
+    private val htmlWriter: HtmlWriter = context.writer
     override fun getNodeTypes(): Set<Class<out Node>> {
         return setOf(NotificationBlock::class.java)
     }
@@ -51,7 +51,4 @@ class NotificationNodeRenderer(private val context: HtmlNodeRendererContext) : N
         }
     }
 
-    init {
-        htmlWriter = context.writer
-    }
 }

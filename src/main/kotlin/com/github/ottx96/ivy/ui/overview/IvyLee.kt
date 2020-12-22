@@ -55,21 +55,21 @@ class IvyLee : View("Ivy-Lee Tracking") {
 
     init {
         // set scroll speed
-        val SPEED = 0.00175
+        val scrollSpeed = 0.00175
         root.content.onScroll = EventHandler {
-            root.vvalue -= it.deltaY * SPEED
+            root.vvalue -= it.deltaY * scrollSpeed
         }
 
         addButtonPane.prefWidthProperty().bind( root.widthProperty() )
         addButton.xProperty().bind(addButtonPane.widthProperty().minus( addButton.fitWidthProperty() ).minus(15))
 
-        addButton.setOnMouseClicked {
+        addButton.setOnMouseClicked { _ ->
             val task = IvyLeeTask()
             val taskBuilt = ComponentBuilder.createTaskContainer(task)
             taskList.children.add(taskBuilt.second)
             tasks[taskBuilt.first] = task
 
-            tasks.forEach { it.key.borderPane.apply {
+            tasks.forEach { task -> task.key.borderPane.apply {
                 minHeightProperty().unbind()
                 minWidthProperty().unbind()
                 minWidthProperty().bind(root.widthProperty().minus(15))

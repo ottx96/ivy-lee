@@ -9,95 +9,91 @@
    <center>
       <Accordion BorderPane.alignment="CENTER">
         <panes>
-          <TitledPane expanded="true" text="Language">
-               <content>
-                  <BorderPane fx:id="bp_language" prefHeight="200.0" prefWidth="200.0">
-                     <left>
-                        <Label fx:id="language" contentDisplay="RIGHT" text="en_US" BorderPane.alignment="CENTER_RIGHT">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <BorderPane.margin>
-                              <Insets left="15.0" right="5.0" />
-                           </BorderPane.margin>
-                        </Label>
-                     </left>
-                     <top>
-                        <Label text="Choose Language" BorderPane.alignment="TOP_LEFT">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Label>
-                     </top>
-                     <center>
-                        <ComboBox fx:id="languages" prefWidth="9999999.0" promptText="English" visibleRowCount="12" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets left="25.0" right="25.0" />
-                           </BorderPane.margin>
-                        </ComboBox>
-                     </center></BorderPane>
-               </content>
-          </TitledPane>
-          <TitledPane expanded="false" text="Google Drive">
-               <content>
-                  <BorderPane fx:id="bp_gdrive" prefHeight="200.0" prefWidth="200.0">
-                     <top>
-                        <Label text="Connect to Google Drive" BorderPane.alignment="CENTER_LEFT">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Label>
-                     </top>
-                     <right>
-                        <ProgressIndicator fx:id="progress_gdrive" BorderPane.alignment="CENTER" />
-                     </right>
-                     <center>
-                        <Hyperlink fx:id="hyperlink_connect" text="Connect to Google Drive" BorderPane.alignment="CENTER" />
-                     </center></BorderPane>
-               </content>
-          </TitledPane>
-            <TitledPane expanded="false" text="Settings">
-               <content>
-                  <BorderPane prefHeight="150.0" prefWidth="200.0">
-                     <top>
-                        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Label prefWidth="99999.0" text="Enter your task(s) ID">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                              </Label>
-                              <ComboBox fx:id="combobox_task_id" editable="true" prefWidth="99999.0" promptText="Task ID" visibleRowCount="5" />
-                           </children>
-                        </HBox>
-                     </top>
-                     <center>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Label prefWidth="99999.0" text="Delete tasks older than (months)">
-                                 <font>
-                                    <Font size="14.0" />
-                                 </font>
-                                 <HBox.margin>
-                                    <Insets />
-                                 </HBox.margin>
-                              </Label>
-                              <Slider fx:id="slider_interval" blockIncrement="3.0" majorTickUnit="2.0" max="12.0" minorTickCount="1" prefWidth="99999.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="3.0" HBox.hgrow="ALWAYS">
-                                 <HBox.margin>
-                                    <Insets left="5.0" />
-                                 </HBox.margin>
-                              </Slider>
-                           </children>
-                        </HBox>
-                     </center>
-                  </BorderPane>
-               </content>
-            </TitledPane>
+           <TitledPane text="Language">
+              <BorderPane fx:id="bp_language" prefHeight="200.0" prefWidth="200.0">
+                 <left>
+                    <Label fx:id="language" contentDisplay="RIGHT" text="en_US" BorderPane.alignment="CENTER_RIGHT">
+                       <font>
+                          <Font size="14.0"/>
+                       </font>
+                       <BorderPane.margin>
+                          <Insets left="15.0" right="5.0"/>
+                       </BorderPane.margin>
+                    </Label>
+                 </left>
+                 <top>
+                    <Label text="Choose Language" BorderPane.alignment="TOP_LEFT">
+                       <font>
+                          <Font size="18.0"/>
+                       </font>
+                    </Label>
+                 </top>
+                 <center>
+                    <ComboBox fx:id="languages" prefWidth="9999999.0" promptText="English" visibleRowCount="12"
+                              BorderPane.alignment="CENTER">
+                       <BorderPane.margin>
+                          <Insets left="25.0" right="25.0"/>
+                       </BorderPane.margin>
+                    </ComboBox>
+                 </center>
+              </BorderPane>
+           </TitledPane>
+           <TitledPane expanded="false" text="Google Drive">
+              <BorderPane fx:id="bp_gdrive" prefHeight="200.0" prefWidth="200.0">
+                 <top>
+                    <Label text="Connect to Google Drive" BorderPane.alignment="CENTER_LEFT">
+                       <font>
+                          <Font size="14.0"/>
+                       </font>
+                    </Label>
+                 </top>
+                 <right>
+                    <ProgressIndicator fx:id="progress_gdrive" BorderPane.alignment="CENTER"/>
+                 </right>
+                 <center>
+                    <Hyperlink fx:id="hyperlink_connect" text="Connect to Google Drive" BorderPane.alignment="CENTER"/>
+                 </center>
+              </BorderPane>
+           </TitledPane>
+           <TitledPane expanded="false" text="Settings">
+              <BorderPane prefHeight="150.0" prefWidth="200.0">
+                 <top>
+                    <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                       <Label prefWidth="99999.0" text="Enter your task(s) ID">
+                          <font>
+                             <Font size="14.0"/>
+                          </font>
+                       </Label>
+                       <ComboBox fx:id="combobox_task_id" editable="true" prefWidth="99999.0" promptText="Task ID"
+                                 visibleRowCount="5"/>
+                    </HBox>
+                 </top>
+                 <center>
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                       <Label prefWidth="99999.0" text="Delete tasks older than (months)">
+                          <font>
+                             <Font size="14.0"/>
+                          </font>
+                          <HBox.margin>
+                             <Insets/>
+                          </HBox.margin>
+                       </Label>
+                       <Slider fx:id="slider_interval" blockIncrement="3.0" majorTickUnit="2.0" max="12.0"
+                               minorTickCount="1" prefWidth="99999.0" showTickLabels="true" showTickMarks="true"
+                               snapToTicks="true" value="3.0" HBox.hgrow="ALWAYS">
+                          <HBox.margin>
+                             <Insets left="5.0"/>
+                          </HBox.margin>
+                       </Slider>
+                    </HBox>
+                 </center>
+              </BorderPane>
+           </TitledPane>
         </panes>
       </Accordion>
    </center>
    <bottom>
-      <ButtonBar buttonMinWidth="85.0" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
             <Button fx:id="btn_cancel" cancelButton="true" mnemonicParsing="false" text="Cancel" />
           <Button fx:id="btn_ok" defaultButton="true" mnemonicParsing="false" text="OK" />
