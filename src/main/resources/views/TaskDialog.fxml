@@ -49,7 +49,7 @@
                      <children>
                         <ImageView fx:id="priority_lowest" fitHeight="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                              <Image url="@../images/priority_element.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="6.0" left="6.0" top="6.0" />
@@ -60,7 +60,7 @@
                         </ImageView>
                         <ImageView fx:id="priority_low" fitHeight="16.0" layoutX="420.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                              <Image url="@../images/priority_element.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="6.0" top="6.0" />
@@ -71,7 +71,7 @@
                         </ImageView>
                         <ImageView fx:id="priority_medium" fitHeight="16.0" layoutX="406.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                              <Image url="@../images/priority_element.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="6.0" top="6.0" />
@@ -82,7 +82,7 @@
                         </ImageView>
                         <ImageView fx:id="priority_high" fitHeight="16.0" layoutX="519.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                              <Image url="@../images/priority_element.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="6.0" top="6.0" />
@@ -93,7 +93,7 @@
                         </ImageView>
                         <ImageView fx:id="priority_highest" fitHeight="16.0" layoutX="534.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                              <Image url="@../images/priority_element.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="6.0" top="6.0" />
@@ -104,7 +104,7 @@
                         </ImageView>
                         <ImageView fx:id="priority_critical" fitHeight="16.0" layoutX="548.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/priority_element.png" />
+                              <Image url="@../images/priority_element.png" />
                            </image>
                            <HBox.margin>
                               <Insets bottom="6.0" top="6.0" />

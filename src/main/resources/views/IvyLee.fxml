@@ -17,7 +17,7 @@
                      <children>
                         <ImageView fx:id="settings" fitHeight="36.0" fitWidth="125.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../de/ott/ivy/images/material-design/png/settings-72px-white.png" />
+                              <Image url="@../images/material-design/png/settings-72px-white.png" />
                            </image>
                            <viewport>
                               <Rectangle2D />
@@ -30,7 +30,7 @@
                            <children>
                               <ImageView fx:id="add" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" x="450.0">
                                  <image>
-                                    <Image url="@../de/ott/ivy/images/material-design/png/add_task-72px-white.png" />
+                                    <Image url="@../images/material-design/png/add_task-72px-white.png" />
                                  </image>
                                  <viewport>
                                     <Rectangle2D />

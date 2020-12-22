@@ -58,7 +58,7 @@
                <children>
                   <ImageView fx:id="delete" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/delete-72px-light_red.png" />
+                        <Image url="@../images/material-design/png/delete-72px-light_red.png" />
                      </image>
                      <HBox.margin>
                         <Insets left="5.0" />
@@ -69,12 +69,12 @@
                   </ImageView>
                   <ImageView fx:id="delete_cancel" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/clear-72px-black.png" />
+                        <Image url="@../images/material-design/png/clear-72px-black.png" />
                      </image>
                   </ImageView>
                   <ImageView fx:id="delete_ok" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/done-72px-black.png" />
+                        <Image url="@../images/material-design/png/done-72px-black.png" />
                      </image>
                   </ImageView>
                </children>
@@ -88,7 +88,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                      <image>
-                        <Image url="@../de/ott/ivy/images/material-design/png/north-east-72px-black.png" />
+                        <Image url="@../images/material-design/png/north-east-72px-black.png" />
                      </image>
                   </ImageView>
                </children>

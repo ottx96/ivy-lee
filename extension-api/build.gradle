@@ -6,7 +6,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = "de.ott.ivy"
+group = "com.github.ottx96.ivy"
 version = "1.0.0"
 
 publishing {

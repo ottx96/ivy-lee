@@ -51,7 +51,7 @@ _Renders to:_
 ![custom styles](files/checkboxes.png)
 
 ## Custom Styles
-There are custom styles defined in [**style.css**](../src/main/resources/de/ott/ivy/css/style.css).
+There are custom styles defined in [**style.css**](../src/main/resources/css/style.css).
   
 ```text
 ! This is an Information
