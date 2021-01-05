@@ -27,10 +27,9 @@ open class IvyLeeDecoratorBase(private val base: IvyLee) {
     }
 
     protected fun setInitialSize() {
-        when {
-            IvyLee.tasks.isEmpty() -> base.root.prefHeight = 200.0
-            IvyLee.tasks.size > 4 -> base.root.prefHeight = 800.0
-            else -> base.root.prefHeight = IvyLee.tasks.size * 200.0
+        when (IvyLee.tasks.size) {
+            in 1..3 -> IvyLee.tasks.size * 200.0
+            else -> base.root.prefHeight = 800.0
         }
     }
 
