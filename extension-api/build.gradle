@@ -45,7 +45,7 @@ dependencies {
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-serialization-cbor', version: '1.0.1'
 
     // UnitTests
-    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.0'
+    testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.1'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.0'
 }
 
