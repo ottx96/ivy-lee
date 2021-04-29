@@ -1,0 +1,19 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: org.jetbrains.kotlin.jvm
+    versions:
+    - 1.4.32
+  - dependency-name: com.google.apis:google-api-services-drive
+    versions:
+    - v3-rev20210201-1.31.0
+    - v3-rev20210228-1.31.0
+  - dependency-name: com.google.api-client:google-api-client
+    versions:
+    - 1.31.2
