@@ -16,7 +16,7 @@ repositories {
 dependencies {
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-serialization-cbor', version: '1.1.0'
+    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-serialization-cbor', version: '1.2.0'
 
     // Markdown to HTML
     api 'com.atlassian.commonmark:commonmark:0.17.0'
