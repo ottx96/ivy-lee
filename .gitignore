@@ -10,3 +10,8 @@ bin/
 /*.db
 /.diffblue/
 /config/
+
+# Eclipse / Theiea IDE
+.project
+.classpath
+.settings/
