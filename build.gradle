@@ -53,7 +53,7 @@ dependencies {
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.8'
 
     // UnitTests
-    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.7.2'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.8.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.7.2'
 
     testApi project(':extension-api')
