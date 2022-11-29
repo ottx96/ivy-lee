@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
     id 'org.openjfx.javafxplugin' version '0.0.12'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.10'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.22'
     id 'application'
     id 'org.sonarqube' version '3.3'
 }
